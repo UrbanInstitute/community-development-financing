@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<style>
+/*		.class1 {fill: #cfe8f3;}
+		.class2 {fill: #73bfe2;}
+		.class3 {fill: #1696d2;}
+		.class4 {fill: #0a4c6a;}
+		.class5 {fill: #000000;}*/
+
+		.q0-9 { fill:rgb(247,251,255); }
+		.q1-9 { fill:rgb(222,235,247); }
+		.q2-9 { fill:rgb(198,219,239); }
+		.q3-9 { fill:rgb(158,202,225); }
+		.q4-9 { fill:rgb(107,174,214); }
+		.q5-9 { fill:rgb(66,146,198); }
+		.q6-9 { fill:rgb(33,113,181); }
+		.q7-9 { fill:rgb(8,81,156); }
+		.q8-9 { fill:rgb(8,48,107); }
+	</style>
+</head>
+<body>
+<div id="master_container">
+	<div id="categories">
+		<input type="button" value="z_Housing" name="z_Housing"> 
+		<input type="button" value="z_ImpactFinance" name="z_ImpactFinance"> 
+		<input type="button" value="z_CommDevOther" name="z_CommDevOther"> 
+		<input type="button" value="z_Business" name="z_Business"> 
+		<input type="button" value="z_GlobalCapacity" name="z_GlobalCapacity"> 
+	</div>
+	<svg id="map_container"></svg>	
+</div>
+<script src="js/lib/d3.v3.min.js" charset="utf-8"></script>
+<script src="js/lib/topojson.v1.js"></script>
+<script src="js/lib/d3.tip.js"></script>
+<script src="js/lib/jquery.min.js"></script>
+
+<script>
+   
+
+var margin = 0,
+	width = parseInt(d3.select("#master_container").style("width")) - margin*2,
+	height = width / 2;
+
+var svg = d3.select("#map_container")
+    .attr("width", width + margin*2)
+    .attr("height", height + margin*2);
+
+var projection = d3.geo.albersUsa() 
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var varList = ["z_Housing", "z_ImpactFinance", "z_CommDevOther", "z_Business", "z_GlobalCapacity"];
+
+var quantile = d3.scale.quantile()
+    .range(d3.range(9).map(function(i) { return "q" + i + "-9"; }));
+
+
+d3.json("data/cd_landscape.json", function(error, cd_landscape) {
+  if (error) return console.error(error);
+   	
+  	// call the build function on load
+  	mapAndmap(varList[0],cd_landscape);
+
+  	// call the build function on click of input
+  	$('input').on('click',function(){
+			mapAndmap(this.name,cd_landscape)
+		});
+
+		function mapAndmap(id,cd_landscape) {
+			
+	  	var data = topojson.feature(cd_landscape, cd_landscape.objects.cb_2016_us_county_5m).features
+	  	var domainData = [];
+
+	  	// console.log(varList[0])
+	  	for (var i = 0; i < data.length; i++) {
+	  		domainData.push(data[i].properties[id]);
+	  	}	
+
+			 quantile.domain(domainData);	 
+
+    	svg.append("path")
+	    	.datum(topojson.feature(cd_landscape, cd_landscape.objects.cb_2016_us_county_5m))
+				.attr("d", path);
+
+			svg.selectAll(".subunit")
+			  .data(topojson.feature(cd_landscape, cd_landscape.objects.cb_2016_us_county_5m).features)
+			.enter().append("path")
+			  .attr("class", function(d) { 
+			  	// console.log(d.properties[varList[0]])
+			  	console.log(quantile(d.properties[varList[0]]))
+			  	return "subunit " + quantile(d.properties[varList[0]]); })
+			  .attr("d", path);			 	
+		}
+
+
+
+
+
+
+});
+
+
+</script>

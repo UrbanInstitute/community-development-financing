@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
+	<style>
+
+		#isMobile, #isPhone{
+	    display: none;
+	    pointer-events: none;
+	    width: 0;
+	    height: 0;
+	    position: fixed;
+	    top: 0;
+	    left: 0;
+	}
+
+		body {
+			font-family: "Lato", sans-serif;
+			color: #000;
+			font-size: 11px;	
+		}
+
+		#master_container {
+			width: 100%;
+			/*padding-bottom: 10%;*/
+			max-width: 1000px;
+			overflow: visible;				
+		}
+
+		#map_container {
+		  width: 100%;
+		  /*height: 100%;*/
+		  position: relative;  
+		  /*overflow: hidden;*/
+		}		
+
+		.cbsa { 
+			fill: #ddc;
+/*			stroke: #5c5859;
+			stroke: #d2d2d2;*/
+			stroke: #fff;
+			stroke-width: .5px;
+		 }
+		.cbsadot {		
+			fill-opacity: .7;
+			/*stroke: #5c5859;*/
+			stroke: #fff;
+			stroke-width: .5px;
+			cursor: pointer;
+		}
+
+		.state {
+			/*fill: #e3e3e3;*/
+			fill: #9d9d9d;
+			stroke: #fff;
+			stroke-width:1;
+			stroke-linejoin: round;
+		}
+
+		.class0 {
+			fill: none;
+			stroke: none;
+		}
+		.class1 {fill: #cfe8f3;}
+		.class2 {fill: #73bfe2;}
+		.class3 {fill: #1696d2;}
+		.class4 {fill: #0a4c6a;}
+		.class5 {fill: #000000;}
+		
+		.legenddot.class1 {fill: #bfd1d8;}
+		.legenddot.class2 {fill: #7fb4cd;}
+		.legenddot.class3 {fill: #3e97c1;}
+		.legenddot.class4 {fill: #356479;}
+		.legenddot.class5 {fill: #2f2f2f;}
+
+		text.class4, text.class5,text.class1, text.class2, text.class3 {
+			font-size: 11px;
+			fill: #000;
+			text-anchor: middle;
+		}
+		text.class4, text.class5 { fill: #fff }		 
+
+		circle.legenddot {
+			stroke: #fff;
+			stroke-width: .5px;
+		}
+
+	  div.tooltip { 
+	    position: absolute;     
+	    text-align: center;     
+	    /*max-width: 200px;          */
+	    /*height: 100px;         */
+	    padding: 11px;       
+	    font-size: 14px;  
+	    background: #fff; 
+	    /*border: 2px solid #e2e2e2;      	    */
+	  }
+
+	  div.tooltip.bottom:after {
+			bottom: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(255, 255, 255, 0);
+			border-bottom-color: #fff;
+			border-width: 11px;
+			margin-left: -11px;
+		}
+
+		div.tooltip.top:after {
+			top: 100%;
+			left: 50%;
+			border: solid transparent;
+			content: " ";
+			height: 0;
+			width: 0;
+			position: absolute;
+			pointer-events: none;
+			border-color: rgba(255, 255, 255, 0);
+			border-top-color: #fff;
+			border-width: 11px;
+			margin-left: -11px;
+		}
+
+
+		.legend-title {
+		  font-size: 12px;
+		  font-weight: bold;
+		}
+
+		.note {
+			padding-left: 5%;
+			/*position: absolute;*/
+		}
+
+		@media (max-width: 550px){
+	    #isPhone{
+	        display: block;
+	    }
+
+	    div.tooltip:after {
+	    	display: none;
+	    }
+
+	    div.tooltip {
+	    	font-size: 11px;
+	    }
+
+	    .legend-title {
+	      font-size: 11px;	      
+	    }
+
+	    .legend-text, .line-label-selected {
+	      font-size: 11px;
+	    }
+
+	  }
+
+	</style>
+</head>
+<body>
+<div id="isPhone"></div>
+<div id="master_container">
+	<svg id="map_container"></svg>
+	<div class="note">Circle size represents number of DACA beneficiaries.</div>
+</div>
+<script src="js/lib/pym.min.js"></script>
+<script src="js/lib/d3.v3.min.js" charset="utf-8"></script>
+<script src="js/lib/topojson.v1.js"></script>
+<script src="js/lib/d3.tip.js"></script>
+<script>
+   
+var pymChild = new pym.Child();
+
+var IS_PHONE = d3.select("#isPhone").style("display") == "block";
+var margin = 0,
+	width = parseInt(d3.select("#master_container").style("width")) - margin*2,
+	height = width / 2;
+
+var svg = d3.select("#map_container")
+    .attr("width", width + margin*2)
+    .attr("height", height + margin*2);
+
+var projection = d3.geo.albersUsa() 
+
+var path = d3.geo.path()
+    .projection(projection);
+
+var c = [4000,10000,20000,40000]
+
+var radius = d3.scale.sqrt()
+    .domain([0, 100000])
+    .range([0, (width / 15)]); 
+
+var formatNum = d3.format(",");
+var largeNum = d3.format(".1s")
+
+var tooltip = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0.9);
+
+// var legend = svg.append("g")
+//     .attr("class", "legend")    
+//     .selectAll("g")
+//       .data([89999, 39999, 19999, 9999, 3999])
+//       .enter().append("g");
+
+// Define linear scale for output
+var legendColor = d3.scale.linear()
+    .range([ "#2f2f2f","#356479","#3e97c1","#7fb4cd","#bfd1d8"]);
+	legendColor.domain([0,1,2,3,4]); // setting the range of the input data
+
+
+function whichClass(d) {
+	if (d < c[0]) {
+		return 1;
+	}
+	else if (d < c[1]) {
+		return 2;
+	}
+	else if (d < c[2]) {
+		return 3;
+	}
+	else if (d < c[3]) {
+		return 4;
+	}
+	else if (d >= c[3]) {
+		return 5;
+	}
+	else {
+		return 0;
+	}
+}
+
+d3.json("shps/cb_2016_us_cbsa_5m/daca_cbsa4.json", function(error, cbsa) {
+  if (error) return console.error(error);
+
+
+	svg.selectAll(".state")
+		.data(topojson.feature(cbsa, cbsa.objects.cb_2016_us_state_5m).features)
+		.enter().append("path")
+		.attr("class", "state")
+		.attr("d", path);     
+
+	svg.append("g")
+    	.attr("class", "cbsadot")
+    	.selectAll("circle")
+		.data(topojson.feature(cbsa, cbsa.objects.cb_2016_us_cbsa_5m).features
+			.filter(function(d){ return d.properties.number != undefined})
+			.sort(function(a, b) {return b.properties.number - a.properties.number;}))
+		.enter().append("circle")
+		.attr("class", function(d) { 	    	
+			var classy = whichClass(d.properties.number)
+			return "dot class" + classy; 
+		})
+    	.attr("transform", function(d) { 
+    		return "translate(" + path.centroid(d) + ")"; })
+		.attr("r",function(d){ return radius(d.properties.number);})
+
+	resize();
+	d3.select(window).on('resize', resize); 
+	d3.selectAll("circle.dot").on('mouseenter', createTooltip);
+	d3.selectAll("circle.dot").on('mouseout', remover);
+
+	function resize() {	
+		var width = parseInt(d3.select("#master_container").style("width")) - margin*2;
+		var IS_PHONE = d3.select("#isPhone").style("display") == "block";
+
+		// Smaller viewport
+		if (width <= 800) {
+			var height = width / 2 + 100;    	
+			svg.attr("width", width + margin*2)
+    		.attr("height", height + margin*2);
+
+		  projection
+		    .scale(width * 1.05)
+		    .translate([width / 2, ((height / 2))])             
+		} else if (width <= 900) {
+				var height = width / 2;
+				svg.attr("width", width + margin*2)
+    			.attr("height", height + margin*2);
+
+		  projection
+		    .scale(width)
+		    .translate([width / 2, ((height / 2))])             
+		} 
+		// full viewport
+		else {
+			var height = width / 2;    	
+			svg.attr("width", width + margin*2)
+    			.attr("height", height + margin*2);
+
+		  projection
+		    .scale(width)
+		    .translate([width / 2, ((height / 2) + 10)])   
+		};
+
+		var radius = d3.scale.sqrt()  
+		  .domain([0, 100000])
+		  .range([0, (width / 13)]); 
+
+		// resize paths of states
+		svg.selectAll('path.state')
+		  .attr("d", path);
+
+		svg.selectAll("circle.dot")
+			.data(topojson.feature(cbsa, cbsa.objects.cb_2016_us_cbsa_5m).features
+			.filter(function(d){ return d.properties.number != undefined})
+			.sort(function(a, b) {return b.properties.number - a.properties.number;}))
+		  .attr("transform", function(d) { 
+		  	return "translate(" + path.centroid(d) + ")"; })
+			.attr("r",function(d){ return radius(d.properties.number);})
+
+			var legendWidth = (IS_PHONE) ? width*.2 : width*.12;
+			var legendHeight = (IS_PHONE) ? width*.12 : width*.15;
+
+			d3.selectAll(".legend").remove();     
+
+			var legend = svg
+				.append("g")
+      			.attr("class", "legend")
+     			.attr("width", legendWidth)
+    			.attr("height", legendHeight)
+   				.selectAll("g")
+   				.data(legendColor.domain().slice())
+   				.enter()
+   				.append("g")
+     			.attr("transform", function(d, i) { 
+     				if (IS_PHONE) {
+     					return "translate(" + ((width* .25) + (i*.083*width)) +","+ ( (height - 30) ) + ")"
+
+     				} else {
+							return "translate(" + (width - (radius(80000) + 71)) + "," + ( (height - 105) +(i * 20) ) + ")"; 
+     				}
+     			});
+
+		    d3.selectAll(".legendText").remove();     
+				
+
+		    var lgspot = (width - (radius(80000) + 20)) + "," + (height - 30 - (5*20));
+		    var mobilelgspot = ((width* .25) + (2.5*.083*width)) + "," + (height - 50);
+
+				var legendText = svg.append("g")
+		      .attr("class", "legendText legend-title lg")
+		      .append("text")
+		      .attr("dy", "1.3em")      
+		      .attr("text-anchor","middle")			      
+		      .attr("fill","#000")
+		      .attr("transform", function(d) { 
+		      	if (IS_PHONE) {
+		      		  return "translate(" + mobilelgspot + ")"; 
+		      	} else {
+		      		  return "translate(" + lgspot + ")"; 
+		      	}
+		      });
+
+
+		    legendText.append("tspan")
+		      .text("DACA beneficiaries")
+		      .attr("x",0)
+		      .attr("y",0);
+				
+				var rectHeight = (IS_PHONE) ? .02*width : 18;
+				var rectWidth = (IS_PHONE) ? .08*width : 18;
+
+		  	legend.append("rect")
+		   		  .attr("width", rectWidth)
+		   		  .attr("height", rectHeight)
+		   		  .style("fill", legendColor);
+				
+				var legendText = (IS_PHONE) ? ["90k", "40k", "20k", "10k", "4k"] : ["40,001+", "20,001–40,000", "10,001–20,000", "4,001–10,000", "1,000–4,000"];
+			   	var legendTextX = (IS_PHONE) ? -width*.012 : 24; 
+			   	var legendTextY = (IS_PHONE) ? width*.035 : 9; 
+			  	
+			  	legend.append("text")
+			  		  .data(legendText)
+			      	  .attr("x", legendTextX)
+			      	  .attr("y", legendTextY)
+			      	  .attr("dy", ".35em")
+			      	  .text(function(d) { return d; })
+			      	  .attr("class", "legend-text")
+   	
+	  pymChild.sendHeight()
+
+	}
+
+  function createTooltip(d) {     
+
+    width = parseInt(d3.select("#master_container").style("width")) - margin*2;
+    
+    centroid = path.centroid(d);
+
+     var contents = "<strong>" + d.properties.cbsa + "</strong><br>DACA beneficiaries: <span style='color:#1696d2'>" + formatNum(d.properties.number) + "</span><br>Share of US beneficiaries: <span style='color:#1696d2'>" + d.properties.percent + "%</span>";
+
+   	tooltip.html(contents);
+
+    var topBottom = "";
+		var horOffset = -((tooltip[0][0].clientWidth) / 2) + 8 ;
+		// var vertOffsetBottom = (tooltip[0][0].clientHeight + 5);
+		// var vertOffsetTop = (tooltip[0][0].clientHeight + 0);
+		var vertOffsetTop = 20;
+		var vertOffsetBottom = radius(d.properties.number) + tooltip[0][0].clientHeight + 5;		
+		var vertOffsetTop = radius(d.properties.number)+20;
+
+
+    if (width > 900) {
+      if (centroid[1] < 250) {
+        centroid_adjusted = [(centroid[0] + horOffset),(centroid[1]+vertOffsetTop)];
+        topBottom = "bottom"
+      } else {
+        centroid_adjusted = [(centroid[0] + horOffset),(centroid[1]-vertOffsetBottom)];
+        topBottom = "top"
+      };        
+    }
+    else if (width > 500) {  
+      if (centroid[1] < 225) {
+        centroid_adjusted = [(centroid[0] + horOffset),(centroid[1]+vertOffsetTop)];
+        topBottom = "bottom"
+      } else {
+        centroid_adjusted = [(centroid[0] + horOffset),(centroid[1]-vertOffsetBottom)];
+        topBottom = "top"
+      };
+    }
+    else if (width > 480) {
+      if (centroid[0] < width / 2) {
+        centroid_adjusted = [(width - 175),(5)];   
+        topBottom = "bottom"
+      } else {
+        centroid_adjusted = [(width - 175),(5)];   
+        topBottom = "top"             
+      };
+    } else {
+      if (centroid[0] < 200) {                	
+        centroid_adjusted = [(width - 175),(5)];   
+        topBottom = "bottom"
+      } else {
+        centroid_adjusted = [(width - 175),(5)];    
+        topBottom = "top"             
+      };
+    };      
+
+    
+		tooltip.classed(topBottom,true)
+      .style("left", centroid_adjusted[0] + "px")   
+      .style("top", centroid_adjusted[1] + "px");  
+
+  }    
+
+});
+
+function remover() {
+  tooltip.style("left", "-1000px").style("top","-1000px"); 
+  tooltip.classed("top",false);
+  tooltip.classed("bottom",false);
+
+  // d3.select(".tooltip").;
+  // d3.selectAll(".arc").remove();
+  // d3.selectAll(".tip-text").remove();
+  // d3.selectAll(".tip-text2").remove();        
+  // d3.selectAll(".tip-text3").remove();     
+}
+
+</script>
