@@ -8,7 +8,7 @@
 		.class4 {fill: #0a4c6a;}
 		.class5 {fill: #000000;}*/
 
-		.q0-9 { fill:rgb(247,251,255); }
+/*		.q0-9 { fill:rgb(247,251,255); }
 		.q1-9 { fill:rgb(222,235,247); }
 		.q2-9 { fill:rgb(198,219,239); }
 		.q3-9 { fill:rgb(158,202,225); }
@@ -17,7 +17,7 @@
 		.q6-9 { fill:rgb(33,113,181); }
 		.q7-9 { fill:rgb(8,81,156); }
 		.q8-9 { fill:rgb(8,48,107); }
-
+*/
 		input[type="button"].active {
 			background-color: #fdbf11;
 		}
@@ -39,7 +39,7 @@
 		<input type="button" value="z_GlobalCapacity" name="z_GlobalCapacity"> 
 	</div>
 	<div id="numCols">
-		Number of Quantiles (between 2 and 8) <input type="text" name="numCols" value="8">
+		Number of Quantiles (between 2 and 8) <input type="text" name="numCols" value="5">
 	</div>
 
 	<svg id="map_container"></svg>	
@@ -90,7 +90,7 @@ d3.json("data/cd_landscape.json", function(error, cd_landscape) {
   if (error) return console.error(error);
    	
   	// call the build function on load
-  	mapAndmap(varList[0],cd_landscape,8);
+  	mapAndmap(varList[0],cd_landscape,5);
 
   	// call the build function on click of input
   	$('input[type="button"]').on('click',function(){  	
@@ -123,10 +123,10 @@ d3.json("data/cd_landscape.json", function(error, cd_landscape) {
 	  	}	
 	  	quantile.range(d3.range(numCol).map(function(i) { return colors[numCol][i]; }));
 			quantile.domain(domainData);	
-			console.log(domainData)
-			console.log(d3.max(domainData))
-			console.log(d3.min(domainData))
-			console.log(d3.median(domainData))
+			// console.log(domainData)
+			// console.log(d3.max(domainData))
+			// console.log(d3.min(domainData))
+			// console.log(d3.median(domainData))
 			// console.log(d3.quantile(domainData,0))
 			// console.log(d3.quantile(domainData,0.1))
 			// console.log(d3.quantile(domainData,0.2))
@@ -137,9 +137,9 @@ d3.json("data/cd_landscape.json", function(error, cd_landscape) {
 			// console.log(d3.quantile(domainData,0.8))
 			// console.log(d3.quantile(domainData,1))
 			// console.log("")
-			console.log(d3.quantile(domainData,.25))
-			console.log(d3.quantile(domainData,.5))
-			console.log(d3.quantile(domainData,.75))
+			// console.log(d3.quantile(domainData,.25))
+			// console.log(d3.quantile(domainData,.5))
+			// console.log(d3.quantile(domainData,.75))
 
 			// console.log(quantile.quantiles())
 
