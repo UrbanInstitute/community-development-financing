@@ -27,6 +27,10 @@
 			font-size: 12px;
 		}
 
+		.subunit {
+			/*fill: #ff00ff;*/
+		}
+
 	</style>
 </head>
 <body>
@@ -86,7 +90,7 @@ svg.append("g")
   .attr("class", "legendLinear")
   .attr("transform", "translate("+ (width-500) + ","+ (height-300) + ")");
 
-d3.json("data/cd_landscape.json", function(error, cd_landscape) {
+d3.json("data/cd_landscape_v11.json", function(error, cd_landscape) {
   if (error) return console.error(error);
    	
   	// call the build function on load
@@ -121,7 +125,10 @@ d3.json("data/cd_landscape.json", function(error, cd_landscape) {
 	  	for (var i = 0; i < data.length; i++) {
 	  		domainData.push(data[i].properties[id]);
 	  	}	
-	  	quantile.range(d3.range(numCol).map(function(i) { return colors[numCol][i]; }));
+	  	quantile.range(d3.range(numCol).map(function(i) { 
+
+	  		console.log(colors[numCol][i])
+	  		return colors[numCol][i]; }));
 			quantile.domain(domainData);	
 			// console.log(domainData)
 			// console.log(d3.max(domainData))
@@ -153,8 +160,16 @@ d3.json("data/cd_landscape.json", function(error, cd_landscape) {
 			  .attr("class", function(d) {
 			  	return "subunit"})
 			  .attr("d", path)
-			  .attr("fill", function(d){
-			  	return quantile(d.properties[id]); 
+			  .attr("fill", function(d){			  	
+			  	if (!d.properties.totalpop) {
+			  		// console.log(d.properties.totalpop)
+			  		return "#d2d2d2"
+			  	}
+			  	else {
+			  		return quantile(d.properties[id]); 	
+			  		
+			  	}
+			  	
 			  })
 
 			var legendLinear = d3.legend.color()
