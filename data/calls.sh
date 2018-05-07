@@ -22,13 +22,13 @@ cb_2016_us_state_5m.json
 
 ###########previous above#########################
 
-
+####REMEMBER TO CHANGE THE "FIPS5" HEADER TO "GEOID" AND MAKE 5 DIGIT
 
 ogr2ogr -f GeoJSON cb_2016_us_county_5m.json cb_2016_us_county_5m/cb_2016_us_county_5m.shp
 
 topojson \
--o cd_landscape.json \
---external-properties=county.csv \
+-o cd_landscape_v11.json \
+--external-properties=county_v11.csv \
 --id-property=+GEOID \
 --properties='totalpop=+totalpop' \
 --properties='countbelow200pct=+countbelow200pct' \
