@@ -1,68 +1,538 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
-/* line 5, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed,
-figure, figcaption, footer, header, hgroup,
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+/*colors*/
+/*HEADER*/
+/* line 2, ../../src/sass/_urban-header.scss */
+body {
+  margin: 0px;
+}
+
+/* line 5, ../../src/sass/_urban-header.scss */
+#header-pinned {
+  position: fixed;
+  top: 0px;
+  font: 16px Lato;
+  color: #333;
+  font-weight: 400;
+  /* margin-right: 100px; */
+  position: fixed;
+  /*top:-50px;*/
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-bottom: 2px solid #eee;
+  z-index: 999999;
+  -webkit-transition: top 0.25s linear;
+  -moz-transition: top 0.25s linear;
+  -o-transition: top 0.25s linear;
+  transition: top 0.25s linear;
+}
+
+/* line 25, ../../src/sass/_urban-header.scss */
+.is-visible {
+  top: 0px !important;
+}
+
+/* line 29, ../../src/sass/_urban-header.scss */
+#header-pinned .content {
+  height: 49px;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* line 36, ../../src/sass/_urban-header.scss */
+#header-pinned * {
+  color: #333;
+  font-weight: 300;
+  text-decoration: none;
+}
+
+/* line 42, ../../src/sass/_urban-header.scss */
+#header-pinned .subnav a {
+  color: #1696d2;
+}
+
+/* line 46, ../../src/sass/_urban-header.scss */
+#header-pinned .subnav a:hover {
+  color: #000;
+}
+
+/* line 50, ../../src/sass/_urban-header.scss */
+#header-pinned .site-logo {
+  display: block;
+  width: 34px;
+  height: 34px;
+  position: absolute;
+  left: 10px;
+  margin-top: 7px;
+  background: url(https://www.urban.org/sites/all/themes/urban/images/logo-mini-dark.png) no-repeat;
+  background-size: 34px 34px;
+}
+
+/* line 62, ../../src/sass/_urban-header.scss */
+#header-pinned .title {
+  font-size: 14px;
+  line-height: 49px;
+  margin: 0 65px 0 55px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* line 71, ../../src/sass/_urban-header.scss */
+#header-pinned .title {
+  font-size: 20px;
+  height: 50px;
+  margin-left: 80px;
+}
+
+/* line 77, ../../src/sass/_urban-header.scss */
+#header-pinned .title span,
+#header-pinned .title a {
+  display: inline;
+}
+
+/*#header-pinned .title a:hover{
+     color:#1696d2;
+}
+
+
+.subnav a {
+   color:#1696d2;    
+}*/
+/* line 90, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons {
+  background-color: transparent;
+  width: 69px;
+  height: 50px;
   margin: 0;
   padding: 0;
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  vertical-align: baseline;
+  top: 0;
+  width: 60px;
+  position: absolute;
+  right: 0;
 }
 
-/* line 22, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-html {
-  line-height: 1;
+/* line 102, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisP {
+  border-top: 0;
+  border-left: 1px solid #e6e5e5;
+  height: 41px;
+  padding: 9px 0 0;
 }
 
-/* line 24, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-ol, ul {
-  list-style: none;
+/* line 109, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisB {
+  float: none;
 }
 
-/* line 26, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-
-/* line 28, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-caption, th, td {
-  text-align: left;
-  font-weight: normal;
-  vertical-align: middle;
-}
-
-/* line 30, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-q, blockquote {
-  quotes: none;
-}
-/* line 103, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-q:before, q:after, blockquote:before, blockquote:after {
-  content: "";
-  content: none;
-}
-
-/* line 32, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-a img {
-  border: none;
-}
-
-/* line 116, ../../../../../../../usr/local/lib/ruby/gems/2.4.0/gems/compass-core-1.0.3/stylesheets/compass/reset/_utilities.scss */
-article, aside, details, figcaption, figure, footer, header, hgroup, main, menu, nav, section, summary {
+/* line 113, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisB {
   display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -2396px;
+  height: 32px;
+  width: 32px;
+  float: none;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+/* line 125, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisB:hover {
+  background-position: 0 -1948px;
+}
+
+/* line 129, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisW {
+  display: none;
+  float: none;
+  top: 50px;
+  right: 0;
+  left: auto;
+  width: 300px;
+  text-align: right;
+  border: 0;
+  background: transparent;
+}
+
+/* line 141, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .shareThisW {
+  background-color: #fff;
+  /* border: 1px solid #e6e5e5; */
+  position: absolute;
+  top: 50px;
+  left: -100px;
+  padding: 5px;
+  border-top: 0;
+  width: 160px;
+  z-index: 3;
+}
+
+/* line 153, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .addthis_toolbox {
+  display: inline-block;
+  width: auto;
+  /* border: 1px solid #e6e5e5; */
+  border-top: 0;
+  background: #fff;
+  padding: 10px 10px 0 0;
+  margin: 0 auto;
+}
+
+/* line 163, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_twitter.at16t_twitter,
+#header-pinned .share-icons .addthis_button_facebook {
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -2056px;
+  height: 32px;
+  width: 32px;
+}
+
+/* line 173, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_twitter.at16t_twitter,
+#header-pinned .share-icons .addthis_button_facebook:hover {
+  background-position: 0 -1609px;
+}
+
+/* line 178, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_twitter.at16t_twitter,
+#header-pinned .share-icons .addthis_button_twitter {
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -1169px;
+  height: 32px;
+  width: 32px;
+}
+
+/* line 188, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_twitter.at16t_twitter,
+#header-pinned .share-icons .addthis_button_twitter:hover {
+  background-position: 0 -1577px;
+}
+
+/* line 193, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_linkedin.at16t_linkedin,
+#header-pinned .share-icons .addthis_button_linkedin {
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -1641px;
+  height: 32px;
+  width: 32px;
+}
+
+/* line 203, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_linkedin.at16t_linkedin,
+#header-pinned .share-icons .addthis_button_linkedin:hover {
+  background-position: 0 -1379px;
+}
+
+/* line 208, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_google_plusone_share.at16t_google_plusone_share,
+#header-pinned .share-icons .addthis_button_google_plusone_share {
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -1719px;
+  height: 32px;
+  width: 32px;
+}
+
+/* line 218, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_email.at16t_email,
+#header-pinned .share-icons .addthis_button_email {
+  display: block;
+  background-repeat: no-repeat;
+  background-image: url(https://www.urban.org/sites/all/themes/urban/images/generated/icons-s8fe141aaaa.png);
+  background-position: 0 -1449px;
+  height: 32px;
+  width: 32px;
+}
+
+/* line 228, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .at15t_email.at16t_email,
+#header-pinned .share-icons .addthis_button_email:hover {
+  background-position: 0 -1271px;
+}
+
+/* line 233, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons [class^="addthis_button_"] {
+  display: inline-block !important;
+  margin: 0 0 0 10px;
+}
+
+/* line 238, ../../src/sass/_urban-header.scss */
+#header-pinned .share-icons .addthis_toolbox a {
+  margin-bottom: 5px;
+}
+
+/* line 242, ../../src/sass/_urban-header.scss */
+.at_a11y {
+  display: none;
+}
+
+/* line 246, ../../src/sass/_urban-header.scss */
+.header-links {
+  height: 40px;
+  background-color: #fff;
+  width: 100%;
+}
+
+/* line 252, ../../src/sass/_urban-header.scss */
+.header-links ul {
+  height: 40px;
+  list-style: none;
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+}
+
+/* line 260, ../../src/sass/_urban-header.scss */
+.header-links ul li {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 500;
+  height: 40px;
+  margin: 0px;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 22%;
+}
+
+/* line 273, ../../src/sass/_urban-header.scss */
+#subhead {
+  width: 100%;
+  position: fixed;
+  z-index: 3;
+  top: 50px;
+  height: 35px;
+  background: rgba(255, 255, 255, 0.9);
+  border-bottom: solid 1px #ccc;
+}
+
+/* line 284, ../../src/sass/_urban-header.scss */
+ul {
+  list-style: outside none none;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* line 291, ../../src/sass/_urban-header.scss */
+#subhead ul li {
+  display: inline-block;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding-left: 1%;
+}
+
+/* line 300, ../../src/sass/_urban-header.scss */
+#subhead a {
+  color: #333;
+  display: block;
+  padding: 10px;
+}
+
+/* line 307, ../../src/sass/_urban-header.scss */
+#subhead .active {
+  border-bottom: solid 3px #1696d2;
+  color: #1696d2;
+  padding-bottom: 8px;
+}
+
+/* line 313, ../../src/sass/_urban-header.scss */
+#subhead a:hover {
+  background-color: rgba(22, 150, 210, 0.8);
+  color: #fff;
+}
+
+/**/
+/* line 322, ../../src/sass/_urban-header.scss */
+.header-links a {
+  color: #fff;
+}
+
+/* line 326, ../../src/sass/_urban-header.scss */
+.header-links ul li:hover,
+.header-links ul li.hover_effect {
+  background-color: rgba(0, 155, 210, 0.8);
+}
+
+/*end css for header*/
+/* line 4, ../../src/sass/main.scss */
+body {
+  font-family: "Lato", sans-serif;
+  font-size: 13px;
+  background-color: #fff;
+}
+
+/* line 11, ../../src/sass/main.scss */
+.intro-wrap {
+  height: auto;
+  z-index: 20000;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+  font-style: italic;
+}
+
+/* line 20, ../../src/sass/main.scss */
+.banner-wrapper {
+  width: 100%;
+}
+
+/* line 23, ../../src/sass/main.scss */
+#intro-text {
+  background-color: #fff;
+  padding: 42px;
+  padding-bottom: 85px;
+}
+
+/* line 29, ../../src/sass/main.scss */
+.banner {
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+  margin-top: 52px;
+}
+
+/*Typography*/
+/* line 38, ../../src/sass/main.scss */
+h1 {
+  font-size: 36px;
+  letter-spacing: .5px;
+  font-style: normal !important;
+}
+
+/* line 44, ../../src/sass/main.scss */
+h2 {
+  font-size: 18px;
+  color: #353535;
+  font-weight: 300;
+}
+
+/* line 50, ../../src/sass/main.scss */
+#date {
+  font-style: normal;
+  font-size: 14px;
+  color: #353535;
+}
+
+/* line 57, ../../src/sass/main.scss */
+a {
+  text-decoration: none;
+  color: #1696d2;
+  cursor: pointer;
+}
+
+/* line 62, ../../src/sass/main.scss */
+a:hover {
+  color: #000;
+}
+
+/*Footer*/
+/* line 67, ../../src/sass/main.scss */
+.footerButton {
+  height: 20;
+  float: left;
+  width: 115px;
+  border: 1px solid #333;
+  cursor: pointer;
+  font: 13px Lato;
+  font-weight: bold;
+  text-align: center;
+  padding: 10px;
+  text-decoration: none !important;
+  color: #333 !important;
+  margin: 14px 0;
+  line-height: 20px;
+  margin-right: 15px;
+}
+
+/* line 84, ../../src/sass/main.scss */
+.appendixButton {
+  margin-right: 0px;
+}
+
+/* line 88, ../../src/sass/main.scss */
+.footerButton:hover {
+  background-color: #000;
+  color: #fff !important;
+}
+
+/* line 93, ../../src/sass/main.scss */
+.credit-list {
+  font-size: 14px;
+}
+
+/* line 96, ../../src/sass/main.scss */
+.credit-header {
+  font-size: 16px;
+  font-weight: bold !important;
+}
+
+/* line 100, ../../src/sass/main.scss */
+.credit-names {
+  margin-bottom: 20px;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+/* line 105, ../../src/sass/main.scss */
+.credits-text.bottom-text {
+  font-size: 14px;
+  margin-bottom: 45px;
+  line-height: 22px !important;
+}
+
+/* line 111, ../../src/sass/main.scss */
+.bottom-text {
+  clear: both;
+  font-size: 16px;
+  color: #231f20;
+  line-height: 26px;
+}
+
+/* line 117, ../../src/sass/main.scss */
+h1.bottom-header {
+  font-size: 34px;
+  color: #000;
+  margin-top: 50px;
+  margin-bottom: 8px;
+}
+
+/* line 123, ../../src/sass/main.scss */
+#copyright {
+  margin-bottom: 100px;
+  display: inline-block;
+  font-style: italic;
+}
+
+/* line 132, ../../src/sass/main.scss */
+.bottom-container {
+  background-color: #ececec;
+  border-top: 1px solid #adabac;
+}
+
+/* line 137, ../../src/sass/main.scss */
+.bottom-content {
+  max-width: 700px;
+  margin: 0 auto;
+  padding-top: 44px;
+}
+
+/* line 143, ../../src/sass/main.scss */
+.description {
+  opacity: 0.5;
+  font-family: Lato;
+  font-size: 14px;
+  text-align: left;
+  color: #000000;
 }
