@@ -8,10 +8,10 @@ library(readstata13)
 # library(scales)
 
 
-TestVar <- read.dta13("County_abridged_v13.dta")
+TestVar <- read.dta13("County_abridged_v13_2.dta")
 print(TestVar)
 
-write.csv(TestVar, file="county13.csv")
+write.csv(TestVar, file="county13_2.csv")
 
 # test.stata <- read.dta("https://stats.idre.ucla.edu/stat/data/test.dta")
 # print(test.stata)

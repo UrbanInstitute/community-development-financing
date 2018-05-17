@@ -3,10 +3,8 @@ var pymChild = new pym.Child();
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
 
 d3.queue()
-    .defer(d3.csv, "data/county_v13.csv")    
+    .defer(d3.csv, "data/county13_2.csv")    
     .await(ready);
-
-
 
 function ready(error, data) {    
 	// console.log(data)
@@ -18,7 +16,33 @@ function ready(error, data) {
 
 	// build the chart margins and container in d3
 
+	var test = [
+	{value:"Switzerland",data:"test"},
+	{value:"Azerbaijan",data:"test"},	
+	{value:"Madagascar",data:"test"}];
 
+	// make data searchable in autocomplete by adding the value category. 
+	data.forEach(function(d){		
+		d.value = d.CountyName + " County, " + d.State;
+	})
+
+	// autocomplete call
+	$( '#autocompletez').autocomplete( {
+	    lookup: data,
+	    lookupLimit: 10,
+	    maxHeight: 350,
+	    showNoSuggestionNotice: true,
+	    noSuggestionNotice: function () {
+	      return "No county found"
+	    },
+	    onSelect: function ( suggestion ) {
+	      console.log(suggestion)
+	      // CAll function that highlights selected line
+	      // Highlight( suggestion.value )
+	    }
+	  } );
+
+	// event for clicking on buttons to change data
 	$('input[type="button"]').on('click',function(){  	
 		$('input[type="button"]').removeClass("active");	
 		update(data,this.name)
