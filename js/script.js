@@ -51,7 +51,7 @@ function ready(error, data) {
 
 	// width based parameters
 	if (width > breakpoint) {
-		var margin = {top: 20, right: 10, bottom: 10, left: 100}
+		var margin = {top: 50, right: 10, bottom: 10, left: 100}
 	} else {
 		// Smaller viewports
 		var margin = {top: 20, right: 10, bottom: 10, left: 10}
@@ -177,6 +177,12 @@ function ready(error, data) {
 				}
 			})			
 	}
+
+	g.append("text")
+		.attr("class","xText")
+		.attr("x",0)
+		.attr("y",-20)
+		.text("Number of Counties")
 	
 	// Lines and arrows and text
 	g.append("line")

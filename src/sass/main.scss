@@ -171,6 +171,11 @@ a:hover {
 
 // chart parts
 
+.yNum {
+  fill: $text-gray;
+  font-size: 16px;
+}
+
 .yGrid {
   stroke-width: 1.5px;
   stroke: rgb(174,174,174)
@@ -185,10 +190,21 @@ a:hover {
 .yLineText {
   text-anchor: end;
   text-transform: uppercase;
+  fill: #000;
 
   &.end {
     text-anchor: start;
   }
+  &.title {
+    fill: $text-gray !important;
+  }
+}
+
+.xText {
+  fill: $text-gray;
+  text-style: italic;
+  text-anchor: start;
+  text-transform: uppercase;
 }
 
 /*Footer*/

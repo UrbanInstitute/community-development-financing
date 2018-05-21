@@ -532,30 +532,49 @@ a:hover {
 }
 
 /* line 174, ../../src/sass/main.scss */
+.yNum {
+  fill: #707070;
+  font-size: 16px;
+}
+
+/* line 179, ../../src/sass/main.scss */
 .yGrid {
   stroke-width: 1.5px;
   stroke: #aeaeae;
 }
 
-/* line 179, ../../src/sass/main.scss */
+/* line 184, ../../src/sass/main.scss */
 .yLine1, .yLine2 {
   stroke-width: 1.5px;
   stroke: #aeaeae;
   stroke-linecap: round;
 }
 
-/* line 185, ../../src/sass/main.scss */
+/* line 190, ../../src/sass/main.scss */
 .yLineText {
   text-anchor: end;
   text-transform: uppercase;
+  fill: #000;
 }
-/* line 189, ../../src/sass/main.scss */
+/* line 195, ../../src/sass/main.scss */
 .yLineText.end {
   text-anchor: start;
 }
+/* line 198, ../../src/sass/main.scss */
+.yLineText.title {
+  fill: #707070 !important;
+}
+
+/* line 203, ../../src/sass/main.scss */
+.xText {
+  fill: #707070;
+  text-style: italic;
+  text-anchor: start;
+  text-transform: uppercase;
+}
 
 /*Footer*/
-/* line 195, ../../src/sass/main.scss */
+/* line 211, ../../src/sass/main.scss */
 .footerButton {
   height: 20;
   float: left;
@@ -573,43 +592,43 @@ a:hover {
   margin-right: 15px;
 }
 
-/* line 212, ../../src/sass/main.scss */
+/* line 228, ../../src/sass/main.scss */
 .appendixButton {
   margin-right: 0px;
 }
 
-/* line 216, ../../src/sass/main.scss */
+/* line 232, ../../src/sass/main.scss */
 .footerButton:hover {
   background-color: #000;
   color: #fff !important;
 }
 
-/* line 221, ../../src/sass/main.scss */
+/* line 237, ../../src/sass/main.scss */
 .credit-list {
   font-size: 14px;
 }
 
-/* line 224, ../../src/sass/main.scss */
+/* line 240, ../../src/sass/main.scss */
 .credit-header {
   font-size: 16px;
   font-weight: bold !important;
 }
 
-/* line 228, ../../src/sass/main.scss */
+/* line 244, ../../src/sass/main.scss */
 .credit-names {
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: 16px;
 }
 
-/* line 233, ../../src/sass/main.scss */
+/* line 249, ../../src/sass/main.scss */
 .credits-text.bottom-text {
   font-size: 14px;
   margin-bottom: 45px;
   line-height: 22px !important;
 }
 
-/* line 239, ../../src/sass/main.scss */
+/* line 255, ../../src/sass/main.scss */
 .bottom-text {
   clear: both;
   font-size: 16px;
@@ -617,7 +636,7 @@ a:hover {
   line-height: 26px;
 }
 
-/* line 245, ../../src/sass/main.scss */
+/* line 261, ../../src/sass/main.scss */
 h1.bottom-header {
   font-size: 34px;
   color: #000;
@@ -625,27 +644,27 @@ h1.bottom-header {
   margin-bottom: 8px;
 }
 
-/* line 251, ../../src/sass/main.scss */
+/* line 267, ../../src/sass/main.scss */
 #copyright {
   margin-bottom: 100px;
   display: inline-block;
   font-style: italic;
 }
 
-/* line 260, ../../src/sass/main.scss */
+/* line 276, ../../src/sass/main.scss */
 .bottom-container {
   background-color: #ececec;
   border-top: 1px solid #adabac;
 }
 
-/* line 265, ../../src/sass/main.scss */
+/* line 281, ../../src/sass/main.scss */
 .bottom-content {
   max-width: 700px;
   margin: 0 auto;
   padding-top: 44px;
 }
 
-/* line 271, ../../src/sass/main.scss */
+/* line 287, ../../src/sass/main.scss */
 .description {
   opacity: 0.5;
   font-family: Lato;
