@@ -44,8 +44,9 @@ function ready(error, data) {
 		bubbleRadius = 4,
 		bnMult = bubbleRadius*2+5,
 		topBubbleLevel = -8,
-		yLineTop = 220,
-		yLineX = -56
+		yLineTop = 140,
+		yLineX = -56,
+		LineTextLeft = -51;
 
 
 	// width based parameters
@@ -134,7 +135,7 @@ function ready(error, data) {
     
 	
 	var chartHeight = y[indicator].numBins*(bnMult),
-		yLineBottom = chartHeight - 150;
+		yLineBottom = chartHeight - 130;
 
 
 
@@ -177,7 +178,7 @@ function ready(error, data) {
 			})			
 	}
 	
-	// Lines and arrows
+	// Lines and arrows and text
 	g.append("line")
 		.attr("class","yLine1")
 		.attr("x1",yLineX)
@@ -219,6 +220,33 @@ function ready(error, data) {
 		.attr("x2",yLineX - 6)
 		.attr("y1",yLineBottom)
 		.attr("y2",yLineBottom - 5)				
+
+	g.append("text")
+		.attr("class","yLineText")
+		.attr("x",-10)
+		.attr("y",LineTextLeft)
+		.attr("transform", function(d) {
+	        return "rotate(-90)" 
+        })
+		.text("More Investment")
+
+	g.append("text")
+		.attr("class","yLineText end")
+		.attr("x",-chartHeight + 10)
+		.attr("y",LineTextLeft)
+		.attr("transform", function(d) {
+	        return "rotate(-90)" 
+        })        
+		.text("Less Investment")
+
+	g.append("text")
+		.attr("class","yLineText title")
+		.attr("x",-10)
+		.attr("y",LineTextLeft-30)
+		.attr("transform", function(d) {
+	        return "rotate(-90)" 
+        })
+		.text("Standard Deviations from Mean")
 
   	// data join
 	var counties = g.selectAll("circle")

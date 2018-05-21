@@ -182,6 +182,15 @@ a:hover {
   stroke-linecap: round;
 }
 
+.yLineText {
+  text-anchor: end;
+  text-transform: uppercase;
+
+  &.end {
+    text-anchor: start;
+  }
+}
+
 /*Footer*/
 .footerButton {
     height: 20;
