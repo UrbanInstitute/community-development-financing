@@ -42,7 +42,8 @@ function ready(error, data) {
 	// static parameters
 	var spacer = 10,
 		bubbleRadius = 4,
-		bnMult = bubbleRadius*2+5,
+		bubbleSpacer = 3,
+		bnMult = bubbleRadius*2+bubbleSpacer,
 		topBubbleLevel = -8,
 		yLineTop = 140,
 		yLineX = -56,
@@ -51,7 +52,7 @@ function ready(error, data) {
 
 	// width based parameters
 	if (width > breakpoint) {
-		var margin = {top: 50, right: 10, bottom: 10, left: 100}
+		var margin = {top: 60, right: 10, bottom: 10, left: 100}
 	} else {
 		// Smaller viewports
 		var margin = {top: 20, right: 10, bottom: 10, left: 10}
@@ -106,6 +107,7 @@ function ready(error, data) {
 			.range([bins.length*bnMult,0]); 
 
 		y[indicators[k]].numBins = bins.length;
+
 
 		for (var i = 0; i < bins.length; i++) {
 			// bins[i].sort(function(a,b){return b[indicators[k]] - a[indicators[k]]  })
@@ -181,8 +183,22 @@ function ready(error, data) {
 	g.append("text")
 		.attr("class","xText")
 		.attr("x",0)
-		.attr("y",-20)
+		.attr("y",-45)
 		.text("Number of Counties")
+
+	
+	var numXticks = Math.floor((width-margin.left)/(bnMult)/5)
+
+	// create x ticks
+	for (var i = 1; i <= numXticks; i++) {
+		g.append("text")
+			.attr("class","xNum")
+			.attr("x",function(d){
+				return (i*(bnMult)*5 - (bnMult) + 1);
+			})
+			.attr("y",-20)
+			.text(i*5)		
+	}	
 	
 	// Lines and arrows and text
 	g.append("line")
@@ -256,17 +272,18 @@ function ready(error, data) {
 
   	// data join
 	var counties = g.selectAll("circle")
-		.data(data, function(d) {return d.fips5; });
+		.data(data, function(d) {return d.fips5; })
+
 
 		// EXIT old elements not present in new data.
 	counties.exit()
-	  .attr("class", "exit")
+	  .attr("class", "county exit")
 	.transition(t)
 	  .style("fill-opacity", 1e-6)
 	  .remove();
 
 	  // update
-  	counties.attr("class", "update")
+  	counties.attr("class", "county update")
       .style("fill-opacity", 1)
     	.transition(t)
 			.attr("cx", function (d) { 
@@ -275,7 +292,7 @@ function ready(error, data) {
 					return overIndex*bnMult;
 				}
 				else {
-					return d[indicator + "Index"]*bubbleRadius*3;	
+					return d[indicator + "Index"]*bnMult;	
 				}				
 			})
 			.attr("cy", function (d) { 	
@@ -289,14 +306,14 @@ function ready(error, data) {
 
 	  // enter + update
 	  counties.enter().append("circle")
-      	.attr("class", "enter")
+      	.attr("class", "county enter")
 			.attr("cx", function (d) { 
 				if (isNaN(d[indicator + "Y"])) {
 					overIndex += 1;
 					return overIndex*bnMult;
 				}
 				else {
-					return d[indicator + "Index"]*bubbleRadius*3;	
+					return d[indicator + "Index"]*bnMult;	
 				}		
 			})
 			.attr("cy", function (d) {
@@ -312,6 +329,17 @@ function ready(error, data) {
 				return "#1696D2"
 			})
 			.style("fill-opacity", 1e-6)
+			.on("mouseover",function(d){
+				d3.select(this)
+					.attr("r",2*bubbleRadius)
+					.classed("active",true)
+
+			})
+			.on("mouseout",function(d){
+				d3.select(this)
+					.attr("r",bubbleRadius)
+					.classed("active",false)
+			})
     	.transition(t)
     		.style("fill-opacity", 1);
 

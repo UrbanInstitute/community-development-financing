@@ -176,6 +176,13 @@ a:hover {
   font-size: 16px;
 }
 
+.xNum {
+  font-style: italic;
+  fill: $text-gray;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
 .yGrid {
   stroke-width: 1.5px;
   stroke: rgb(174,174,174)
@@ -191,6 +198,8 @@ a:hover {
   text-anchor: end;
   text-transform: uppercase;
   fill: #000;
+  font-size: 12px;
+  font-weight: 700;
 
   &.end {
     text-anchor: start;
@@ -201,11 +210,21 @@ a:hover {
 }
 
 .xText {
-  fill: $text-gray;
-  text-style: italic;
+  fill: $text-gray;  
   text-anchor: start;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
 }
+// Dots and stuff!
+
+.county {
+  &.active {
+    fill: $pink !important;
+    cursor: pointer;
+  }
+}
+
 
 /*Footer*/
 .footerButton {

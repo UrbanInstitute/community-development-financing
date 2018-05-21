@@ -538,43 +538,60 @@ a:hover {
 }
 
 /* line 179, ../../src/sass/main.scss */
+.xNum {
+  font-style: italic;
+  fill: #707070;
+  font-size: 14px;
+  text-anchor: middle;
+}
+
+/* line 186, ../../src/sass/main.scss */
 .yGrid {
   stroke-width: 1.5px;
   stroke: #aeaeae;
 }
 
-/* line 184, ../../src/sass/main.scss */
+/* line 191, ../../src/sass/main.scss */
 .yLine1, .yLine2 {
   stroke-width: 1.5px;
   stroke: #aeaeae;
   stroke-linecap: round;
 }
 
-/* line 190, ../../src/sass/main.scss */
+/* line 197, ../../src/sass/main.scss */
 .yLineText {
   text-anchor: end;
   text-transform: uppercase;
   fill: #000;
+  font-size: 12px;
+  font-weight: 700;
 }
-/* line 195, ../../src/sass/main.scss */
+/* line 204, ../../src/sass/main.scss */
 .yLineText.end {
   text-anchor: start;
 }
-/* line 198, ../../src/sass/main.scss */
+/* line 207, ../../src/sass/main.scss */
 .yLineText.title {
   fill: #707070 !important;
 }
 
-/* line 203, ../../src/sass/main.scss */
+/* line 212, ../../src/sass/main.scss */
 .xText {
   fill: #707070;
-  text-style: italic;
   text-anchor: start;
   text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* line 222, ../../src/sass/main.scss */
+.county.active {
+  fill: #E54096 !important;
+  cursor: pointer;
 }
 
 /*Footer*/
-/* line 211, ../../src/sass/main.scss */
+/* line 230, ../../src/sass/main.scss */
 .footerButton {
   height: 20;
   float: left;
@@ -592,43 +609,43 @@ a:hover {
   margin-right: 15px;
 }
 
-/* line 228, ../../src/sass/main.scss */
+/* line 247, ../../src/sass/main.scss */
 .appendixButton {
   margin-right: 0px;
 }
 
-/* line 232, ../../src/sass/main.scss */
+/* line 251, ../../src/sass/main.scss */
 .footerButton:hover {
   background-color: #000;
   color: #fff !important;
 }
 
-/* line 237, ../../src/sass/main.scss */
+/* line 256, ../../src/sass/main.scss */
 .credit-list {
   font-size: 14px;
 }
 
-/* line 240, ../../src/sass/main.scss */
+/* line 259, ../../src/sass/main.scss */
 .credit-header {
   font-size: 16px;
   font-weight: bold !important;
 }
 
-/* line 244, ../../src/sass/main.scss */
+/* line 263, ../../src/sass/main.scss */
 .credit-names {
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: 16px;
 }
 
-/* line 249, ../../src/sass/main.scss */
+/* line 268, ../../src/sass/main.scss */
 .credits-text.bottom-text {
   font-size: 14px;
   margin-bottom: 45px;
   line-height: 22px !important;
 }
 
-/* line 255, ../../src/sass/main.scss */
+/* line 274, ../../src/sass/main.scss */
 .bottom-text {
   clear: both;
   font-size: 16px;
@@ -636,7 +653,7 @@ a:hover {
   line-height: 26px;
 }
 
-/* line 261, ../../src/sass/main.scss */
+/* line 280, ../../src/sass/main.scss */
 h1.bottom-header {
   font-size: 34px;
   color: #000;
@@ -644,27 +661,27 @@ h1.bottom-header {
   margin-bottom: 8px;
 }
 
-/* line 267, ../../src/sass/main.scss */
+/* line 286, ../../src/sass/main.scss */
 #copyright {
   margin-bottom: 100px;
   display: inline-block;
   font-style: italic;
 }
 
-/* line 276, ../../src/sass/main.scss */
+/* line 295, ../../src/sass/main.scss */
 .bottom-container {
   background-color: #ececec;
   border-top: 1px solid #adabac;
 }
 
-/* line 281, ../../src/sass/main.scss */
+/* line 300, ../../src/sass/main.scss */
 .bottom-content {
   max-width: 700px;
   margin: 0 auto;
   padding-top: 44px;
 }
 
-/* line 287, ../../src/sass/main.scss */
+/* line 306, ../../src/sass/main.scss */
 .description {
   opacity: 0.5;
   font-family: Lato;
