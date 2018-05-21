@@ -176,6 +176,12 @@ a:hover {
   stroke: rgb(174,174,174)
 }
 
+.yLine1, .yLine2  {
+  stroke-width: 1.5px;
+  stroke: rgb(174,174,174);
+  stroke-linecap: round;
+}
+
 /*Footer*/
 .footerButton {
     height: 20;

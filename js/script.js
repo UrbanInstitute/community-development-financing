@@ -43,7 +43,10 @@ function ready(error, data) {
 	var spacer = 10,
 		bubbleRadius = 4,
 		bnMult = bubbleRadius*2+5,
-		topBubbleLevel = -8
+		topBubbleLevel = -8,
+		yLineTop = 220,
+		yLineX = -56
+
 
 	// width based parameters
 	if (width > breakpoint) {
@@ -130,7 +133,10 @@ function ready(error, data) {
     // reset height and redraw based on width?
     
 	
-	var chartHeight = y[indicator].numBins*(bnMult);
+	var chartHeight = y[indicator].numBins*(bnMult),
+		yLineBottom = chartHeight - 150;
+
+
 
 	svg.attr("height",chartHeight+margin.top+margin.bottom)
 
@@ -139,7 +145,6 @@ function ready(error, data) {
 	g.selectAll(".yNum").remove()		
 
 	for (var i = y[indicator].domain()[0]; i <= y[indicator].domain()[1]; i++) {
-		console.log(i)
 		g.append("line")
 			.attr("class","yGrid")
 			.attr("x1",function(d){
@@ -157,7 +162,7 @@ function ready(error, data) {
 			.attr("class","yNum")
 			.attr("x",function(d){
 				if (i === 0) {
-					return -70
+					return -60
 				} else {
 					return -35
 				}
@@ -172,6 +177,48 @@ function ready(error, data) {
 			})			
 	}
 	
+	// Lines and arrows
+	g.append("line")
+		.attr("class","yLine1")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX)
+		.attr("y1",yLineTop)
+		.attr("y2",y[indicator](0) - 25)
+
+	g.append("line")
+		.attr("class","yLine1")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX + 6)
+		.attr("y1",yLineTop)
+		.attr("y2",yLineTop + 5)		
+
+	g.append("line")
+		.attr("class","yLine1")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX - 6)
+		.attr("y1",yLineTop)
+		.attr("y2",yLineTop + 5)				
+
+	g.append("line")
+		.attr("class","yLine2")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX)
+		.attr("y1",y[indicator](0) + 10)
+		.attr("y2",yLineBottom)
+
+	g.append("line")
+		.attr("class","yLine2")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX + 6)
+		.attr("y1",yLineBottom)
+		.attr("y2",yLineBottom - 5)		
+
+	g.append("line")
+		.attr("class","yLine2")
+		.attr("x1",yLineX)
+		.attr("x2",yLineX - 6)
+		.attr("y1",yLineBottom)
+		.attr("y2",yLineBottom - 5)				
 
   	// data join
 	var counties = g.selectAll("circle")
@@ -240,11 +287,5 @@ function ready(error, data) {
   var indicator = "z_Housing"
   update(data,indicator,y)
 
-	// Grab a random sample of letters from the alphabet, in alphabetical order.
-	// d3.interval(function() {
-	//   update(d3.shuffle(data)
-	//       .slice(0, Math.floor(Math.random() * 1000))
-	//       .sort());
-	// }, 1500);
 
 }
