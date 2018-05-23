@@ -287,6 +287,73 @@ a:hover {
   stroke: $pink;
 }
 
+
+// rank tables 
+
+#rank-tables {
+   max-width: 1000px;
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+
+  .clearer {
+    clear: both;
+  }
+
+  .rank-table {
+    width: 100%;
+
+    .rank-blocks {
+      width: 33.333%;
+      float: left;
+      text-align: center !important;
+
+      .rank-blocks-inner {
+        padding-left: 10px;
+        padding-right:10px;        
+
+        .rank-block-title {
+          color: #fff;
+          background-color: #062635;
+
+          p {
+            font-size: 16px;
+            font-weight: 700;  
+            line-height: 100%;
+            margin: 0;
+            padding: 10px;
+          }
+          
+
+        }  
+
+        .rank-block-item {
+          padding: 10px;
+
+        &:nth-child(even) {
+          background-color: rgb(203,203,203);
+        }
+
+          .rank-block-item-name {
+            // float: right;
+            font-size: 16px;
+            color: #000;
+          }
+
+          .rank-block-item-rank {
+            float: left;
+            font-size: 16px;
+            font-weight: 700;
+            color: #9D9D9D;
+            position: absolute;
+          }
+        }
+      }
+    }
+  }
+}
+
 /*Footer*/
 .footerButton {
     height: 20;
