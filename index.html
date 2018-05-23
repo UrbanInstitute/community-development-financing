@@ -61,10 +61,10 @@
         </div>
     </div>
   </div>
-  <div class="top-span">
+<!--   <div class="top-span">
     <div class="first-in"><div class="second-in">Home</div></div>
     <div class="first-in"><div class="second-in">Ranking Tables</div></div>
-  </div>
+  </div> -->
   <div class="banner">
     <div id="intro-text">
       <div class="intro-wrap">
@@ -176,13 +176,15 @@
   <!--BOTTOM SECTION -->
   <div class="bottom-container">
     <div class="bottom-content">
-      <h1 class="bottom-header">ABOUT</h1>
+      <h1 class="bottom-header">About the data</h1>
       <div class="about-text bottom-text">
-        <p>We collected information about these partnerships primarily through news articles and through online sources created by partners, so the data may not reflect on-the-ground realities. When possible, we conducted follow-up interviews to verify our data, but some information may be out of date. </p>
+        <p>This dashboard includes investment data for 10 federally supported programs at the county-level: HUD HOME awards, low-income housing tax credit allocations; HUD Choice Neighborhood awards; Capital Magnet Fund awards; CDFI lending activity compiled from three different sources (CDFI Fund transaction-level report data, Opportunity Finance Network data, and an analysis of CoreLogic data) that we then de-duplicate; New Markets Tax Credit Program investments project data; Community Reinvestment Act–reported small business lending data, Promise neighborhoods awards; Community Development Block Grant awards; and Section 108 lending awards. It does not include any state-level programs.</p>
+        <p>We first aggregate funding for each of these programs for 2011 through 2015 (some programs, including Capital Magnet Fund and Promise Neighborhoods, did not have annual funding rounds, so we aggregate all funding delivered by these programs in that period). We then allocate program funding to the following four dimensions: housing, small business, impact finance, and other community development.</p>
+        <p>Some counties do not have data reported for certain programs. We assume that counties where no funding is reported for a program received $0 in investments through that program.</p>
+        <p>For each program, we scale the total dollars of funding an indicator received to estimate potential demand at the county level. For the small business dimension, our indicator is Local Employment Dynamics data on the number of small business employees (defined as the number of employees in businesses with fewer than 20 employees). For all other dimensions, the indicator is the county population in households earning under 200 percent of the federal poverty level.</p>
+        <p>Next, we calculate counties’ z-scores for each program and then each dimension. A z-score indicates how many standard deviations above or below the mean a given county fared at accessing community development investments in each program and dimension, relative to its demand indicator. The combined dimension is the average of the four other dimensions.</p>
+        <p>Given limited access to rural-focused funding programs, we exclude calculations for counties with populations under 50,000 to avoid misrepresenting federally supported capital flows to those communities.</p>
 
-        <p>This tracker is not a comprehensive database of every private-public collaboration that helps refugees. We only included partnerships with at least one private-sector partner that directly helped, worked with, or hired refugees. For more details, please read the accompanying research report and case studies of partnerships in Jordan and Uganda.   </p>
-
-        <p>We will continue to improve the depth of this tool’s data and the breadth of its coverage consistent with our definition of partnerships. To suggest new partnerships or flag outdated information, please contact Ammar Malik at <a href="mailto:amalik@urban.org" target="_blank">amalik@urban.org</a>.</p>
 
 <!--         <a href = "https://apps-staging.urban.org/features/debt-interactive-map-update/downloadable-docs/Debt-in-America-Data.xlsx">
           <div class = "footerButton">Download data</div>
@@ -193,25 +195,23 @@
 
       <h1 class="bottom-header">PROJECT CREDITS</h1>
       <div class="credits-text bottom-text">
-        <p><em>
-          This feature was funded by the US Department of State’s Bureau of Population, Refugees, and Migration. We are grateful to them and to all our funders, who make it possible for Urban to advance its mission. The views expressed are those of the authors and should not be attributed to the Urban Institute, its trustees, or its funders. Funders do not determine our research findings or the insights and recommendations of our experts. More information on our funding principles is available <a href="https://www.urban.org/aboutus/our-funding/funding-principles" target="_blank">here</a>. Read our terms of service <a href="http://www.urban.org/terms-service" target="_blank">here</a>.
-        </em></p>
-        <p><em>
-          We also thank Charles Cadwell of the Urban Institute for his valuable input on conceptual issues and Rachel Wilder for her expert research assistance.
-        </em></p>
+
+<p>This feature was funded by a grant from <a target="_blank" href="https://www.jpmorganchase.com/">JPMorgan Chase</a>. We are grateful to them and to all our funders, who make it possible for Urban to advance its mission. The views expressed are those of the authors and should not be attributed to the Urban Institute, its trustees, or its funders. Funders do not determine research findings or the insights and recommendations of our experts. More information on our funding principles is available <a href="https://www.urban.org/aboutus/our-funding/funding-principles" target="_blank"here</a>. Read our terms of service <a href="https://www.urban.org/terms-service" target="_blank">here</a>.</p>
+
+<p>The Urban Institute is collaborating with JPMorgan Chase over five years to inform and assess JPMorgan Chase’s philanthropic investments in key initiatives. One of these is Partnerships for Raising Opportunity in Neighborhoods (PRO Neighborhoods), a $125 million, five-year initiative to identify and support custom solutions for the unique challenges facing disadvantaged neighborhoods in US cities. The goals of the collaboration include using data and evidence to inform JPMorgan Chase’s philanthropic investments, assessing whether its programs are achieving desired outcomes, and informing the larger fields of policy, philanthropy, and practice. As part of a larger body of work that identifies general trends in commercial investments at the local level, this interactive feature documents community development across counties in the United States.</p>
       </div>
       <div class="credit-list">
          <div class="credit-header">
             RESEARCH
           </div>
           <div class="credit-names">
-            <a href="https://www.urban.org/author/edward-mohr" target="_blank">Edward Mohr</a>, <a href="https://www.urban.org/author/ammar-malik" target="_blank">Ammar Malik</a>, and <a href="https://www.urban.org/author/yasemin-irvin-erickson" target="_blank">Yasemin Irvin-Erickson</a>
+            Brett Theodos, Eric Hangen, Irvin Mull, Noah Strayer, Jay Dev, and Maia Woluchem
           </div>
           <div class="credit-header">
             DESIGN
           </div>
           <div class="credit-names">
-           <a href="https://www.urban.org/author/christina-baird" target="_blank">Christina Baird</a>
+Daniel Sundén
           </div>
 
           <div class="credit-header">
@@ -224,13 +224,13 @@
             EDITING
           </div>
           <div class="credit-names">
-            Daniel Matos
+            Elizabeth Forney
           </div>
           <div class="credit-header">
             WRITING
           </div>
           <div class="credit-names">
-            Serena Lei
+            Emily Peiffer
           </div>
           <p id="copyright"><a href="" target="_blank">View this project on Github</a></p>
         </div>

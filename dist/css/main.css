@@ -444,9 +444,10 @@ body {
 #intro-text {
   background-color: #fff;
   padding: 30px;
+  padding-top: 60px;
 }
 
-/* line 82, ../../src/sass/main.scss */
+/* line 83, ../../src/sass/main.scss */
 .banner {
   background-color: #fff;
   width: 100%;
@@ -454,44 +455,44 @@ body {
 }
 
 /*Typography*/
-/* line 90, ../../src/sass/main.scss */
+/* line 91, ../../src/sass/main.scss */
 h1 {
   font-size: 36px;
   letter-spacing: .5px;
   font-style: normal !important;
 }
 
-/* line 96, ../../src/sass/main.scss */
+/* line 97, ../../src/sass/main.scss */
 h2 {
   font-size: 18px;
   color: #353535;
   font-weight: 300;
 }
 
-/* line 102, ../../src/sass/main.scss */
+/* line 103, ../../src/sass/main.scss */
 #date {
   font-style: normal;
   font-size: 14px;
   color: #353535;
 }
 
-/* line 109, ../../src/sass/main.scss */
+/* line 110, ../../src/sass/main.scss */
 a {
   text-decoration: none;
   color: #1696d2;
   cursor: pointer;
 }
 
-/* line 114, ../../src/sass/main.scss */
+/* line 115, ../../src/sass/main.scss */
 a:hover {
   color: #000;
 }
 
-/* line 120, ../../src/sass/main.scss */
+/* line 121, ../../src/sass/main.scss */
 .autocomplete-suggestions {
   background-color: whitesmoke;
 }
-/* line 126, ../../src/sass/main.scss */
+/* line 127, ../../src/sass/main.scss */
 .autocomplete-suggestions .autocomplete-no-suggestion, .autocomplete-suggestions .autocomplete-suggestion {
   font-size: 20px;
   font-family: "Lato";
@@ -499,24 +500,24 @@ a:hover {
   padding-top: 5px;
   padding-bottom: 5px;
 }
-/* line 133, ../../src/sass/main.scss */
+/* line 134, ../../src/sass/main.scss */
 .autocomplete-suggestions .autocomplete-no-suggestion:hover, .autocomplete-suggestions .autocomplete-suggestion:hover {
   cursor: pointer;
   background-color: #767676;
 }
 
-/* line 141, ../../src/sass/main.scss */
+/* line 142, ../../src/sass/main.scss */
 #main {
   width: 100%;
 }
-/* line 148, ../../src/sass/main.scss */
+/* line 149, ../../src/sass/main.scss */
 #main #search {
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
 }
-/* line 154, ../../src/sass/main.scss */
+/* line 155, ../../src/sass/main.scss */
 #main #search input#autocompletez {
   color: #000;
   width: calc(100% - 30px);
@@ -525,7 +526,7 @@ a:hover {
   border: 1px solid dimgray;
   padding: 15px;
 }
-/* line 164, ../../src/sass/main.scss */
+/* line 165, ../../src/sass/main.scss */
 #main #chart {
   position: relative;
   margin: 0 auto;
@@ -533,13 +534,13 @@ a:hover {
   overflow: hidden;
 }
 
-/* line 174, ../../src/sass/main.scss */
+/* line 175, ../../src/sass/main.scss */
 .yNum {
   fill: #707070;
   font-size: 16px;
 }
 
-/* line 179, ../../src/sass/main.scss */
+/* line 180, ../../src/sass/main.scss */
 .xNum {
   font-style: italic;
   fill: #707070;
@@ -547,20 +548,20 @@ a:hover {
   text-anchor: middle;
 }
 
-/* line 186, ../../src/sass/main.scss */
+/* line 187, ../../src/sass/main.scss */
 .yGrid {
   stroke-width: 1.5px;
   stroke: #aeaeae;
 }
 
-/* line 191, ../../src/sass/main.scss */
+/* line 192, ../../src/sass/main.scss */
 .yLine1, .yLine2 {
   stroke-width: 1.5px;
   stroke: #aeaeae;
   stroke-linecap: round;
 }
 
-/* line 197, ../../src/sass/main.scss */
+/* line 198, ../../src/sass/main.scss */
 .yLineText {
   text-anchor: end;
   text-transform: uppercase;
@@ -568,16 +569,16 @@ a:hover {
   font-size: 12px;
   font-weight: 700;
 }
-/* line 204, ../../src/sass/main.scss */
+/* line 205, ../../src/sass/main.scss */
 .yLineText.end {
   text-anchor: start;
 }
-/* line 207, ../../src/sass/main.scss */
+/* line 208, ../../src/sass/main.scss */
 .yLineText.title {
   fill: #707070 !important;
 }
 
-/* line 212, ../../src/sass/main.scss */
+/* line 213, ../../src/sass/main.scss */
 .xText {
   fill: #707070;
   text-anchor: start;
@@ -586,13 +587,13 @@ a:hover {
   font-weight: 700;
 }
 
-/* line 222, ../../src/sass/main.scss */
+/* line 223, ../../src/sass/main.scss */
 .county.active {
   fill: #E54096 !important;
   cursor: pointer;
 }
 
-/* line 228, ../../src/sass/main.scss */
+/* line 229, ../../src/sass/main.scss */
 #tooltip {
   position: absolute;
   background-color: #f5f5f5;
@@ -600,36 +601,36 @@ a:hover {
   top: 100px;
   width: 400px;
 }
-/* line 235, ../../src/sass/main.scss */
+/* line 236, ../../src/sass/main.scss */
 #tooltip.active {
   right: 0px;
 }
-/* line 242, ../../src/sass/main.scss */
+/* line 243, ../../src/sass/main.scss */
 #tooltip #tip-inner #map {
   width: 100%;
   height: 200px;
 }
-/* line 247, ../../src/sass/main.scss */
+/* line 248, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text {
   width: 100%;
   padding: 10px;
   color: #666666;
 }
-/* line 252, ../../src/sass/main.scss */
+/* line 253, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text .bold {
   font-weight: 700;
 }
-/* line 256, ../../src/sass/main.scss */
+/* line 257, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text .tip-title {
   font-size: 32px;
   margin-bottom: 20px;
 }
-/* line 261, ../../src/sass/main.scss */
+/* line 262, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text p {
   font-size: 14px;
   margin: 10px 0px;
 }
-/* line 265, ../../src/sass/main.scss */
+/* line 266, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text p.tip-note {
   font-style: italic;
   font-size: 10px;
@@ -637,18 +638,18 @@ a:hover {
   margin-bottom: 0px;
 }
 
-/* line 281, ../../src/sass/main.scss */
+/* line 282, ../../src/sass/main.scss */
 .subunit {
   stroke: #fff;
   stroke-width: 2px;
 }
 
-/* line 286, ../../src/sass/main.scss */
+/* line 287, ../../src/sass/main.scss */
 .subunit.active {
   stroke: #E54096;
 }
 
-/* line 293, ../../src/sass/main.scss */
+/* line 294, ../../src/sass/main.scss */
 #rank-tables {
   max-width: 1000px;
   margin: 0 auto;
@@ -656,31 +657,31 @@ a:hover {
   margin-bottom: 20px;
   background-color: #fff;
 }
-/* line 300, ../../src/sass/main.scss */
+/* line 301, ../../src/sass/main.scss */
 #rank-tables .clearer {
   clear: both;
 }
-/* line 304, ../../src/sass/main.scss */
+/* line 305, ../../src/sass/main.scss */
 #rank-tables .rank-table {
   width: 100%;
 }
-/* line 307, ../../src/sass/main.scss */
+/* line 308, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks {
   width: 33.333%;
   float: left;
   text-align: center !important;
 }
-/* line 312, ../../src/sass/main.scss */
+/* line 313, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner {
   padding-left: 10px;
   padding-right: 10px;
 }
-/* line 316, ../../src/sass/main.scss */
+/* line 317, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-title {
   color: #fff;
   background-color: #062635;
 }
-/* line 320, ../../src/sass/main.scss */
+/* line 321, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-title p {
   font-size: 16px;
   font-weight: 700;
@@ -688,20 +689,20 @@ a:hover {
   margin: 0;
   padding: 10px;
 }
-/* line 331, ../../src/sass/main.scss */
+/* line 332, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-item {
   padding: 10px;
 }
-/* line 334, ../../src/sass/main.scss */
+/* line 335, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-item:nth-child(even) {
   background-color: #cbcbcb;
 }
-/* line 338, ../../src/sass/main.scss */
+/* line 339, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-item .rank-block-item-name {
   font-size: 16px;
   color: #000;
 }
-/* line 344, ../../src/sass/main.scss */
+/* line 345, ../../src/sass/main.scss */
 #rank-tables .rank-table .rank-blocks .rank-blocks-inner .rank-block-item .rank-block-item-rank {
   float: left;
   font-size: 16px;
@@ -711,7 +712,7 @@ a:hover {
 }
 
 /*Footer*/
-/* line 358, ../../src/sass/main.scss */
+/* line 359, ../../src/sass/main.scss */
 .footerButton {
   height: 20;
   float: left;
@@ -729,43 +730,43 @@ a:hover {
   margin-right: 15px;
 }
 
-/* line 375, ../../src/sass/main.scss */
+/* line 376, ../../src/sass/main.scss */
 .appendixButton {
   margin-right: 0px;
 }
 
-/* line 379, ../../src/sass/main.scss */
+/* line 380, ../../src/sass/main.scss */
 .footerButton:hover {
   background-color: #000;
   color: #fff !important;
 }
 
-/* line 384, ../../src/sass/main.scss */
+/* line 385, ../../src/sass/main.scss */
 .credit-list {
   font-size: 14px;
 }
 
-/* line 387, ../../src/sass/main.scss */
+/* line 388, ../../src/sass/main.scss */
 .credit-header {
   font-size: 16px;
   font-weight: bold !important;
 }
 
-/* line 391, ../../src/sass/main.scss */
+/* line 392, ../../src/sass/main.scss */
 .credit-names {
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: 16px;
 }
 
-/* line 396, ../../src/sass/main.scss */
+/* line 397, ../../src/sass/main.scss */
 .credits-text.bottom-text {
   font-size: 14px;
   margin-bottom: 45px;
   line-height: 22px !important;
 }
 
-/* line 402, ../../src/sass/main.scss */
+/* line 403, ../../src/sass/main.scss */
 .bottom-text {
   clear: both;
   font-size: 16px;
@@ -773,7 +774,7 @@ a:hover {
   line-height: 26px;
 }
 
-/* line 408, ../../src/sass/main.scss */
+/* line 409, ../../src/sass/main.scss */
 h1.bottom-header {
   font-size: 34px;
   color: #000;
@@ -781,27 +782,27 @@ h1.bottom-header {
   margin-bottom: 8px;
 }
 
-/* line 414, ../../src/sass/main.scss */
+/* line 415, ../../src/sass/main.scss */
 #copyright {
   margin-bottom: 100px;
   display: inline-block;
   font-style: italic;
 }
 
-/* line 423, ../../src/sass/main.scss */
+/* line 424, ../../src/sass/main.scss */
 .bottom-container {
   background-color: #ececec;
   border-top: 1px solid #adabac;
 }
 
-/* line 428, ../../src/sass/main.scss */
+/* line 429, ../../src/sass/main.scss */
 .bottom-content {
   max-width: 700px;
   margin: 0 auto;
   padding-top: 44px;
 }
 
-/* line 434, ../../src/sass/main.scss */
+/* line 435, ../../src/sass/main.scss */
 .description {
   opacity: 0.5;
   font-family: Lato;

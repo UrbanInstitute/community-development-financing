@@ -102,8 +102,8 @@ function findSize(binNum) {
 		var name = 'small',
 		desc = '*Small counties have populations between 50,000 and 99,999 people'
 	} else if (binNum === 3) {
-		var name = 'medium',
-		desc = '*Medium counties have populations between 100,000 and 299,999 people'
+		var name = 'midsize',
+		desc = '*Midsize counties have populations between 100,000 and 299,999 people'
 	} else {
 		var name = 'large',
 		desc = '*Large counties have populations of more than 300,000 people'
