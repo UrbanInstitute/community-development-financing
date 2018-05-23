@@ -2,15 +2,45 @@ var pymChild = new pym.Child();
 
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
 
+// color function for the map and the dots
+function colorList(d,num) {
+
+	var colorList6 = ["#a2d4ec","#73bfe2","#46abdb","#1696d2","#12719e","#000000"];
+	var colorList5 = ["#73bfe2","#46abdb","#1696d2","#12719e","#000000"];
+	
+
+	if (num === 5) {
+		var index = Math.ceil(d) + 1 > num - 1 ? (num-1) : Math.ceil(d);	
+	} else {
+		var index = Math.ceil(d) + 1 > num - 1 ? (num-1) : Math.ceil(d)+1;
+	}
+
+	if (index < 0) {index = 0}
+
+	var color = num === 5 ? colorList5[index] : colorList6[index]
+	
+	return color;
+}
+
+// move to front function for the map
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+
 d3.queue()
     .defer(d3.csv, "data/county13_2.csv")    
+    .defer(d3.json, "data/counties_20m.json")    
     .await(ready);
 
-function ready(error, data) {    
+function ready(error, data, topo) {    
 	// make data searchable in autocomplete by adding the value category. 
 	data.forEach(function(d){
 		d.value = d.CountyName + " County, " + d.State;
 	})
+
+	var fipsIndex = d3.map(data, function(d) { return d.fips5; });	
 
 	// autocomplete call
 	$( '#autocompletez').autocomplete( {
@@ -23,6 +53,9 @@ function ready(error, data) {
 	    },
 	    onSelect: function ( suggestion ) {
 	      // console.log(suggestion)
+	      TipPopulate(suggestion, indicator)
+	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
+	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2))
 	      // CAll function that highlights selected line
 	      // Highlight( suggestion.value )
 	    }
@@ -31,7 +64,10 @@ function ready(error, data) {
 	// event for clicking on buttons to change data
 	$('.switch.dots.second-in').on('click',function(){		
 		$('.switch.dots.second-in').removeClass("active");
-		update(data,$(this)["0"].attributes[2].nodeValue,y)
+		var indicator = $(this)["0"].attributes[2].nodeValue;
+		update(data,indicator,y)
+		BuildMap(indicator,topo,fipsIndex);
+
 		$(this).addClass("active");
 	})
 
@@ -126,6 +162,21 @@ function ready(error, data) {
 
   	// declare main g and stuff
   	var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  	// map gs and svgs
+	var svg2 = d3.select("#map").append("svg")
+	  .attr("width", 400)
+	  .attr("height", 200);
+  	
+  	var g2 = svg2.append("g").attr("transform", "translate(0,0)");
+
+	var projection = d3.geoAlbers() // updated for d3 v4
+	    .scale(400)
+	    .translate([400 / 2, 200 / 2]);
+
+	// var projection = d3.geoAlbersUsa();
+	var path = d3.geoPath()
+	    .projection(projection);
 
   function update(data,indicator,y) {
   	var t = d3.transition()
@@ -276,15 +327,13 @@ function ready(error, data) {
 
 
 		// EXIT old elements not present in new data.
-	counties.exit()
-	  .attr("class", "county exit")
-	.transition(t)
-	  .style("fill-opacity", 1e-6)
-	  .remove();
+	counties.exit()	  
+		.transition(t)
+		  .style("fill-opacity", 1e-6)
+		  .remove();
 
 	  // update
-  	counties.attr("class", "county update")
-      .style("fill-opacity", 1)
+  	counties.style("fill-opacity", 1)
     	.transition(t)
 			.attr("cx", function (d) { 
 				if (isNaN(d[indicator + "Y"])) {
@@ -303,10 +352,19 @@ function ready(error, data) {
 					return y[indicator](d[indicator + "Y"])	
 				}	
 			})
+			.style("fill", function(d) {
+				if (indicator === "z_GlobalCapacity" || indicator === "z_Business") {						
+					return colorList(+d[indicator],6)
+				} else {
+					return colorList(+d[indicator],5)
+				}
+			})
 
 	  // enter + update
 	  counties.enter().append("circle")
-      	.attr("class", "county enter")
+      	.attr("class", function(d){
+      		return "county fips" + d.fips5;
+      	})
 			.attr("cx", function (d) { 
 				if (isNaN(d[indicator + "Y"])) {
 					overIndex += 1;
@@ -326,13 +384,19 @@ function ready(error, data) {
 			})
 			.attr("r", bubbleRadius)
 			.style("fill", function(d) {
-				return "#1696D2"
+				if (indicator === "z_GlobalCapacity" || indicator === "z_Business") {						
+					return colorList(+d[indicator],6)
+				} else {
+					return colorList(+d[indicator],5)
+				}
 			})
 			.style("fill-opacity", 1e-6)
 			.on("mouseover",function(d){
 				d3.select(this)
 					.attr("r",2*bubbleRadius)
 					.classed("active",true)
+
+				TipPopulate(d,indicator)
 
 			})
 			.on("mouseout",function(d){
@@ -347,7 +411,83 @@ function ready(error, data) {
 
   // starting indicator?
   var indicator = "z_Housing"
-  update(data,indicator,y)
+  update(data,indicator,y);
+  BuildMap(indicator,topo,fipsIndex);
 
+
+  function TipPopulate(data, indicator) {
+  	// if hidden, show tip
+
+  	// update map
+  	// 
+
+  	// update Dom
+  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
+
+  	$(".tip-title").html(title)
+	
+	// zoom the map
+  	zoomMap(data,indicator)
+
+  	//
+  	g.select(".fips" + data.fips5).classed("active",true)
+
+  }
+
+  function BuildMap(category,topo,fipsIndex) {
+  	svg2.selectAll(".subunit").remove();
+	svg2.selectAll("path").remove();
+
+    g2.append("path")
+		.attr("class","pathDaddy")
+    	.datum(topojson.feature(topo, topo.objects.counties))
+			.attr("d", path);
+
+	g2.selectAll(".subunit")
+	  .data(topojson.feature(topo, topo.objects.counties).features)
+	.enter().append("path")
+	  .attr("class", function(d) {
+	  	return "subunit fips" + d.id})
+	  .attr("d", path)
+	  .attr("fill", function(d){			  	
+		if (fipsIndex.get(d.id) != undefined) {
+			if (category === "z_GlobalCapacity" || category === "z_Business") {						
+				return colorList(+fipsIndex.get(d.id)[category],6)
+			} else {
+				return colorList(+fipsIndex.get(d.id)[category],5)
+			}
+		} else {
+			return "#d2d2d2"
+		}	
+	  })
+
+  }
+
+  	function zoomMap(suggestion,category) {		
+  		var height = 200;
+  		var width = 400;
+
+		county = topojson.feature(topo, topo.objects.counties).features.filter(function(d) { return +d.id === +suggestion.fips5; })[0];
+
+		projection
+	      .scale(1)
+	      .translate([0, 0]);
+
+		var b = path.bounds(county),
+			s = .55 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+			t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+		 projection
+			.scale(s)
+			.translate(t);
+
+		// move the map, don't just redraw it entirely!
+
+		g2.selectAll(".subunit").classed("active",false)
+		g2.select(".fips" + suggestion.fips5).moveToFront();
+		g2.select(".fips" + suggestion.fips5).classed("active",true)
+		g2.select(".pathDaddy").attr("d", path);
+		g2.selectAll(".subunit").attr("d", path);
+	}
 
 }
