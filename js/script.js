@@ -23,6 +23,79 @@ var indicatorKey = {
 		"proper":"Impact Finance"	
 	}
 }
+var ranks = {
+	"z_Business":{
+		"small":{
+			"top":[],
+			"bottom":[]
+		},
+		"midsize": {
+			"top":[],
+			"bottom":[]
+		},
+		"large":{
+			"top":[],
+			"bottom":[]
+		}
+	},
+	"z_CommDevOther":{
+		"small":{
+			"top":[],
+			"bottom":[]
+		},
+		"midsize": {
+			"top":[],
+			"bottom":[]
+		},
+		"large":{
+			"top":[],
+			"bottom":[]
+		}
+	},
+	"z_GlobalCapacity":{
+		"small":{
+			"top":[],
+			"bottom":[]
+		},
+		"midsize": {
+			"top":[],
+			"bottom":[]
+		},
+		"large":{
+			"top":[],
+			"bottom":[]
+		}
+	},
+	"z_Housing":{
+		"small":{
+			"top":[],
+			"bottom":[]
+		},
+		"midsize": {
+			"top":[],
+			"bottom":[]
+		},
+		"large":{
+			"top":[],
+			"bottom":[]
+		}
+	},
+	"z_ImpactFinance":{
+		"small":{
+			"top":[],
+			"bottom":[]
+		},
+		"midsize": {
+			"top":[],
+			"bottom":[]
+		},
+		"large":{
+			"top":[],
+			"bottom":[]
+		}
+	}
+}
+
 
 function findSize(binNum) {
 	if (binNum === 2) {
@@ -78,6 +151,10 @@ function ready(error, data, topo) {
 	})
 
 	var fipsIndex = d3.map(data, function(d) { return d.fips5; });	
+
+	//define ranks for table
+	ranker(ranks,data) 
+	console.log(ranks)
 
 	// autocomplete call
 	$( '#autocompletez').autocomplete( {
@@ -203,6 +280,11 @@ function ready(error, data, topo) {
 	    .projection(projection);
 
   function update(data,indicator,y) {
+
+  	// update the ranking tables at bottom
+  	$(".rank-block-item").remove()
+	buildRankTables(ranks,indicator)
+
   	var t = d3.transition()
       .duration(1500);
 
@@ -475,9 +557,6 @@ function ready(error, data, topo) {
   	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] +' percentile</p',
   	sizeDesc = size.desc;
 
-console.log(size)
-console.log(data.popsize_bin)
-
   	$(".tip-title").html(title)
   	$("#population").html(population)
   	$("#rankOverall").html(rankOverall)
@@ -541,12 +620,67 @@ console.log(data.popsize_bin)
 			.translate(t);
 
 		// move the map, don't just redraw it entirely!
-
+		// something like this: https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
 		g2.selectAll(".subunit").classed("active",false)
 		g2.select(".fips" + suggestion.fips5).moveToFront();
 		g2.select(".fips" + suggestion.fips5).classed("active",true)
 		g2.select(".pathDaddy").attr("d", path);
 		g2.selectAll(".subunit").attr("d", path);
+	}
+
+	function ranker(ranks,data) {
+		// get top ten for each group
+		// get bottom ten for each group
+		console.log(data)
+		var small = data.filter(function(d){return d.popsize_bin == "2"})
+		var midsize = data.filter(function(d){return d.popsize_bin == "3"})
+		var large = data.filter(function(d){return d.popsize_bin == "5"})
+
+		for (var item in ranks) {			
+			small.sort(function(a,b){				
+				return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]
+			})			
+			midsize.sort(function(a,b){				
+				return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]
+			})		
+			large.sort(function(a,b){				
+				return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]
+			})				
+			for (var i = 0; i < 10; i++) {
+				ranks[item].small.top.push(small[i])
+				ranks[item].midsize.top.push(large[i])
+				ranks[item].large.top.push(large[i])
+			}
+			for (var i = small.length - 1; i >= small.length - 10; i--) {
+				ranks[item].small.bottom.push(small[i])
+			}
+			for (var i = midsize.length - 1; i >= midsize.length - 10; i--) {
+				ranks[item].midsize.bottom.push(midsize[i])
+			}
+			for (var i = large.length - 1; i >= large.length - 10; i--) {
+				ranks[item].large.bottom.push(large[i])
+			}
+
+		}		
+	} 
+
+	function buildRankTables(ranks, indicator) {
+		for (var sizes in ranks[indicator]) {
+			for (var i = 0; i < ranks[indicator][sizes].top.length; i++) {
+				var rrrank = ranks[indicator][sizes].top[i][indicatorKey[indicator].variable + "_rank"];
+				var nnname = ranks[indicator][sizes].top[i]["value"];
+				var rankAdd =  '<div class="rank-block-item"><div class="rank-block-item-rank">#' + rrrank +'</div><div class="rank-block-item-name">' + nnname + '</div></div>'
+				$("#ranktop" + sizes).append(rankAdd)
+			}
+
+			for (var i = 0; i < ranks[indicator][sizes].bottom.length; i++) {
+				var rrrank = ranks[indicator][sizes].bottom[i][indicatorKey[indicator].variable + "_rank"];
+				var nnname = ranks[indicator][sizes].bottom[i]["value"];
+				var rankAdd =  '<div class="rank-block-item"><div class="rank-block-item-rank">#' + rrrank +'</div><div class="rank-block-item-name">' + nnname + '</div></div>'
+				$("#rankbottom" + sizes).append(rankAdd)
+			}
+		}			
+		
 	}
 
 }
