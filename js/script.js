@@ -1,6 +1,43 @@
 var pymChild = new pym.Child();
-
+var indicator;
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
+var indicatorKey = {
+	"z_Business":{
+		"variable":"Business",
+		"proper":"Small Business"
+	},
+	"z_CommDevOther":{
+		"variable":"CommDevOther",
+		"proper":"Other Community Development"
+	},
+	"z_GlobalCapacity":{
+		"variable":"GlobalCapacity",
+		"proper":"Combined"
+	},
+	"z_Housing":{
+		"variable":"Housing",
+		"proper":"Housing"
+	},
+	"z_ImpactFinance":{
+		"variable":"ImpactFinance",
+		"proper":"Impact Finance"	
+	}
+}
+
+function findSize(binNum) {
+	if (binNum === 2) {
+		var name = 'small',
+		desc = '*Small counties have populations between 50,000 and 99,999 people'
+	} else if (binNum === 3) {
+		var name = 'medium',
+		desc = '*Medium counties have populations between 100,000 and 299,999 people'
+	} else {
+		var name = 'large',
+		desc = '*Large counties have populations of more than 300,000 people'
+	}
+
+	return {"name":name,"desc":desc}
+}
 
 // color function for the map and the dots
 function colorList(d,num) {
@@ -53,7 +90,7 @@ function ready(error, data, topo) {
 	    },
 	    onSelect: function ( suggestion ) {
 	      // console.log(suggestion)
-	      TipPopulate(suggestion, indicator,"auto")
+	      TipPopulate(suggestion,"auto")
 	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
 	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2))
 
@@ -66,7 +103,7 @@ function ready(error, data, topo) {
 	// event for clicking on buttons to change data
 	$('.switch.dots.second-in').on('click',function(){		
 		$('.switch.dots.second-in').removeClass("active");
-		var indicator = $(this)["0"].attributes[2].nodeValue;
+		indicator = $(this)["0"].attributes[2].nodeValue;
 		update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
 
@@ -378,35 +415,29 @@ function ready(error, data, topo) {
 				}
 			})
 			.style("fill-opacity", 1e-6)
-			.on("mouseover",function(d){
+			.on("mouseover",function(d,i){
 				d3.selectAll("circle.active")
 					.attr("r",bubbleRadius)
 					.classed("active",false)
 
 				d3.select(this)
 					.attr("r",2*bubbleRadius)
-					.classed("active",true)
-
-				TipPopulate(d,indicator,"mouse")
+					.classed("active",true)		
+				TipPopulate(d,"mouse")
 
 			})
-			// .on("mouseout",function(d){
-			// 	d3.select(this)
-			// 		.attr("r",bubbleRadius)
-			// 		.classed("active",false)
-			// })
     	.transition(t)
     		.style("fill-opacity", 1);
 
   }
 
   // starting indicator?
-  var indicator = "z_Housing"
+  indicator = "z_Housing"
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
 
 
-  function TipPopulate(data,indicator,type) {
+  function TipPopulate(data,type) {
   	// if hidden, show tip
 
   	if (!$("#tooltip").hasClass("active")) {
@@ -433,14 +464,27 @@ function ready(error, data, topo) {
   		// console.log($('body').scrollTop())
   		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
   	}
-  	
-
 
   	// update Dom
-  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
+  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
+  	size = findSize(+data.popsize_bin)
+  	population = '<span class="bold">Population:</span> ' + data.totalpop + '</p>',
+  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
+  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] +' percentile</p>',
+  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',
+  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] +' percentile</p',
+  	sizeDesc = size.desc;
+
+console.log(size)
+console.log(data.popsize_bin)
 
   	$(".tip-title").html(title)
-	
+  	$("#population").html(population)
+  	$("#rankOverall").html(rankOverall)
+  	$("#percOverall").html(percOverall)
+  	$("#rankSpecific").html(rankSpecific)
+  	$("#percSpecifc").html(percSpecifc)
+	$(".tip-note").html(sizeDesc)
 	
   	// update map/zoom the map
   	zoomMap(data,indicator)
