@@ -527,8 +527,10 @@ a:hover {
 }
 /* line 164, ../../src/sass/main.scss */
 #main #chart {
+  position: relative;
   margin: 0 auto;
   width: calc(100% - 40px);
+  overflow: hidden;
 }
 
 /* line 174, ../../src/sass/main.scss */
@@ -592,38 +594,42 @@ a:hover {
 
 /* line 228, ../../src/sass/main.scss */
 #tooltip {
-  position: fixed;
+  position: absolute;
   background-color: #f5f5f5;
-  right: 0px;
+  right: -500px;
   top: 100px;
   width: 400px;
 }
-/* line 236, ../../src/sass/main.scss */
+/* line 235, ../../src/sass/main.scss */
+#tooltip.active {
+  right: 0px;
+}
+/* line 242, ../../src/sass/main.scss */
 #tooltip #tip-inner #map {
   width: 100%;
   height: 200px;
 }
-/* line 241, ../../src/sass/main.scss */
+/* line 247, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text {
   width: 100%;
   padding: 10px;
   color: #666666;
 }
-/* line 246, ../../src/sass/main.scss */
+/* line 252, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text .bold {
   font-weight: 700;
 }
-/* line 250, ../../src/sass/main.scss */
+/* line 256, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text .tip-title {
   font-size: 32px;
   margin-bottom: 20px;
 }
-/* line 255, ../../src/sass/main.scss */
+/* line 261, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text p {
   font-size: 14px;
   margin: 10px 0px;
 }
-/* line 259, ../../src/sass/main.scss */
+/* line 265, ../../src/sass/main.scss */
 #tooltip #tip-inner .tip-text p.tip-note {
   font-style: italic;
   font-size: 10px;
@@ -631,19 +637,19 @@ a:hover {
   margin-bottom: 0px;
 }
 
-/* line 275, ../../src/sass/main.scss */
+/* line 281, ../../src/sass/main.scss */
 .subunit {
   stroke: #fff;
   stroke-width: 2px;
 }
 
-/* line 280, ../../src/sass/main.scss */
+/* line 286, ../../src/sass/main.scss */
 .subunit.active {
   stroke: #E54096;
 }
 
 /*Footer*/
-/* line 285, ../../src/sass/main.scss */
+/* line 291, ../../src/sass/main.scss */
 .footerButton {
   height: 20;
   float: left;
@@ -661,43 +667,43 @@ a:hover {
   margin-right: 15px;
 }
 
-/* line 302, ../../src/sass/main.scss */
+/* line 308, ../../src/sass/main.scss */
 .appendixButton {
   margin-right: 0px;
 }
 
-/* line 306, ../../src/sass/main.scss */
+/* line 312, ../../src/sass/main.scss */
 .footerButton:hover {
   background-color: #000;
   color: #fff !important;
 }
 
-/* line 311, ../../src/sass/main.scss */
+/* line 317, ../../src/sass/main.scss */
 .credit-list {
   font-size: 14px;
 }
 
-/* line 314, ../../src/sass/main.scss */
+/* line 320, ../../src/sass/main.scss */
 .credit-header {
   font-size: 16px;
   font-weight: bold !important;
 }
 
-/* line 318, ../../src/sass/main.scss */
+/* line 324, ../../src/sass/main.scss */
 .credit-names {
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: 16px;
 }
 
-/* line 323, ../../src/sass/main.scss */
+/* line 329, ../../src/sass/main.scss */
 .credits-text.bottom-text {
   font-size: 14px;
   margin-bottom: 45px;
   line-height: 22px !important;
 }
 
-/* line 329, ../../src/sass/main.scss */
+/* line 335, ../../src/sass/main.scss */
 .bottom-text {
   clear: both;
   font-size: 16px;
@@ -705,7 +711,7 @@ a:hover {
   line-height: 26px;
 }
 
-/* line 335, ../../src/sass/main.scss */
+/* line 341, ../../src/sass/main.scss */
 h1.bottom-header {
   font-size: 34px;
   color: #000;
@@ -713,27 +719,27 @@ h1.bottom-header {
   margin-bottom: 8px;
 }
 
-/* line 341, ../../src/sass/main.scss */
+/* line 347, ../../src/sass/main.scss */
 #copyright {
   margin-bottom: 100px;
   display: inline-block;
   font-style: italic;
 }
 
-/* line 350, ../../src/sass/main.scss */
+/* line 356, ../../src/sass/main.scss */
 .bottom-container {
   background-color: #ececec;
   border-top: 1px solid #adabac;
 }
 
-/* line 355, ../../src/sass/main.scss */
+/* line 361, ../../src/sass/main.scss */
 .bottom-content {
   max-width: 700px;
   margin: 0 auto;
   padding-top: 44px;
 }
 
-/* line 361, ../../src/sass/main.scss */
+/* line 367, ../../src/sass/main.scss */
 .description {
   opacity: 0.5;
   font-family: Lato;

@@ -162,10 +162,10 @@ a:hover {
   }
 
   #chart {
-
-    margin: 0 auto;
-    // background-color: #daddad;
+    position: relative;
+    margin: 0 auto;    
     width: calc(100% - 40px);
+    overflow: hidden;
   }
 }  
 
@@ -226,11 +226,17 @@ a:hover {
 }
 
 #tooltip {
-    position: fixed;
-    background-color: #f5f5f5;
+  position: absolute;
+  background-color: #f5f5f5;
+  right: -500px;
+  top: 100px;
+  width: 400px;
+
+  &.active {
     right: 0px;
-    top: 100px;
-    width: 400px;
+  }
+
+
   #tip-inner {
 
     #map {

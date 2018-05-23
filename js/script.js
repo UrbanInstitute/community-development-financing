@@ -53,9 +53,11 @@ function ready(error, data, topo) {
 	    },
 	    onSelect: function ( suggestion ) {
 	      // console.log(suggestion)
-	      TipPopulate(suggestion, indicator)
+	      TipPopulate(suggestion, indicator,"auto")
 	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
 	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2))
+
+
 	      // CAll function that highlights selected line
 	      // Highlight( suggestion.value )
 	    }
@@ -109,21 +111,6 @@ function ready(error, data, topo) {
 		var min = Math.floor(d3.min(data, function(d) { return +d[indicators[k]]}));
 		// var max = Math.ceil(d3.max(data, function(d) { return +d[indicators[k]]}));
 		var max = 3;		
-		// if (indicators[k] === "z_Business") {
-		// 	max = 3;
-		// }
-		// else if (indicators[k] === "z_CommDevOther") {
-		// 	max = 3; 
-		// }
-		// else if (indicators[k] === "z_GlobalCapacity") {
-		// 	max = 3;
-		// }
-		// else if (indicators[k] === "z_Housing") {
-		// 	max = 3;
-		// }
-		// else if (indicators[k] === "z_ImpactFinance") {
-		// 	max = 3;
-		// }
 
 
 		// Problem here!!!! 
@@ -392,18 +379,22 @@ function ready(error, data, topo) {
 			})
 			.style("fill-opacity", 1e-6)
 			.on("mouseover",function(d){
+				d3.selectAll("circle.active")
+					.attr("r",bubbleRadius)
+					.classed("active",false)
+
 				d3.select(this)
 					.attr("r",2*bubbleRadius)
 					.classed("active",true)
 
-				TipPopulate(d,indicator)
+				TipPopulate(d,indicator,"mouse")
 
 			})
-			.on("mouseout",function(d){
-				d3.select(this)
-					.attr("r",bubbleRadius)
-					.classed("active",false)
-			})
+			// .on("mouseout",function(d){
+			// 	d3.select(this)
+			// 		.attr("r",bubbleRadius)
+			// 		.classed("active",false)
+			// })
     	.transition(t)
     		.style("fill-opacity", 1);
 
@@ -415,21 +406,45 @@ function ready(error, data, topo) {
   BuildMap(indicator,topo,fipsIndex);
 
 
-  function TipPopulate(data, indicator) {
+  function TipPopulate(data,indicator,type) {
   	// if hidden, show tip
 
-  	// update map
-  	// 
+  	if (!$("#tooltip").hasClass("active")) {
+  		$("#tooltip").addClass("active")
+  	}
+
+  	if (data[indicator] > 2) {  		
+  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
+  	} else if (data[indicator] > 0) {
+  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
+  	} else {
+  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+  	}
+
+  	$("#tooltip").css('top',tipHead + "px")
+
+  	// $("#chart").
+
+  	// SCROLL THE PAGE HERE
+  	if (type === "auto") {
+  		var newHeight = $('html').scrollTop() + +tipHead + 100;
+  		// console.log($('#search').scrollTop())
+  		// console.log($('html').scrollTop())
+  		// console.log($('body').scrollTop())
+  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
+  	}
+  	
+
 
   	// update Dom
   	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
 
   	$(".tip-title").html(title)
 	
-	// zoom the map
+	
+  	// update map/zoom the map
   	zoomMap(data,indicator)
 
-  	//
   	g.select(".fips" + data.fips5).classed("active",true)
 
   }
