@@ -172,11 +172,66 @@ a:hover {
     }
   }
 
+
   #chart {
     position: relative;
     margin: 0 auto;    
     width: calc(100% - 40px);
     overflow: hidden;
+
+    #info {      
+      position: absolute;
+      top: 20px;
+      left: 15px;
+      z-index: 1000;
+
+      #info-image {
+        float: left;
+        cursor: pointer;
+      }
+
+      #info-ex {
+        display: none;
+        float: right;
+        cursor: pointer;
+      }
+
+
+      &.active {
+        background-color: #F5F5F5;
+        padding: 10px;
+        margin-bottom: 10px;
+        position: relative;
+        top: unset;
+        left: unset;
+
+        #info-ex, #info-inner {
+          display: block;
+        }
+
+
+      }
+
+      #info-inner {
+        display: none;
+        padding-left: 40px;
+
+        .infohead {
+          font-size: 16px;
+          font-weight: 700;
+          color: $dark-gray;
+          padding-top: 5px;
+          padding-bottom:5px;
+        }
+
+        .infobody {
+          font-size: 16px;
+          font-style: italic;
+          color: $text-gray;
+        }
+
+      }
+    }
   }
 }  
 

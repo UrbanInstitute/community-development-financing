@@ -194,6 +194,17 @@ function ready(error, data, topo) {
 		$(this).addClass("active");
 	})
 
+	$('#info').click(function(e){  
+    	e.stopPropagation();
+		$(this).addClass("active");
+	})
+
+	$('#info-ex').click(function(e){  
+    	e.stopPropagation();
+		$("#info").removeClass("active");
+	})
+
+
 	
 	var breakpoint = 768,
 		width = parseInt(d3.select("#chart").style("width"));
