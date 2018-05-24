@@ -156,6 +156,12 @@ a:hover {
     margin-top: 20px;
     margin-bottom: 20px;
 
+    #details {
+      font-style: italic;
+      font-size: 18px;
+      font: #333333;
+    }
+
     input#autocompletez {
       color:#000;
       width: calc(100% - 30px);  
@@ -300,9 +306,7 @@ a:hover {
   margin: 0 auto;
   margin-top: 20px;
   margin-bottom: 20px;
-  background-color: #fff;
-
-  
+  background-color: #fff;  
 
   .rank-table {
     width: 100%;
@@ -311,6 +315,10 @@ a:hover {
       width: 33.333%;
       float: left;
       text-align: center !important;
+
+      @media (max-width: $MaxPhoneSize) {
+        width: 100%;
+      }
 
       .rank-blocks-inner {
         padding-left: 10px;
