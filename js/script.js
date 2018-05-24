@@ -1,26 +1,33 @@
+
+
 var pymChild = new pym.Child();
 var indicator;
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
 var indicatorKey = {
 	"z_Business":{
 		"variable":"Business",
-		"proper":"Small Business"
+		"proper":"Small Business",
+		"details": "Small business includes Community Reinvestment Act–reported bank small business lending. "
 	},
 	"z_CommDevOther":{
 		"variable":"CommDevOther",
-		"proper":"Other Community Development"
+		"proper":"Other Community Development",
+		"details": "Other community development includes HUD Community Development Block Grant, HUD Section 108 lending, and US Department of Education Promise Neighborhoods awards."
 	},
 	"z_GlobalCapacity":{
 		"variable":"GlobalCapacity",
-		"proper":"Combined"
+		"proper":"Combined",
+		"details": ""
 	},
 	"z_Housing":{
 		"variable":"Housing",
-		"proper":"Housing"
+		"proper":"Housing",
+		"details": "Housing includes US Department of Housing and Urban Development (HUD) HOME awards, low-income housing tax credit allocations, HUD Choice Neighborhoods awards, and investment deployment by the Community Development Financial Institution (CDFI) Capital Magnet Fund awards."
 	},
 	"z_ImpactFinance":{
 		"variable":"ImpactFinance",
-		"proper":"Impact Finance"	
+		"proper":"Impact Finance",
+		"details": "Impact finance includes CDFI lending and New Markets Tax Credit Program investments."
 	}
 }
 var ranks = {
@@ -280,6 +287,9 @@ function ready(error, data, topo) {
 	    .projection(projection);
 
   function update(data,indicator,y) {
+
+  	// change the details info
+  	$("#details").html(indicatorKey[indicator].details)
 
   	// update the ranking tables at bottom
   	$(".rank-block-item").remove()
