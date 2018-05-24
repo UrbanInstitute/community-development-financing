@@ -7,6 +7,10 @@ body {
   background-color: #fff;
 }
 
+.clearer {
+    clear: both;
+  }
+
 // Top Span
 
 .middle-span, .top-span {
@@ -298,9 +302,7 @@ a:hover {
   margin-bottom: 20px;
   background-color: #fff;
 
-  .clearer {
-    clear: both;
-  }
+  
 
   .rank-table {
     width: 100%;
@@ -354,6 +356,66 @@ a:hover {
     }
   }
 }
+
+// Population list
+
+#popSize-container {
+  width: 100%;
+  margin: 0 auto;
+  max-width: 1000px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-top: 1px solid $text-gray;
+  border-bottom: 1px solid $text-gray;
+  
+
+
+  #popSize-container-inner {    
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #F5F5F5;
+
+
+    #popSizetop {
+      font-size: 30px;
+      font-weight: 700;
+      text-align: center;
+      padding: 10px;
+      margin: 0 auto;
+      max-width: 600px;
+      width: 100%;
+      border-bottom: 1px solid $text-gray;
+
+    }
+    #popList {
+      margin: 0 auto;
+      width: max-content;
+      .popListItem {
+        float:left;
+        font-size: 20px;
+        text-align: center;
+        border-right: 1px solid $text-gray;
+        margin-bottom: 20px;
+        margin-top: 20px;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        &.last {
+          border-right: none !important;
+        }
+
+        .popListItemTitle {
+          font-weight: 700;
+        }
+
+      }
+
+
+    }
+  }  
+}
+
 
 /*Footer*/
 .footerButton {
@@ -421,16 +483,44 @@ h1.bottom-header{
 .bottom-section {
 
 }
-.bottom-container {
-  background-color: #ececec;
-  border-top: 1px solid rgb(173, 171, 172);
-}
 
-.bottom-content {
+.bottom-container {
+  background-color: #fff;
+
+
+  &.darker {
+    border-top: 1px solid rgb(154,154,154);
+    background-color: rgb(238,238,238);
+    padding-top: 20px;
+    margin-top: 70px;
+  }
+
+  .bottom-content {
     max-width: 700px;
     margin: 0 auto;
-    padding-top: 44px;
+
+    &.darker {
+      margin-top:40px;
+
+      .credit-header, .credit-names, p, a {
+        color: $dark-gray;
+      }
+
+      a {
+        text-decoration: underline;
+        font-weight: 700;
+        // border-bottom: 1px solid $dark-gray;
+
+        &:hover, &:visited {
+          color: lighten($dark-gray, 20%);
+        }
+      }
+    }
+  }
+
 }
+
+
 
 .description {
   opacity: 0.5;

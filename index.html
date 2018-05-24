@@ -145,9 +145,9 @@
       </div>     
      </div> 
      <div class="clearer"></div>
-   </div>
+    </div>
 
-      <div id="least-rank" class="rank-table">
+    <div id="least-rank" class="rank-table">
      <div class="rank-blocks">
       <div id="rankbottomlarge" class="rank-blocks-inner">
        <div class="rank-block-title">
@@ -173,10 +173,39 @@
    </div>
  </div>
 
+  <div id="popSize-container">
+    <div id="popSize-container-inner">
+      <div id="popSizetop">Population Sizes</div>
+      <div id="popList">
+        <div class="popListItem">
+          <div class="popListItemTitle">Small Counties:</div>
+          <div class="popListItemDetail">50,000&ndash; 99,999</div>
+        </div>
+        <div class="popListItem">
+          <div class="popListItemTitle">Midsize Counties:</div>
+          <div class="popListItemDetail">100,000&ndash;299,999</div>
+        </div>
+        <div class="popListItem last">
+          <div class="popListItemTitle">Large Counties:</div>
+          <div class="popListItemDetail">300,000+</div>
+        </div>
+        <div class="clearer">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!--BOTTOM SECTION -->
   <div class="bottom-container">
     <div class="bottom-content">
       <h1 class="bottom-header">About the data</h1>
+      <a href = "">
+        <div class = "footerButton">Download Data</div>
+      </a>
+      <a href = "">
+        <div class = "footerButton">PDF Overview</div>
+      </a>
+
       <div class="about-text bottom-text">
         <p>This dashboard includes investment data for 10 federally supported programs at the county-level: HUD HOME awards, low-income housing tax credit allocations; HUD Choice Neighborhood awards; Capital Magnet Fund awards; CDFI lending activity compiled from three different sources (CDFI Fund transaction-level report data, Opportunity Finance Network data, and an analysis of CoreLogic data) that we then de-duplicate; New Markets Tax Credit Program investments project data; Community Reinvestment Act–reported small business lending data, Promise neighborhoods awards; Community Development Block Grant awards; and Section 108 lending awards. It does not include any state-level programs.</p>
         <p>We first aggregate funding for each of these programs for 2011 through 2015 (some programs, including Capital Magnet Fund and Promise Neighborhoods, did not have annual funding rounds, so we aggregate all funding delivered by these programs in that period). We then allocate program funding to the following four dimensions: housing, small business, impact finance, and other community development.</p>
@@ -185,57 +214,53 @@
         <p>Next, we calculate counties’ z-scores for each program and then each dimension. A z-score indicates how many standard deviations above or below the mean a given county fared at accessing community development investments in each program and dimension, relative to its demand indicator. The combined dimension is the average of the four other dimensions.</p>
         <p>Given limited access to rural-focused funding programs, we exclude calculations for counties with populations under 50,000 to avoid misrepresenting federally supported capital flows to those communities.</p>
 
-
-<!--         <a href = "https://apps-staging.urban.org/features/debt-interactive-map-update/downloadable-docs/Debt-in-America-Data.xlsx">
-          <div class = "footerButton">Download data</div>
-        </a> -->
-
-      </div>
-
-
+      </div>      
+    </div>    
+  </div>
+  <div class="bottom-container darker">
+    <div class="bottom-content darker">
       <h1 class="bottom-header">PROJECT CREDITS</h1>
       <div class="credits-text bottom-text">
 
-<p>This feature was funded by a grant from <a target="_blank" href="https://www.jpmorganchase.com/">JPMorgan Chase</a>. We are grateful to them and to all our funders, who make it possible for Urban to advance its mission. The views expressed are those of the authors and should not be attributed to the Urban Institute, its trustees, or its funders. Funders do not determine research findings or the insights and recommendations of our experts. More information on our funding principles is available <a href="https://www.urban.org/aboutus/our-funding/funding-principles" target="_blank">here</a>. Read our terms of service <a href="https://www.urban.org/terms-service" target="_blank">here</a>.</p>
+        <p>This feature was funded by a grant from <a target="_blank" href="https://www.jpmorganchase.com/">JPMorgan Chase</a>. We are grateful to them and to all our funders, who make it possible for Urban to advance its mission. The views expressed are those of the authors and should not be attributed to the Urban Institute, its trustees, or its funders. Funders do not determine research findings or the insights and recommendations of our experts. More information on our funding principles is available <a href="https://www.urban.org/aboutus/our-funding/funding-principles" target="_blank">here</a>. Read our terms of service <a href="https://www.urban.org/terms-service" target="_blank">here</a>.</p>
 
-<p>The Urban Institute is collaborating with JPMorgan Chase over five years to inform and assess JPMorgan Chase’s philanthropic investments in key initiatives. One of these is Partnerships for Raising Opportunity in Neighborhoods (PRO Neighborhoods), a $125 million, five-year initiative to identify and support custom solutions for the unique challenges facing disadvantaged neighborhoods in US cities. The goals of the collaboration include using data and evidence to inform JPMorgan Chase’s philanthropic investments, assessing whether its programs are achieving desired outcomes, and informing the larger fields of policy, philanthropy, and practice. As part of a larger body of work that identifies general trends in commercial investments at the local level, this interactive feature documents community development across counties in the United States.</p>
+        <p>The Urban Institute is collaborating with JPMorgan Chase over five years to inform and assess JPMorgan Chase’s philanthropic investments in key initiatives. One of these is Partnerships for Raising Opportunity in Neighborhoods (PRO Neighborhoods), a $125 million, five-year initiative to identify and support custom solutions for the unique challenges facing disadvantaged neighborhoods in US cities. The goals of the collaboration include using data and evidence to inform JPMorgan Chase’s philanthropic investments, assessing whether its programs are achieving desired outcomes, and informing the larger fields of policy, philanthropy, and practice. As part of a larger body of work that identifies general trends in commercial investments at the local level, this interactive feature documents community development across counties in the United States.</p>
       </div>
       <div class="credit-list">
-         <div class="credit-header">
-            RESEARCH
-          </div>
-          <div class="credit-names">
-            <a href="https://www.urban.org/author/brett-theodos" target="_blank">Brett Theodos</a>, <a href="https://carsey.unh.edu/person/eric-hangen" target="_blank">Eric Hangen</a>, <a href="https://www.urban.org/author/irvin-mull-jr" target="_blank">Irvin Mull</a>, <a href="https://www.urban.org/author/noah-strayer" target="_blank">Noah Strayer</a>, <a href="https://www.urban.org/author/jay-dev" target="_blank">Jay Dev</a>, 
-and <a href="https://www.urban.org/author/maia-woluchem" target="_blank">Maia Woluchem</a>
-          </div>
-          <div class="credit-header">
-            DESIGN
-          </div>
-          <div class="credit-names">
-Daniel Sundén
-          </div>
-
-          <div class="credit-header">
-            DEVELOPMENT
-          </div>
-          <div class="credit-names">
-            <a href="https://www.urban.org/author/daniel-j-wood" target="_blank">Daniel Wood</a> 
-          </div>
-          <div class="credit-header">
-            EDITING
-          </div>
-          <div class="credit-names">
-            <a href="https://www.urban.org/author/elizabeth-forney" target="_blank">Elizabeth Forney</a>
-          </div>
-          <div class="credit-header">
-            WRITING
-          </div>
-          <div class="credit-names">
-            <a href="https://www.urban.org/author/emily-peiffer" target="_blank">Emily Peiffer</a>
-          </div>
-          <p id="copyright"><a href="" target="_blank">View this project on Github</a></p>
+        <div class="credit-header">
+          RESEARCH
         </div>
+        <div class="credit-names">
+          <a href="https://www.urban.org/author/brett-theodos" target="_blank">Brett Theodos</a>, <a href="https://carsey.unh.edu/person/eric-hangen" target="_blank">Eric Hangen</a>, <a href="https://www.urban.org/author/irvin-mull-jr" target="_blank">Irvin Mull</a>, <a href="https://www.urban.org/author/noah-strayer" target="_blank">Noah Strayer</a>, <a href="https://www.urban.org/author/jay-dev" target="_blank">Jay Dev</a>, and <a href="https://www.urban.org/author/maia-woluchem" target="_blank">Maia Woluchem</a>
+        </div>
+        <div class="credit-header">
+          DESIGN
+        </div>
+        <div class="credit-names">
+          Daniel Sundén
+        </div>
+
+        <div class="credit-header">
+          DEVELOPMENT
+        </div>
+        <div class="credit-names">
+          <a href="https://www.urban.org/author/daniel-j-wood" target="_blank">Daniel Wood</a> 
+        </div>
+        <div class="credit-header">
+          EDITING
+        </div>
+        <div class="credit-names">
+          <a href="https://www.urban.org/author/elizabeth-forney" target="_blank">Elizabeth Forney</a>
+        </div>
+        <div class="credit-header">
+          WRITING
+        </div>
+        <div class="credit-names">
+          <a href="https://www.urban.org/author/emily-peiffer" target="_blank">Emily Peiffer</a>
+        </div>
+        <p id="copyright"><a href="" target="_blank">View this project on Github</a></p>
       </div>
+    </div>
   </div>
 
 <!--   <script>
