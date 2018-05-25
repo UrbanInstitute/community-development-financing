@@ -424,6 +424,8 @@ function ready(error, data, topo) {
 	var counties = g.selectAll("circle")
 		.data(data, function(d) {return d.fips5; })
 
+	var overflows = [];
+
 
 		// EXIT old elements not present in new data.
 	counties.exit()	  
@@ -440,6 +442,22 @@ function ready(error, data, topo) {
 					return overIndex*bnMult;
 				}
 				else {
+
+					// this function figures out which rows have too many items per line
+					if (d[indicator + "Index"]*bnMult > (width-margin.left)) {
+						
+						var thisRowOverIcon = false;
+
+						for (var i = 0; i < overflows.length; i++) {
+							if (overflows[i] === d[indicator + "Y"]) {
+								thisRowOverIcon = true;
+							}
+						}
+						if (thisRowOverIcon === false) {
+							overflows.push(d[indicator + "Y"])
+						}
+
+					}
 					return d[indicator + "Index"]*bnMult;	
 				}				
 			})
@@ -457,7 +475,7 @@ function ready(error, data, topo) {
 				} else {
 					return colorList(+d[indicator],5)
 				}
-			})
+			})		
 
 	  // enter + update
 	  counties.enter().append("circle")
@@ -470,6 +488,21 @@ function ready(error, data, topo) {
 					return overIndex*bnMult;
 				}
 				else {
+
+					// this function figures out which rows have too many items per line.
+					if (d[indicator + "Index"]*bnMult > (width-margin.left)) {												
+						var thisRowOverIcon = false;						
+						for (var i = 0; i < overflows.length; i++) {
+							if (overflows[i] === d[indicator + "Y"]) {
+								thisRowOverIcon = true;
+							}
+						}
+						if (thisRowOverIcon === false) {
+							overflows.push(d[indicator + "Y"])
+						}
+
+					}
+
 					return d[indicator + "Index"]*bnMult;	
 				}		
 			})
@@ -506,9 +539,37 @@ function ready(error, data, topo) {
     			isOpened = true;
     			TipPopulate(d,"click")
 			})
+			.transition(t)
+				.style("fill-opacity", 1);
 
+		// BUILD THE OVERFLOW BUTTONS
+	var overflowButton = g.selectAll(".overflowButton")		
+		.data(overflows)
+
+		overflowButton.exit().remove();			
+		  		
+
+	  // update
+  	overflowButton.style("fill-opacity", 1)
     	.transition(t)
-    		.style("fill-opacity", 1);
+    	.attr("y",function(d){
+    		console.log(y[indicator](d))
+    		return y[indicator](d) - 20;
+    	})
+
+
+	overflowButton.enter().append("foreignObject")
+      	.attr("class", "overflowButton")
+      	.attr("width", 50)
+    	.attr("height", 50)
+    	.attr("x",-50)
+    	.attr("y",function(d){
+    		console.log(y[indicator](d))
+    		return y[indicator](d) - 20;
+    	})
+    		.append("xhtml:div")
+    		.attr("class","wrapperButton")
+    		.html("<img src='img/wrap.png'></div>")
 
   }
 
@@ -518,8 +579,7 @@ function ready(error, data, topo) {
   BuildMap(indicator,topo,fipsIndex);
 
   function TipPopulate(data,type) {
-  	// if hidden, show tip
-  	console.log(isOpened)
+  	// if hidden, show tip  	
   	if (isOpened === false || type === "click" || type === "auto") {
   		if (!$("#tooltip").hasClass("active")) {
 	  		$("#tooltip").addClass("active")
