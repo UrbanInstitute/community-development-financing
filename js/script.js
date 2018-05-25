@@ -2,6 +2,7 @@
 
 var pymChild = new pym.Child();
 var indicator;
+var formatComma = d3.format(",");
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
 var indicatorKey = {
 	"z_Business":{
@@ -147,7 +148,7 @@ d3.selection.prototype.moveToFront = function() {
 };
 
 d3.queue()
-    .defer(d3.csv, "data/county14.csv")    
+    .defer(d3.csv, "data/county14_2.csv")    
     .defer(d3.json, "data/counties_20m.json")    
     .await(ready);
 
@@ -322,8 +323,11 @@ function ready(error, data, topo) {
 	svg.attr("height",chartHeight+margin.top+margin.bottom)
 
 	//remove existing yGrid lines	
-	g.selectAll(".yGrid").remove()		
-	g.selectAll(".yNum").remove()		
+	g.selectAll(".yGrid").remove();
+	g.selectAll(".yNum").remove();
+	g.selectAll(".yLine1").remove();
+	g.selectAll(".yLine2").remove();
+	g.selectAll(".yLineText").remove();
 
 	for (var i = y[indicator].domain()[0]; i <= y[indicator].domain()[1]; i++) {
 		g.append("line")
@@ -571,7 +575,7 @@ function ready(error, data, topo) {
   	// update Dom
   	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
   	size = findSize(+data.popsize_bin)
-  	population = '<span class="bold">Population:</span> ' + data.totalpop + '</p>',
+  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
   	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
   	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] +' percentile</p>',
   	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',

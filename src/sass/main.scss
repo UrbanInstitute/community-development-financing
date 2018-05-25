@@ -330,7 +330,7 @@ a:hover {
 
         &.tip-note {
           font-style: italic;
-          font-size: 10px;
+          font-size: 12px;
           margin-top: 20px;
           margin-bottom: 0px;
         }
@@ -351,6 +351,7 @@ a:hover {
 
 .subunit.active {
   stroke: $pink;
+  stroke-width: 4px;
 }
 
 
@@ -382,6 +383,10 @@ a:hover {
         .rank-block-title {
           color: #fff;
           background-color: #062635;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 50px;
 
           p {
             font-size: 16px;
@@ -395,7 +400,11 @@ a:hover {
         }  
 
         .rank-block-item {
-          padding: 10px;
+          padding-left: 10px;
+          padding-right: 10px;
+          display: flex;
+          align-items: center;
+          height: 50px;
 
         &:nth-child(even) {
           background-color: rgb(203,203,203);
@@ -405,6 +414,8 @@ a:hover {
             // float: right;
             font-size: 16px;
             color: #000;
+            width: 80%;
+            margin: 0 auto;
           }
 
           .rank-block-item-rank {
