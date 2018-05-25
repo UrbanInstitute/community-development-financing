@@ -1,7 +1,6 @@
-
-
 var pymChild = new pym.Child();
 var indicator;
+var isOpened = false;
 var formatComma = d3.format(",");
 var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","z_ImpactFinance"];
 var indicatorKey = {
@@ -162,7 +161,6 @@ function ready(error, data, topo) {
 
 	//define ranks for table
 	ranker(ranks,data) 
-	console.log(ranks)
 
 	// autocomplete call
 	$( '#autocompletez').autocomplete( {
@@ -174,7 +172,8 @@ function ready(error, data, topo) {
 	      return "No county found"
 	    },
 	    onSelect: function ( suggestion ) {
-	      // console.log(suggestion)
+	      $("#tip-inner").addClass("active");  
+	      isOpened = true;
 	      TipPopulate(suggestion,"auto")
 	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
 	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2))
@@ -203,7 +202,14 @@ function ready(error, data, topo) {
 	$('#info-ex').click(function(e){  
     	e.stopPropagation();
 		$("#info").removeClass("active");
-	})
+	})	
+
+	$('#tool-ex').click(function(e){  
+    	e.stopPropagation();
+	    $("#tip-inner").removeClass("active");  
+    	isOpened = false;
+	})	
+
 
 
 	
@@ -233,47 +239,9 @@ function ready(error, data, topo) {
 		.range(["#848081","#d5d5d4","#332d2f","#5c5859","#0096d2","#a2d4ec","#0a4c6a","#12719e","#fdbf11","#fce39e","#843215","#e88e2d"]);		
 
   	//////// mess with the data
+	var y = {}
 
-  	var y = {}
-
-	// create d3 key here. 
-	var map = d3.map(data, function(d) { return d.id; });
-
-	for (var k = 0; k < indicators.length; k++) {	
-		// var extent = d3.extent(data, function(d) { return +d[indicators[k]]});
-		var min = Math.floor(d3.min(data, function(d) { return +d[indicators[k]]}));
-		// var max = Math.ceil(d3.max(data, function(d) { return +d[indicators[k]]}));
-		var max = 3;		
-
-
-		// Problem here!!!! 
-		// Can only have (width/radius) balls per row. 
-
-		var histogram = d3.histogram()
-			.domain([min,max])
-			.thresholds(100)
-			.value(function(d,i,data) { 
-				return +d[indicators[k]]; 
-			})
-
-		var bins = histogram(data)
-
-		y[indicators[k]] = d3.scaleLinear()
-			.domain([min,max])
-			.range([bins.length*bnMult,0]); 
-
-		y[indicators[k]].numBins = bins.length;
-
-
-		for (var i = 0; i < bins.length; i++) {
-			// bins[i].sort(function(a,b){return b[indicators[k]] - a[indicators[k]]  })
-			for (var j = 0; j < bins[i].length; j++) {
-				var now = map.get(bins[i][j].id);
-				now[indicators[k] + "Index"] = j;
-				now[indicators[k] + "Y"] = (bins[i].x1 + bins[i].x0)/2;
-			}
-		}
-	}
+  	morphData(data,y,false)
 
 	var chartHeight = 200 * (bubbleRadius*2);
 	var svg = d3.select("#chart").append("svg")
@@ -522,7 +490,7 @@ function ready(error, data, topo) {
 				}
 			})
 			.style("fill-opacity", 1e-6)
-			.on("mouseover",function(d,i){
+			.on("mouseover",function(d,i){				
 				d3.selectAll("circle.active")
 					.attr("r",bubbleRadius)
 					.classed("active",false)
@@ -533,6 +501,12 @@ function ready(error, data, topo) {
 				TipPopulate(d,"mouse")
 
 			})
+			.on("click",function(d,i){
+    			$("#tip-inner").addClass("active");  
+    			isOpened = true;
+    			TipPopulate(d,"click")
+			})
+
     	.transition(t)
     		.style("fill-opacity", 1);
 
@@ -543,57 +517,64 @@ function ready(error, data, topo) {
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
 
-
   function TipPopulate(data,type) {
   	// if hidden, show tip
+  	console.log(isOpened)
+  	if (isOpened === false || type === "click" || type === "auto") {
+  		if (!$("#tooltip").hasClass("active")) {
+	  		$("#tooltip").addClass("active")
+	  	}
 
-  	if (!$("#tooltip").hasClass("active")) {
-  		$("#tooltip").addClass("active")
+	  	if (data[indicator] > 2) {  		
+	  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
+	  	} else if (data[indicator] > 0) {
+	  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
+	  	} else {
+	  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+	  	}
+
+	  	$("#tooltip").css('top',tipHead + "px")
+
+	  	// $("#chart").
+
+	  	// SCROLL THE PAGE HERE
+	  	if (type === "auto") {
+	  		var newHeight = $('html').scrollTop() + +tipHead + 100;
+	  		// console.log($('#search').scrollTop())
+	  		// console.log($('html').scrollTop())
+	  		// console.log($('body').scrollTop())
+	  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
+	  	}
+
+	  	// update Dom
+	  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
+	  	size = findSize(+data.popsize_bin)
+	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
+	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
+	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] +' percentile</p>',
+	  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',
+	  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] +' percentile</p',
+	  	sizeDesc = size.desc;
+
+	  	$(".tip-title").html(title)
+	  	$("#population").html(population)
+	  	$("#rankOverall").html(rankOverall)
+	  	$("#percOverall").html(percOverall)
+	  	$("#rankSpecific").html(rankSpecific)
+	  	$("#percSpecifc").html(percSpecifc)
+		$(".tip-note").html(sizeDesc)
+		
+	  	// update map/zoom the map
+	  	if (type === "auto" || type === "click") {
+			zoomMap(data,indicator)
+	  		g.select(".fips" + data.fips5).classed("active",true)
+	  	}
+	  	
+
+	  	
   	}
 
-  	if (data[indicator] > 2) {  		
-  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
-  	} else if (data[indicator] > 0) {
-  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
-  	} else {
-  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
-  	}
 
-  	$("#tooltip").css('top',tipHead + "px")
-
-  	// $("#chart").
-
-  	// SCROLL THE PAGE HERE
-  	if (type === "auto") {
-  		var newHeight = $('html').scrollTop() + +tipHead + 100;
-  		// console.log($('#search').scrollTop())
-  		// console.log($('html').scrollTop())
-  		// console.log($('body').scrollTop())
-  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
-  	}
-
-  	// update Dom
-  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
-  	size = findSize(+data.popsize_bin)
-  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
-  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
-  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] +' percentile</p>',
-  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',
-  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] +' percentile</p',
-  	sizeDesc = size.desc;
-
-  	$(".tip-title").html(title)
-  	$("#population").html(population)
-  	$("#rankOverall").html(rankOverall)
-  	$("#percOverall").html(percOverall)
-  	$("#rankSpecific").html(rankSpecific)
-  	$("#percSpecifc").html(percSpecifc)
-	$(".tip-note").html(sizeDesc)
-	
-  	// update map/zoom the map
-  	zoomMap(data,indicator)
-
-  	g.select(".fips" + data.fips5).classed("active",true)
 
   }
 
@@ -707,5 +688,58 @@ function ready(error, data, topo) {
 		}			
 		
 	}
+
+	function morphData(data,y,wrapped) {
+		// create d3 key here. 
+		var map = d3.map(data, function(d) { return d.id; });
+
+		for (var k = 0; k < indicators.length; k++) {	
+			// var extent = d3.extent(data, function(d) { return +d[indicators[k]]});
+			var min = Math.floor(d3.min(data, function(d) { return +d[indicators[k]]}));
+			// var max = Math.ceil(d3.max(data, function(d) { return +d[indicators[k]]}));
+			var max = 3;		
+
+
+			// Problem here!!!! 
+			// Can only have (width/radius) balls per row. 
+
+			var histogram = d3.histogram()
+				.domain([min,max])
+				.thresholds(100)
+				.value(function(d,i,data) { 
+					return +d[indicators[k]]; 
+				})
+
+			var bins = histogram(data)
+
+			y[indicators[k]] = d3.scaleLinear()
+				.domain([min,max])
+				.range([bins.length*bnMult,0]); 
+
+			y[indicators[k]].numBins = bins.length;
+			
+			var maxDots = Math.floor((width-margin.left)/bnMult);
+
+			for (var i = 0; i < bins.length; i++) {
+				// // bins[i].sort(function(a,b){return b[indicators[k]] - a[indicators[k]]  })
+				// // console.log((bins[i].length)*bubbleRadius*2)
+				// // console.log(bins[i].length*bnMult)
+				// // if too long, create array at width x dots
+				// if (bins[i].length > maxDots) {
+				// 	// console.log(bins[i])
+				// 	console.log("hello")
+				// }
+				
+				for (var j = 0; j < bins[i].length; j++) {
+					var now = map.get(bins[i][j].id);
+					now[indicators[k] + "Index"] = j;
+					now[indicators[k] + "Y"] = (bins[i].x1 + bins[i].x0)/2;
+					// now[indicators[k] + "Index"] = j;
+					// now[indicators[k] + "Y"] = (bins[i].x1 + bins[i].x0)/2;
+				}
+			}
+
+		}
+	  }
 
 }
