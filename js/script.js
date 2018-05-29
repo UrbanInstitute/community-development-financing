@@ -603,11 +603,12 @@ function ready(error, data, topo) {
   	var addAmount = (extraLines * bnMult) + extraForExpandTop + extraForExpandBottom;
   	var lowNum = d;
 
-	// move the corresponding y axis items down 
+	// move the corresponding y axis items down and
+	// move down icon for current wrap, but not as much as the ones above. 
+  	// and replace the icon
 	moveAxisDown(addAmount,lowNum);
 
-	// move down icon for current wrap, but not as much as the ones above. 
-	// not done yet!!!
+  	//highlight the area?	
 
   	// move down LOWER dots and wrap the clicked layer dots
   	g.selectAll("circle.county")  		
@@ -646,11 +647,6 @@ function ready(error, data, topo) {
 				return numX;
 			}
 		})
-
-  	//replace the icon
-
-  	//highlight the area?
-
   }
 
   function moveAxisDown(addAmount,lowNum) {
@@ -700,16 +696,33 @@ function ready(error, data, topo) {
 				return numY;
 			}
 		})
+
 	// wrap markers
 	g.selectAll(".overflowButton")
 		.attr("y",function(d){
-			var numY = +d3.select(this).attr("y")
+			var numY = +d3.select(this).attr("y")			
 			if ( numY > (y[indicator](lowNum)-20)) {
+				// move the lower wrap markers down fully
 				return numY + addAmount;
+			} else if (numY === (y[indicator](lowNum)-20)){
+				// move the current/clicked wrap marker down half way
+				return numY + (addAmount/2);
 			} else {
-				return numY;
+				// otherwise do nothing
+				return numY;			
 			}
 		})
+			.select(".wrapperButton")    		
+    		.html(function(d){
+    			var numY = +d3.select(this.parentNode).attr("y")    	
+    			if (numY === (y[indicator](lowNum)-20+(addAmount/2))) {
+    				return "<img src='img/unwrap.png'></div>"	
+    			} 
+    			else {
+    				return "<img src='img/wrap.png'></div>"
+    			}
+    			
+    		})
   }
 
   function TipPopulate(data,type) {
