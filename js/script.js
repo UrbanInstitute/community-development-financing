@@ -595,20 +595,61 @@ function ready(error, data, topo) {
 
   	// figure out how many lines to add as a result  	  
   	var extraLines = Math.ceil(equalto.length*bnMult / (width-margin.left)) - 1;
+  	var dotsPerRow = Math.floor((width-margin.left)/bnMult); //make rounder number?  	
 
   	// calculate the extra space
-  	var extraForExpandTop = 0;
-  	var extraForExpandBottom = 0;
+  	var extraForExpandTop = 20;
+  	var extraForExpandBottom = 20;
   	var addAmount = (extraLines * bnMult) + extraForExpandTop + extraForExpandBottom;
+  	var lowNum = d;
 
 	// move the corresponding y axis items down 
-	moveAxisDown(addAmount,d);
+	moveAxisDown(addAmount,lowNum);
 
 	// move down icon for current wrap, but not as much as the ones above. 
 	// not done yet!!!
 
-  	// move down LOWER dots
-  	// wrap the clicked layer dots
+  	// move down LOWER dots and wrap the clicked layer dots
+  	g.selectAll("circle.county")  		
+		.attr("cy",function(d){
+			var numY = +d3.select(this).attr("cy");
+			var numX = +d3.select(this).attr("cx");
+
+			if ( numY > y[indicator](lowNum)) {
+				// dots below the clicked wrapper
+				return numY + addAmount;				
+			} else if (numY === y[indicator](lowNum)) {
+				// dots at the clicked wrapper
+				var level = Math.floor((numX/bnMult)/dotsPerRow);
+				return numY + (level*bnMult) + extraForExpandTop;
+			} else {
+				return numY;
+			}
+		})
+		.attr("cx",function(d,i){
+			var numY = +d3.select(this).attr("cy");
+			var numX = +d3.select(this).attr("cx");
+
+			// anything beyond the fold, move down to under the long line of dots
+			if (numY > y[indicator](lowNum) && numY <= (y[indicator](lowNum)+addAmount)) {				
+				var index = numX/bnMult;
+				if ((numX/bnMult) >= dotsPerRow) {
+					// wrap
+					
+					var level = Math.floor(index/dotsPerRow);
+					var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
+					return newX;
+				} else {
+					return numX;
+				}				
+			} else {
+				return numX;
+			}
+		})
+
+  	//replace the icon
+
+  	//highlight the area?
 
   }
 
