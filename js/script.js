@@ -380,14 +380,14 @@ function ready(error, data, topo) {
 		.attr("y2",yLineBottom)
 
 	g.append("line")
-		.attr("class","yLine2")
+		.attr("class","yLine2 wing")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX + 6)
 		.attr("y1",yLineBottom)
 		.attr("y2",yLineBottom - 5)		
 
 	g.append("line")
-		.attr("class","yLine2")
+		.attr("class","yLine2 wing")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX - 6)
 		.attr("y1",yLineBottom)
@@ -542,34 +542,34 @@ function ready(error, data, topo) {
 			.transition(t)
 				.style("fill-opacity", 1);
 
+
+	
+
 		// BUILD THE OVERFLOW BUTTONS
+	g.selectAll(".overflowButton").remove();				
+
 	var overflowButton = g.selectAll(".overflowButton")		
 		.data(overflows)
 
-		overflowButton.exit().remove();			
-		  		
-
-	  // update
-  	overflowButton.style("fill-opacity", 1)
-    	.transition(t)
-    	.attr("y",function(d){
-    		console.log(y[indicator](d))
-    		return y[indicator](d) - 20;
-    	})
-
-
+// Have to add an "on click, wrap the thang"
 	overflowButton.enter().append("foreignObject")
       	.attr("class", "overflowButton")
       	.attr("width", 50)
     	.attr("height", 50)
-    	.attr("x",-50)
-    	.attr("y",function(d){
-    		console.log(y[indicator](d))
+    	.attr("x",-50)    	
+    	.attr("y",function(d){    		
     		return y[indicator](d) - 20;
     	})
     		.append("xhtml:div")
     		.attr("class","wrapperButton")
     		.html("<img src='img/wrap.png'></div>")
+    		.on("mouseover",function(d){
+
+			})
+			.on("click",function(d){
+				wrapIt(d,"open")
+			})
+			
 
   }
 
@@ -577,6 +577,99 @@ function ready(error, data, topo) {
   indicator = "z_Housing"
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
+
+  function wrapIt(d,open) {  	  	
+
+  	var lessthan = [];
+  	var equalto = [];
+
+  	// figure out what's at or below the clicked wrapper
+  	for (var i = 0; i < data.length; i++) {
+  		if (data[i][indicator + "Y"] === d) {
+  			equalto.push(data[i]);
+  		}
+  		else if (data[i][indicator + "Y"] < d) {
+  			lessthan.push(data[i]);
+  		}
+  	}
+
+  	// figure out how many lines to add as a result  	  
+  	var extraLines = Math.ceil(equalto.length*bnMult / (width-margin.left)) - 1;
+
+  	// calculate the extra space
+  	var extraForExpandTop = 0;
+  	var extraForExpandBottom = 0;
+  	var addAmount = (extraLines * bnMult) + extraForExpandTop + extraForExpandBottom;
+
+	// move the corresponding y axis items down 
+	moveAxisDown(addAmount,d);
+
+	// move down icon for current wrap, but not as much as the ones above. 
+	// not done yet!!!
+
+  	// move down LOWER dots
+  	// wrap the clicked layer dots
+
+  }
+
+  function moveAxisDown(addAmount,lowNum) {
+
+	// make svg bigger?
+	svg.attr("height",+svg.attr("height")+addAmount)
+	// lower y label
+	var textX = g.select(".yLineText.end").attr("x")	
+	g.select(".yLineText.end").attr("x",textX - addAmount)
+	// Y line	
+	g.selectAll(".yLine2")
+		.attr("y2",function(d){
+			var lineY = d3.select(this).attr("y2")
+			return +lineY + addAmount;
+		})
+	g.selectAll(".yLine2.wing")
+		.attr("y1",function(d){
+			var lineY = d3.select(this).attr("y1")
+			return +lineY + addAmount;
+		})
+	// numbers on axis
+	g.selectAll(".yNum")
+		.attr("y",function(d){
+			var numY = +d3.select(this).attr("y")
+			if ( d3.select(this).attr("y") > y[indicator](lowNum)) {
+				return numY + addAmount;
+			} else {
+				return numY;
+			}
+		})
+
+	// gridlines		
+	g.selectAll(".yGrid")
+		.attr("y1",function(d){
+			var numY = +d3.select(this).attr("y1")
+			if ( d3.select(this).attr("y1") > y[indicator](lowNum)) {
+				return numY + addAmount;
+			} else {
+				return numY;
+			}
+		})
+		.attr("y2",function(d){
+			var numY = +d3.select(this).attr("y2")
+			if ( d3.select(this).attr("y2") > y[indicator](lowNum)) {
+				return numY + addAmount;
+			} else {
+				return numY;
+			}
+		})
+	// wrap markers
+	g.selectAll(".overflowButton")
+		.attr("y",function(d){
+			var numY = +d3.select(this).attr("y")
+			if ( numY > (y[indicator](lowNum)-20)) {
+				return numY + addAmount;
+			} else {
+				return numY;
+			}
+		})
+  }
 
   function TipPopulate(data,type) {
   	// if hidden, show tip  	
