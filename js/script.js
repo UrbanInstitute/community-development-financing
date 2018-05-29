@@ -554,20 +554,26 @@ function ready(error, data, topo) {
 // Have to add an "on click, wrap the thang"
 	overflowButton.enter().append("foreignObject")
       	.attr("class", "overflowButton")
-      	.attr("width", 50)
-    	.attr("height", 50)
-    	.attr("x",-50)    	
+      	.attr("width", 30)
+    	.attr("height", 30)
+    	.attr("x",-40)    	
     	.attr("y",function(d){    		
-    		return y[indicator](d) - 20;
+    		return y[indicator](d) - 15;
     	})
     		.append("xhtml:div")
     		.attr("class","wrapperButton")
-    		.html("<img src='img/wrap.png'></div>")
+    		.html("<img src='img/wrap2.png'></div>")
     		.on("mouseover",function(d){
-
+    			d3.select(this.parentNode).moveToFront();
 			})
 			.on("click",function(d){
-				wrapIt(d,"open")
+				if (d3.select(this.parentNode).classed("wrapped") != true) {
+					wrapIt(d,"open")
+					d3.select(this.parentNode).classed("wrapped",true)
+				} else {
+					wrapIt(d,"close")
+					d3.select(this.parentNode).classed("wrapped",false)
+				}
 			})
 			
 
@@ -578,7 +584,7 @@ function ready(error, data, topo) {
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
 
-  function wrapIt(d,open) {  	  	
+  function wrapIt(d,open) {
 
   	var lessthan = [];
   	var equalto = [];
@@ -606,50 +612,76 @@ function ready(error, data, topo) {
 	// move the corresponding y axis items down and
 	// move down icon for current wrap, but not as much as the ones above. 
   	// and replace the icon
-	moveAxisDown(addAmount,lowNum);
+	moveAxisDown(addAmount,lowNum,open);
 
   	//highlight the area?	
 
-  	// move down LOWER dots and wrap the clicked layer dots
-  	g.selectAll("circle.county")  		
-		.attr("cy",function(d){
-			var numY = +d3.select(this).attr("cy");
-			var numX = +d3.select(this).attr("cx");
 
-			if ( numY > y[indicator](lowNum)) {
-				// dots below the clicked wrapper
-				return numY + addAmount;				
-			} else if (numY === y[indicator](lowNum)) {
-				// dots at the clicked wrapper
-				var level = Math.floor((numX/bnMult)/dotsPerRow);
-				return numY + (level*bnMult) + extraForExpandTop;
-			} else {
-				return numY;
-			}
-		})
-		.attr("cx",function(d,i){
-			var numY = +d3.select(this).attr("cy");
-			var numX = +d3.select(this).attr("cx");
+  	if (open === "open") {
+	  	// move down LOWER dots and wrap the clicked layer dots
+	  	g.selectAll("circle.county")
+	  		.classed("wrapped",function(d){
+	  			var numY = +d3.select(this).attr("cy");
+	  			if ( numY >= y[indicator](lowNum)) {
+	  				return true
+	  			} else {
+	  				return false
+	  			}
+	  		})
+	  		.transition().duration(1000)
+			.attr("cy",function(d){
+				var numY = +d3.select(this).attr("cy");
+				var numX = +d3.select(this).attr("cx");
 
-			// anything beyond the fold, move down to under the long line of dots
-			if (numY > y[indicator](lowNum) && numY <= (y[indicator](lowNum)+addAmount)) {				
-				var index = numX/bnMult;
-				if ((numX/bnMult) >= dotsPerRow) {
-					// wrap
-					
-					var level = Math.floor(index/dotsPerRow);
-					var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
-					return newX;
+				if ( numY > y[indicator](lowNum)) {
+					// dots below the clicked wrapper
+					return numY + addAmount;				
+				} else if (numY === y[indicator](lowNum)) {
+					// dots at the clicked wrapper
+					var level = Math.floor((numX/bnMult)/dotsPerRow);
+					return numY + (level*bnMult) + extraForExpandTop;
+				} else {
+					return numY;
+				}
+			})
+			.attr("cx",function(d,i){
+				var numY = +d3.select(this).attr("cy");
+				var numX = +d3.select(this).attr("cx");
+
+				// anything beyond the fold, move down to under the long line of dots
+				// if (numY > y[indicator](lowNum) && numY <= (y[indicator](lowNum)+addAmount)) {				
+				if (numY === y[indicator](lowNum)) {
+					var index = numX/bnMult;
+					if ((numX/bnMult) >= dotsPerRow) {
+						// wrap
+						
+						var level = Math.floor(index/dotsPerRow);
+						var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
+						return newX;
+					} else {
+						return numX;
+					}				
 				} else {
 					return numX;
-				}				
-			} else {
-				return numX;
-			}
-		})
+				}
+			})
+  	} else {
+	  	g.selectAll("circle.county.wrapped").classed("wrapped",false).transition().duration(1000)
+	  		.attr("cx", function (d) { 
+				return d[indicator + "Index"]*bnMult;	
+			})
+			.attr("cy", function (d) {
+				return y[indicator](d[indicator + "Y"])	
+			})
+  	}
   }
 
-  function moveAxisDown(addAmount,lowNum) {
+
+  function moveAxisDown(addAmount,lowNum,open) {
+
+  	if (open != "open") {
+  		addAmount = -addAmount;
+  	}
 
 	// make svg bigger?
 	svg.attr("height",+svg.attr("height")+addAmount)
@@ -701,10 +733,10 @@ function ready(error, data, topo) {
 	g.selectAll(".overflowButton")
 		.attr("y",function(d){
 			var numY = +d3.select(this).attr("y")			
-			if ( numY > (y[indicator](lowNum)-20)) {
+			if ( numY > (y[indicator](lowNum)-15)) {
 				// move the lower wrap markers down fully
 				return numY + addAmount;
-			} else if (numY === (y[indicator](lowNum)-20)){
+			} else if (numY === (y[indicator](lowNum)-15)){
 				// move the current/clicked wrap marker down half way
 				return numY + (addAmount/2);
 			} else {
@@ -715,11 +747,11 @@ function ready(error, data, topo) {
 			.select(".wrapperButton")    		
     		.html(function(d){
     			var numY = +d3.select(this.parentNode).attr("y")    	
-    			if (numY === (y[indicator](lowNum)-20+(addAmount/2))) {
-    				return "<img src='img/unwrap.png'></div>"	
+    			if (numY === (y[indicator](lowNum)-15+(addAmount/2))) {
+    				return "<img src='img/unwrap2.png'></div>"	
     			} 
     			else {
-    				return "<img src='img/wrap.png'></div>"
+    				return "<img src='img/wrap2.png'></div>"
     			}
     			
     		})
