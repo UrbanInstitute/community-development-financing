@@ -386,9 +386,23 @@ a:hover {
   stroke-width: 4px;
 }
 
-.wrapperButton {
-  cursor: pointer;
+.overflowButton {
+  .wrapperButton {
+    cursor: pointer;
+    background-image: url(../../img/wrap2.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    width:30px;
+    height:30px;
+  }  
+
+  &.wrapped {
+    .wrapperButton {
+      background-image: url(../../img/unwrap2.png);
+    }
+  }
 }
+
 
 
 // rank tables 

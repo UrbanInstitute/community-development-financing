@@ -104,6 +104,7 @@ var ranks = {
 }
 
 
+
 function findSize(binNum) {
 	if (binNum === 2) {
 		var name = 'small',
@@ -562,16 +563,24 @@ function ready(error, data, topo) {
     	})
     		.append("xhtml:div")
     		.attr("class","wrapperButton")
-    		.html("<img src='img/wrap2.png'></div>")
+    		// .html("<img src='img/wrap2.png'>")
     		.on("mouseover",function(d){
     			d3.select(this.parentNode).moveToFront();
 			})
 			.on("click",function(d){
 				if (d3.select(this.parentNode).classed("wrapped") != true) {
-					wrapIt(d,"open")
+					// first if there are any unwraps open, run the wrap function					
+					if (d3.selectAll("foreignObject.wrapped")._groups["0"].length) {
+						console.log("open but close other first")
+						wrapIt(d,"open",true)
+					}	else {
+						console.log("open regular")
+						wrapIt(d,"open",false)
+					}					
 					d3.select(this.parentNode).classed("wrapped",true)
 				} else {
-					wrapIt(d,"close")
+					console.log("close regular")
+					wrapIt(d,"close",false)
 					d3.select(this.parentNode).classed("wrapped",false)
 				}
 			})
@@ -584,7 +593,7 @@ function ready(error, data, topo) {
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
 
-  function wrapIt(d,open) {
+  function wrapIt(d,open,otherOpen) {
 
   	var lessthan = [];
   	var equalto = [];
@@ -612,12 +621,17 @@ function ready(error, data, topo) {
 	// move the corresponding y axis items down and
 	// move down icon for current wrap, but not as much as the ones above. 
   	// and replace the icon
-	moveAxisDown(addAmount,lowNum,open);
+	
+
+	if (otherOpen === true) {
+		moveAxisSpecial(addAmount,lowNum,open,otherOpen);
+	} else {
+		moveAxisDown(addAmount,lowNum,open,otherOpen);		
+	}
 
   	//highlight the area?	
 
-
-  	if (open === "open") {
+  	if (open === "open" && otherOpen === false) {
 	  	// move down LOWER dots and wrap the clicked layer dots
 	  	g.selectAll("circle.county")
 	  		.classed("wrapped",function(d){
@@ -665,6 +679,63 @@ function ready(error, data, topo) {
 					return numX;
 				}
 			})
+
+
+  	} else if (open === "open" && otherOpen === true) {
+  		g.selectAll("circle.county")
+	  		.filter(function(d){ 
+	  			return +d3.select(this).attr("cy") >= y[indicator](lowNum)
+		  	}).classed("curWrap",true)
+
+  		g.selectAll("circle.county.wrapped,circle.curWrap")
+  		.classed("wrapped",false)  		
+  		.classed("curWrap",false)
+  		.transition().duration(1000)
+	  		.attr("cx", function (d) { 
+				return d[indicator + "Index"]*bnMult;	
+			})
+			.attr("cy", function (d) {
+				return y[indicator](d[indicator + "Y"])	
+			}).on("end",function(){
+				d3.select(this).transition().duration(1000)
+				.attr("cy",function(d){
+					var numY = +d3.select(this).attr("cy");
+					var numX = +d3.select(this).attr("cx");
+
+					if ( numY > y[indicator](lowNum)) {
+						// dots below the clicked wrapper
+						return numY + addAmount;				
+					} else if (numY === y[indicator](lowNum)) {
+						// dots at the clicked wrapper
+						var level = Math.floor((numX/bnMult)/dotsPerRow);
+						return numY + (level*bnMult) + extraForExpandTop;
+					} else {
+						return numY;
+					}
+				})
+				.attr("cx",function(d,i){
+					var numY = +d3.select(this).attr("cy");
+					var numX = +d3.select(this).attr("cx");
+
+					// anything beyond the fold, move down to under the long line of dots
+					// if (numY > y[indicator](lowNum) && numY <= (y[indicator](lowNum)+addAmount)) {				
+					if (numY === y[indicator](lowNum)) {
+						var index = numX/bnMult;
+						if ((numX/bnMult) >= dotsPerRow) {
+							// wrap
+							
+							var level = Math.floor(index/dotsPerRow);
+							var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
+							return newX;
+						} else {
+							return numX;
+						}				
+					} else {
+						return numX;
+					}
+				})					
+			})
+
   	} else {
 	  	g.selectAll("circle.county.wrapped").classed("wrapped",false).transition().duration(1000)
 	  		.attr("cx", function (d) { 
@@ -675,9 +746,77 @@ function ready(error, data, topo) {
 			})
   	}
   }
+ 
+
+  function moveAxisSpecial(addAmount,lowNum,open,otherOpen) {
+  	var chartHeight = y[indicator].numBins*(bnMult),
+		yLineBottom = chartHeight - 130;
+
+	var oldY = svg.attr("height");
+	svg.attr("height",chartHeight+margin.top+margin.bottom+addAmount)
+
+	var newChangeAmount = svg.attr("height") - oldY;
+
+	g.select(".yLineText.end").attr("x",-chartHeight + 10 - addAmount)
+
+	g.selectAll(".yLine2")
+		.attr("y2", yLineBottom + addAmount)
+
+	g.selectAll(".yLine2.wing")
+		.attr("y1",yLineBottom + addAmount)
+		.attr("y2",yLineBottom - 5 + addAmount)
+
+	g.selectAll(".overflowButton").transition().duration(1000)
+		.attr("y",function(d){
+			var numY = +y[indicator](d)-15
+			if ( numY > (y[indicator](lowNum)-15)) {
+				// move the lower wrap markers down fully
+				return numY + addAmount;
+			} else if (numY === (y[indicator](lowNum)-15)){
+				// move the current/clicked wrap marker down half way
+				return numY + (addAmount/2);
+			} else {
+				// otherwise do nothing
+				return numY;			
+			}
+		})
+
+	// numbers on axis
+	g.selectAll(".yNum")
+		.attr("y",function(d){
+			var numY = +d3.select(this).attr("y")
+			if ( d3.select(this).attr("y") > y[indicator](lowNum)) {
+				return numY + newChangeAmount;
+			} else {
+				return numY;
+			}
+		})
+	// gridlines		
+	g.selectAll(".yGrid")
+		.attr("y1",function(d){
+			var numY = +d3.select(this).attr("y1")
+			if ( d3.select(this).attr("y1") > y[indicator](lowNum)) {
+				return numY + newChangeAmount;
+			} else {
+				return numY;
+			}
+		})
+		.attr("y2",function(d){
+			var numY = +d3.select(this).attr("y2")
+			if ( d3.select(this).attr("y2") > y[indicator](lowNum)) {
+				return numY + newChangeAmount;
+			} else {
+				return numY;
+			}
+		})
+
+	// wrap markers
 
 
-  function moveAxisDown(addAmount,lowNum,open) {
+
+  }
+
+  function moveAxisDown(addAmount,lowNum,open,otherOpen) {
 
   	if (open != "open") {
   		addAmount = -addAmount;
@@ -730,31 +869,36 @@ function ready(error, data, topo) {
 		})
 
 	// wrap markers
-	g.selectAll(".overflowButton")
-		.attr("y",function(d){
-			var numY = +d3.select(this).attr("y")			
-			if ( numY > (y[indicator](lowNum)-15)) {
-				// move the lower wrap markers down fully
-				return numY + addAmount;
-			} else if (numY === (y[indicator](lowNum)-15)){
-				// move the current/clicked wrap marker down half way
-				return numY + (addAmount/2);
-			} else {
-				// otherwise do nothing
-				return numY;			
-			}
-		})
-			.select(".wrapperButton")    		
-    		.html(function(d){
-    			var numY = +d3.select(this.parentNode).attr("y")    	
-    			if (numY === (y[indicator](lowNum)-15+(addAmount/2))) {
-    				return "<img src='img/unwrap2.png'></div>"	
-    			} 
-    			else {
-    				return "<img src='img/wrap2.png'></div>"
-    			}
-    			
-    		})
+	if (open === "open") {
+		g.selectAll(".overflowButton").transition().duration(1000)
+			.attr("y",function(d){
+				var numY = +d3.select(this).attr("y")					
+				if ( numY > (y[indicator](lowNum)-15)) {
+					// move the lower wrap markers down fully
+					return numY + addAmount;
+				} else if (numY === (y[indicator](lowNum)-15)){
+					// move the current/clicked wrap marker down half way
+					return numY + (addAmount/2);
+				} else {
+					// otherwise do nothing
+					return numY;			
+				}
+			})
+    	} else {
+    		g.selectAll(".overflowButton").transition().duration(1000)
+				.attr("y",function(d){
+					var numY = +d3.select(this).attr("y")	
+					if (numY < y[indicator](lowNum)+ -15 + -(addAmount/2)) {
+						return numY
+					} else if (numY === y[indicator](lowNum)+ -15 + -(addAmount/2)) {
+						return numY+(addAmount/2)	
+					} else {
+						return numY+addAmount
+					}
+					
+				})
+    	}
+	
   }
 
   function TipPopulate(data,type) {
