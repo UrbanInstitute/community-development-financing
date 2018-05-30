@@ -577,6 +577,7 @@ function ready(error, data, topo) {
 						console.log("open regular")
 						wrapIt(d,"open",false)
 					}					
+					d3.selectAll("foreignObject.wrapped").classed("wrapped",false)
 					d3.select(this.parentNode).classed("wrapped",true)
 				} else {
 					console.log("close regular")
@@ -697,7 +698,7 @@ function ready(error, data, topo) {
 			.attr("cy", function (d) {
 				return y[indicator](d[indicator + "Y"])	
 			}).on("end",function(){
-				d3.select(this).transition().duration(1000)
+				d3.select(this).classed("wrapped",true).transition().duration(1000)
 				.attr("cy",function(d){
 					var numY = +d3.select(this).attr("cy");
 					var numX = +d3.select(this).attr("cx");
