@@ -251,6 +251,9 @@ function ready(error, data, topo) {
 
   	// declare main g and stuff
   	var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	g.append("rect")
+  		.attr("class","wrapRect")
 
   	// map gs and svgs
 	var svg2 = d3.select("#map").append("svg")
@@ -268,6 +271,10 @@ function ready(error, data, topo) {
 	    .projection(projection);
 
   function update(data,indicator,y) {
+
+  		g.select(".wrapRect").transition().duration(1000)
+  			.attr("width",0)
+  			.attr("fill-opacity",0)
 
   	// change the details info
   	$("#details").html(indicatorKey[indicator].details)
@@ -633,6 +640,15 @@ function ready(error, data, topo) {
   	//highlight the area?	
 
   	if (open === "open" && otherOpen === false) {
+
+  		g.select(".wrapRect").transition().duration(1000)
+  			.attr("x",-45)
+  			.attr("y",y[indicator](lowNum)+extraForExpandTop-10)
+  			.attr("height",bnMult + extraLines*bnMult+10)
+  			.attr("width",width-margin.left+45)
+  			.attr("fill-opacity",1)
+
+
 	  	// move down LOWER dots and wrap the clicked layer dots
 	  	g.selectAll("circle.county")
 	  		.classed("wrapped",function(d){
@@ -683,6 +699,15 @@ function ready(error, data, topo) {
 
 
   	} else if (open === "open" && otherOpen === true) {
+
+  		g.select(".wrapRect").transition().duration(1000)
+  			.attr("x",-45)
+  			.attr("y",y[indicator](lowNum)+extraForExpandTop-10)
+  			.attr("height",bnMult + extraLines*bnMult+10)
+  			.attr("width",width-margin.left+45)
+  			.attr("fill-opacity",1)
+
+
   		g.selectAll("circle.county")
 	  		.filter(function(d){ 
 	  			return +d3.select(this).attr("cy") >= y[indicator](lowNum)
@@ -738,6 +763,13 @@ function ready(error, data, topo) {
 			})
 
   	} else {
+  		// collapse  	
+
+  		g.select(".wrapRect").transition().duration(1000)
+  			.attr("width",0)
+  			.attr("fill-opacity",0)
+
+
 	  	g.selectAll("circle.county.wrapped").classed("wrapped",false).transition().duration(1000)
 	  		.attr("cx", function (d) { 
 				return d[indicator + "Index"]*bnMult;	
