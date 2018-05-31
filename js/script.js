@@ -210,9 +210,6 @@ function ready(error, data, topo) {
 	    $("#tip-inner").removeClass("active");  
     	isOpened = false;
 	})	
-
-
-
 	
 	var breakpoint = 768,
 		width = parseInt(d3.select("#chart").style("width"));
@@ -225,16 +222,16 @@ function ready(error, data, topo) {
 		topBubbleLevel = -8,
 		yLineTop = 140,
 		yLineX = -56,
-		LineTextLeft = -51;
+		LineTextLeft = -51,
+		margin = {top: 60, right: 10, bottom: 10, left: 100}
 
-
-	// width based parameters
-	if (width > breakpoint) {
-		var margin = {top: 60, right: 10, bottom: 10, left: 100}
-	} else {
-		// Smaller viewports
-		var margin = {top: 20, right: 10, bottom: 10, left: 10}
-	}	
+	// // width based parameters
+	// if (width > breakpoint) {
+	// 	var margin = {top: 60, right: 10, bottom: 10, left: 100}
+	// } else {
+	// 	// Smaller viewports
+	// 	var margin = {top: 20, right: 10, bottom: 10, left: 10}
+	// }	
 
 	var colorScale = d3.scaleOrdinal()
 		.range(["#848081","#d5d5d4","#332d2f","#5c5859","#0096d2","#a2d4ec","#0a4c6a","#12719e","#fdbf11","#fce39e","#843215","#e88e2d"]);		
@@ -270,11 +267,23 @@ function ready(error, data, topo) {
 	var path = d3.geoPath()
 	    .projection(projection);
 
-  function update(data,indicator,y) {
 
-  		g.select(".wrapRect").transition().duration(1000)
-  			.attr("width",0)
-  			.attr("fill-opacity",0)
+	$(window).resize(function() { 
+		update(data,indicator,y)
+	});
+
+
+
+
+
+  function update(data,indicator,y) {
+  	width = parseInt(d3.select("#chart").style("width"));
+
+	svg.attr("width", width)
+
+	g.select(".wrapRect").transition().duration(1000)
+		.attr("width",0)
+		.attr("fill-opacity",0)
 
   	// change the details info
   	$("#details").html(indicatorKey[indicator].details)
@@ -295,12 +304,13 @@ function ready(error, data, topo) {
 		yLineBottom = chartHeight - 130;
 
 
-
+	console.log(svg.attr("height"))
 	svg.attr("height",chartHeight+margin.top+margin.bottom)
 
 	//remove existing yGrid lines	
 	g.selectAll(".yGrid").remove();
 	g.selectAll(".yNum").remove();
+	g.selectAll(".xNum").remove();
 	g.selectAll(".yLine1").remove();
 	g.selectAll(".yLine2").remove();
 	g.selectAll(".yLineText").remove();
@@ -578,16 +588,13 @@ function ready(error, data, topo) {
 				if (d3.select(this.parentNode).classed("wrapped") != true) {
 					// first if there are any unwraps open, run the wrap function					
 					if (d3.selectAll("foreignObject.wrapped")._groups["0"].length) {
-						console.log("open but close other first")
 						wrapIt(d,"open",true)
 					}	else {
-						console.log("open regular")
 						wrapIt(d,"open",false)
 					}					
 					d3.selectAll("foreignObject.wrapped").classed("wrapped",false)
 					d3.select(this.parentNode).classed("wrapped",true)
 				} else {
-					console.log("close regular")
 					wrapIt(d,"close",false)
 					d3.select(this.parentNode).classed("wrapped",false)
 				}
@@ -687,7 +694,7 @@ function ready(error, data, topo) {
 						// wrap
 						
 						var level = Math.floor(index/dotsPerRow);
-						var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
+						var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*1);
 						return newX;
 					} else {
 						return numX;
@@ -751,7 +758,7 @@ function ready(error, data, topo) {
 							// wrap
 							
 							var level = Math.floor(index/dotsPerRow);
-							var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*2);
+							var newX = (index - (level*dotsPerRow))*bnMult + (bnMult*1);
 							return newX;
 						} else {
 							return numX;

@@ -73,6 +73,16 @@ body {
     margin: 0 auto;
     text-align: left;
     // font-style: italic;
+
+  @media (max-width: $MaxPhoneSize) {
+      h1 {
+        font-size: 24px;
+        text-align: center;
+      }
+      h2 {
+        font-size: 14px;
+      }
+  }    
 }
 
 .banner-wrapper {
@@ -170,6 +180,20 @@ a:hover {
       border: 1px solid $dark-gray; 
       padding: 15px;  
     }
+
+    @media (max-width: $MaxPhoneSize) {
+      padding-left: 40px;
+      padding-right: 40px;
+      
+      #details {
+        font-size: 12px;
+      }
+
+      input#autocompletez {
+        font-size:18px;
+        padding:10px;
+      }
+    }
   }
 
 
@@ -229,8 +253,15 @@ a:hover {
           font-style: italic;
           color: $text-gray;
         }
-
       }
+
+
+    }
+
+    @media (max-width: $MaxPhoneSize) {
+      width: 100%;
+
+
     }
   }
 }  
@@ -393,7 +424,7 @@ a:hover {
 .overflowButton {
   .wrapperButton {
     cursor: pointer;
-    background-image: url(../../img/wrap2.png);
+    background-image: url(../../img/wrap.png);
     background-size: cover;
     background-repeat: no-repeat;
     width:30px;
@@ -402,7 +433,7 @@ a:hover {
 
   &.wrapped {
     .wrapperButton {
-      background-image: url(../../img/unwrap2.png);
+      background-image: url(../../img/unwrap.png);
     }
   }
 }
@@ -542,6 +573,35 @@ a:hover {
 
     }
   }  
+
+  @media (max-width: $MaxPhoneSize) {
+    width: unset;
+    margin-right: $bottom-mobile-margin;
+    margin-left: $bottom-mobile-margin;
+
+    #popSize-container-inner {
+      padding-bottom: 1px;
+      width: calc(100% + #{$bottom-mobile-margin} + #{$bottom-mobile-margin} );
+      left: -$bottom-mobile-margin;
+      position: relative;
+
+      #popSizetop {
+        width: unset;
+        margin-left: $bottom-mobile-margin;
+        margin-right: $bottom-mobile-margin;
+      }
+      #popList {
+        .popListItem {
+          width: 100%;
+          border-right: none; 
+          padding-right: 0;
+          padding-left: 0;
+          float: unset;
+        }
+      }
+    
+    }
+  }
 }
 
 
@@ -645,9 +705,52 @@ h1.bottom-header{
       }
     }
   }
-
 }
 
+@media (max-width: $MaxPhoneSize) {
+  .bottom-container {
+    padding: 30px;
+  }
+
+  .bottom-container.darker {
+    margin-top: 0px;
+  }
+
+  .bottom-container .bottom-content.darker {
+    margin-top: 0px;
+  }
+
+  h1.bottom-header {
+    font-size:18px;
+    margin-top:5px;
+  }
+
+  .bottom-text {
+    font-size: 12px !important;
+    line-height:14px !important;
+  }
+
+  .credits-text.bottom-text {
+   line-height:14px !important; 
+   margin-bottom:0px;
+  }
+
+  .credit-list {
+    font-size: 12px;
+  }
+  .credit-header {
+    font-size: 14px;
+    font-weight: bold !important;
+  }
+  .credit-names{
+      margin-bottom: 10px;
+      margin-top: 0px;
+      font-size: 12px;
+  }
+  #copyright {
+    margin-bottom: 10px;
+  }
+}
 
 
 .description {
