@@ -260,7 +260,7 @@ a:hover {
 
     @media (max-width: $MaxPhoneSize) {
       width: 100%;
-
+      overflow: visible;
 
     }
   }
@@ -316,21 +316,28 @@ a:hover {
 // Dots and stuff!
 
 .county {
-  &.active {
+  &:hover {
     fill: $pink !important;
+    cursor: pointer; 
+  }
+
+  &.active {
+    stroke: $pink !important;
     cursor: pointer;
+    stroke-width: 2px;
   }
 }
 
 #tooltip {
   position: absolute;
   background-color: #f5f5f5;
-  right: -500px;
+  display:none;
   top: 100px;
   width: 400px;
+  z-index: 1001;
 
   &.active {
-    right: 0px;
+    display:block;
   }
 
 
@@ -353,7 +360,7 @@ a:hover {
 
 
     .tip-text {
-      width: 100%;
+      // width: 100%;
       padding: 10px;
       color: #666666;
 
@@ -403,6 +410,12 @@ a:hover {
       }
     }
   }
+
+@media (max-width: $MaxPhoneSize) {
+  width: 100%;
+
+}
+
 
 }
 

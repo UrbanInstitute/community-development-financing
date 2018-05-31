@@ -253,8 +253,7 @@ function ready(error, data, topo) {
   		.attr("class","wrapRect")
 
   	// map gs and svgs
-	var svg2 = d3.select("#map").append("svg")
-	  .attr("width", 400)
+	var svg2 = d3.select("#map").append("svg")	  
 	  .attr("height", 200);
   	
   	var g2 = svg2.append("g").attr("transform", "translate(0,0)");
@@ -542,17 +541,38 @@ function ready(error, data, topo) {
 			})
 			.style("fill-opacity", 1e-6)
 			.on("mouseover",function(d,i){				
+				d3.selectAll("circle.hover")
+					.attr("r",bubbleRadius)
+					.classed("hover",false)
+
+				d3.select(this)
+					.attr("r",2*bubbleRadius)
+					.classed("hover",true)		
+				TipPopulate(d,"mouse")
+
+			})
+			.on("mouseout",function(d){
+				d3.select(this)
+					.attr("r",function(){
+						if (d3.select(this).classed("active")) {
+							return bubbleRadius*2;
+						}
+						else {
+							return bubbleRadius;
+						}
+					})
+					.classed("hover",false)
+				// d3.select("#tooltip").classed("active",false)			
+			})
+			.on("click",function(d,i){
 				d3.selectAll("circle.active")
 					.attr("r",bubbleRadius)
 					.classed("active",false)
 
 				d3.select(this)
 					.attr("r",2*bubbleRadius)
-					.classed("active",true)		
-				TipPopulate(d,"mouse")
+					.moveToFront();
 
-			})
-			.on("click",function(d,i){
     			$("#tip-inner").addClass("active");  
     			isOpened = true;
     			TipPopulate(d,"click")
@@ -948,13 +968,20 @@ function ready(error, data, topo) {
 	  		$("#tooltip").addClass("active")
 	  	}
 
-	  	if (data[indicator] > 2) {  		
-	  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
-	  	} else if (data[indicator] > 0) {
-	  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
-	  	} else {
-	  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
-	  	}
+	  	width = parseInt(d3.select("#chart").style("width"));
+
+	  	if (width > breakpoint) {
+		  	if (data[indicator] > 2) {  		
+		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
+		  	} else if (data[indicator] > 0) {
+		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
+		  	} else {
+		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		  	}
+		}
+		else {
+		  	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		}
 
 	  	$("#tooltip").css('top',tipHead + "px")
 
@@ -996,9 +1023,6 @@ function ready(error, data, topo) {
 
 	  	
   	}
-
-
-
   }
 
   function BuildMap(category,topo,fipsIndex) {
@@ -1032,7 +1056,19 @@ function ready(error, data, topo) {
 
   	function zoomMap(suggestion,category) {		
   		var height = 200;
-  		var width = 400;
+  		
+	  	width = parseInt(d3.select("#chart").style("width"));
+
+ 		svg2.attr("width",width)
+
+  		if (width > breakpoint) {
+  			var MapWidth = 400;	
+  		} else  {
+  			var MapWidth = width;
+  		}
+  		console.log(breakpoint)
+  		console.log(width)
+  		console.log(MapWidth)
 
 		county = topojson.feature(topo, topo.objects.counties).features.filter(function(d) { return +d.id === +suggestion.fips5; })[0];
 
@@ -1041,8 +1077,8 @@ function ready(error, data, topo) {
 	      .translate([0, 0]);
 
 		var b = path.bounds(county),
-			s = .55 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-			t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+			s = .55 / Math.max((b[1][0] - b[0][0]) / MapWidth, (b[1][1] - b[0][1]) / height),
+			t = [(MapWidth - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
 
 		 projection
 			.scale(s)
