@@ -182,6 +182,23 @@ function ready(error, data, topo) {
       }
      });
 
+    $( "#dropdown-header2" ).selectmenu({
+      open: function( event, ui ) {
+      },
+      close: function(event, ui){
+      },
+      create: function(event, ui){
+      },
+      change: function(event, d){
+      	indicator = d.item.value;
+      	update(data,indicator,y)
+		BuildMap(indicator,topo,fipsIndex);
+		
+		$('.switch.dots.second-in').removeClass("active");
+		$("div[name=" + indicator + "]").addClass("active")
+      }
+     });
+
 	// autocomplete call
 	$( '#autocompletez').autocomplete( {
 	    lookup: data,

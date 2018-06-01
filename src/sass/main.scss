@@ -84,7 +84,7 @@ body {
         margin: 0 auto;
       }
 
-      #dropdown-header-button, .dropdown-label {
+      #dropdown-header-button, #dropdown-header2-button, .dropdown-label {
         float: left;
         font-size: 14px;
         color: #fff;  
@@ -95,7 +95,7 @@ body {
         padding: 5px;
       }
 
-      #dropdown-header-button {
+      #dropdown-header-button, #dropdown-header2-button {
         background-color: transparent;
         border: none;
         padding: 6px;

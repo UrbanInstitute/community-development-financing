@@ -452,7 +452,7 @@ body {
     margin: 0 auto;
   }
   /* line 87, ../../src/sass/main.scss */
-  .middle-span .dropdown #dropdown-header-button, .middle-span .dropdown .dropdown-label, .top-span .dropdown #dropdown-header-button, .top-span .dropdown .dropdown-label {
+  .middle-span .dropdown #dropdown-header-button, .middle-span .dropdown #dropdown-header2-button, .middle-span .dropdown .dropdown-label, .top-span .dropdown #dropdown-header-button, .top-span .dropdown #dropdown-header2-button, .top-span .dropdown .dropdown-label {
     float: left;
     font-size: 14px;
     color: #fff;
@@ -463,7 +463,7 @@ body {
     padding: 5px;
   }
   /* line 98, ../../src/sass/main.scss */
-  .middle-span .dropdown #dropdown-header-button, .top-span .dropdown #dropdown-header-button {
+  .middle-span .dropdown #dropdown-header-button, .middle-span .dropdown #dropdown-header2-button, .top-span .dropdown #dropdown-header-button, .top-span .dropdown #dropdown-header2-button {
     background-color: transparent;
     border: none;
     padding: 6px;
@@ -473,7 +473,7 @@ body {
     padding-bottom: 18px;
   }
   /* line 107, ../../src/sass/main.scss */
-  .middle-span .dropdown #dropdown-header-button:focus, .top-span .dropdown #dropdown-header-button:focus {
+  .middle-span .dropdown #dropdown-header-button:focus, .middle-span .dropdown #dropdown-header2-button:focus, .top-span .dropdown #dropdown-header-button:focus, .top-span .dropdown #dropdown-header2-button:focus {
     outline: none;
   }
   /* line 115, ../../src/sass/main.scss */
