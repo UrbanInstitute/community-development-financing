@@ -21,6 +21,10 @@ body {
   padding-bottom:20px;
   background-color: $light-gray;
 
+  .dropdown {
+    display: none;
+  }
+
   .first-in {
     display: inline;
     padding-top: 4px;
@@ -47,6 +51,93 @@ body {
     }
 
 
+  }
+
+  .ui-icon-triangle-1-s { 
+    background-position: unset;
+    margin-left: 10px;
+    margin-top: 5px;
+  } 
+
+  .ui-button .ui-icon {
+    background-image: url("../../img/arrow.png") !important;
+    background-size: 16px !important;
+    
+  }
+  .ui-button .ui-icon.greyed {
+    background-image: url("../../img/arrow-grey.png") !important;
+    background-size: 16px !important;
+  }
+  .ui-button .ui-icon.arrow-up {
+    background-image: url("../../img/arrow-up.png") !important;
+    background-size: 16px !important;
+  }
+
+  @media (max-width: $MaxPhoneSize) {
+    padding-bottom:0px;
+
+    .dropdown {
+      display: block;
+
+      .current-menu {
+        width: fit-content;
+        margin: 0 auto;
+      }
+
+      #dropdown-header-button, .dropdown-label {
+        float: left;
+        font-size: 14px;
+        color: #fff;  
+        font-family: Lato;
+      }
+
+      .dropdown-label {
+        padding: 5px;
+      }
+
+      #dropdown-header-button {
+        background-color: transparent;
+        border: none;
+        padding: 6px;
+        text-transform: uppercase;
+        font-weight: 700;
+        width: unset;
+        padding-bottom: 18px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      
+
+    }
+    .first-in {
+      display: none;
+    }
+  }
+}
+
+.ui-selectmenu-menu {
+  z-index:1000000;
+}
+
+.ui-menu-item {
+  font-family: Lato !important;
+  font-size: 14px;
+  color: #fff;
+  background-color: dimgray;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border: none;
+
+  .ui-menu-item-wrapper {
+    padding:10px;
+  }
+  .ui-state-active {
+    border: none;
+    background-color: lighten(dimgray, 50%);
+    color: $dark-gray;
   }
 }
 
@@ -191,7 +282,7 @@ a:hover {
 
       input#autocompletez {
         font-size:18px;
-        padding:10px;
+        // padding:10px;
       }
     }
   }
@@ -212,6 +303,12 @@ a:hover {
       #info-image {
         float: left;
         cursor: pointer;
+        width:30px;
+        height:30px;
+
+        img {
+          width: 100%;
+        }
       }
 
       #info-ex {

@@ -163,6 +163,25 @@ function ready(error, data, topo) {
 	//define ranks for table
 	ranker(ranks,data) 
 
+
+  // CHANGE DATA SET
+  $( "#dropdown-header" ).selectmenu({
+      open: function( event, ui ) {
+      },
+      close: function(event, ui){
+      },
+      create: function(event, ui){
+      },
+      change: function(event, d){
+      	indicator = d.item.value;
+      	update(data,indicator,y)
+		BuildMap(indicator,topo,fipsIndex);
+		
+		$('.switch.dots.second-in').removeClass("active");
+		$("div[name=" + indicator + "]").addClass("active")
+      }
+     });
+
 	// autocomplete call
 	$( '#autocompletez').autocomplete( {
 	    lookup: data,
@@ -304,8 +323,6 @@ function ready(error, data, topo) {
 	var chartHeight = y[indicator].numBins*(bnMult),
 		yLineBottom = chartHeight - 130;
 
-
-	console.log(svg.attr("height"))
 	svg.attr("height",chartHeight+margin.top+margin.bottom)
 
 	//remove existing yGrid lines	
@@ -621,7 +638,12 @@ function ready(error, data, topo) {
 					d3.select(this.parentNode).classed("wrapped",false)
 				}
 			})
-			
+
+			//sort the display of the overflow buttons
+			g.selectAll(".overflowButton").sort(function(a,b){			
+				return b-a;
+			})			
+	
 
   }
 
@@ -1079,9 +1101,6 @@ function ready(error, data, topo) {
   			svg2.attr("width",width)
   			var MapWidth = width;
   		}
-  		console.log(breakpoint)
-  		console.log(width)
-  		console.log(MapWidth)
 
 		county = topojson.feature(topo, topo.objects.counties).features.filter(function(d) { return +d.id === +suggestion.fips5; })[0];
 

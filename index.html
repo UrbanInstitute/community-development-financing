@@ -8,8 +8,9 @@
    
 
   <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic,900" rel="stylesheet" type="text/css">
-
+  <link rel="stylesheet" type="text/css" media="screen, projection" href="dist/css/jquery.ui.css">  
   <link rel="stylesheet" type="text/css" media="screen, projection" href="dist/css/main.css">  
+  
   <!--[if IE]>
       <link href="stylesheets/css/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
   <![endif]-->
@@ -77,7 +78,21 @@
       </div>
     </div>
   </div>
-  <div class="middle-span">    
+  <div class="middle-span"> 
+    <div class="dropdown">
+      <div class="current-menu dropdown">
+        <div class= "dropdown-label">Sort by:</div>  
+        <select id = "dropdown-header"">
+            <option value="z_Housing" name="z_Housing">Housing</option>
+            <option value="z_Business" name="z_Business">Small Business</option>
+            <option value="z_ImpactFinance" name="z_ImpactFinance">Impact Finance</option>
+            <option value="z_CommDevOther" name="z_CommDevOther">Other Community Development</option>
+            <option value="z_GlobalCapacity" name="z_GlobalCapacity">Combined</option>
+        </select>
+        <div class="clearer"></div>
+      </div>
+
+    </div>
     <div class="first-in"><div class="switch dots second-in active" value="z_Housing" name="z_Housing">Housing</div></div>
     <div class="first-in"><div class="switch dots second-in" value="z_Business" name="z_Business">Small Business</div></div>
     <div class="first-in"><div class="switch dots second-in" value="z_ImpactFinance" name="z_ImpactFinance">Impact Finance</div></div>
@@ -308,6 +323,7 @@
   <!-- END Parse.ly Include: Standard -->
 
 <script src="js/lib/jquery.min.js"></script>
+<script src="js/lib/jquery-ui.min.js"></script>
 <script src="js/lib/jquery.autocomplete.js"></script>
 <script src="js/lib/pym.min.js"></script>
 <script src="js/lib/d3.v4.min.js"></script>
