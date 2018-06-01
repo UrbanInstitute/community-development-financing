@@ -188,11 +188,13 @@ function ready(error, data, topo) {
 	// event for clicking on buttons to change data
 	$('.switch.dots.second-in').on('click',function(){		
 		$('.switch.dots.second-in').removeClass("active");
-		indicator = $(this)["0"].attributes[2].nodeValue;
+		// indicator = $(this)["0"].attributes[2].nodeValue;
+		indicator = $(this).attr("name");
 		update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
 
 		$(this).addClass("active");
+		$("div[name=" + indicator + "]").addClass("active")
 	})
 
 	$('#info').click(function(e){  
@@ -971,13 +973,13 @@ function ready(error, data, topo) {
 	  	width = parseInt(d3.select("#chart").style("width"));
 
 	  	if (width > breakpoint) {
-		  	if (data[indicator] > 2) {  		
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
-		  	} else if (data[indicator] > 0) {
+		  	// if (data[indicator] > 2) {  		
+		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy");
+		  	// } else if (data[indicator] > 0) {
 		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
-		  	} else {
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
-		  	}
+		  	// } else {
+		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		  	// }
 		}
 		else {
 		  	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
