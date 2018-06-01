@@ -569,7 +569,6 @@ a:hover {
   position: relative;
   margin: 0 auto;
   width: calc(100% - 40px);
-  overflow: hidden;
 }
 /* line 206, ../../src/sass/main.scss */
 #main #chart #info {

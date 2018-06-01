@@ -972,7 +972,16 @@ function ready(error, data, topo) {
 
 	  	width = parseInt(d3.select("#chart").style("width"));
 
+	  	xPos = g.select(".fips" + data.fips5).attr("cx")
+
 	  	if (width > breakpoint) {
+	  		if (xPos >(width-500)) {
+	  			$("#tooltip").css('left', 0 + "px")
+	  			$("#tooltip").css('right',"unset")
+	  		} else {
+	  			$("#tooltip").css('right', 0 + "px")
+	  			$("#tooltip").css('left', "unset")
+	  		}
 		  	// if (data[indicator] > 2) {  		
 		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy");
 		  	// } else if (data[indicator] > 0) {
@@ -980,6 +989,7 @@ function ready(error, data, topo) {
 		  	// } else {
 		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
 		  	// }
+		  	// if (true) {}
 		}
 		else {
 		  	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
@@ -1060,12 +1070,13 @@ function ready(error, data, topo) {
   		var height = 200;
   		
 	  	width = parseInt(d3.select("#chart").style("width"));
-
- 		svg2.attr("width",width)
+ 		
 
   		if (width > breakpoint) {
+  			svg2.attr("width",400)
   			var MapWidth = 400;	
   		} else  {
+  			svg2.attr("width",width)
   			var MapWidth = width;
   		}
   		console.log(breakpoint)
