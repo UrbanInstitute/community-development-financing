@@ -1141,7 +1141,7 @@ function ready(error, data, topo) {
 	      .translate([0, 0]);
 
 		var b = path.bounds(county),
-			s = .55 / Math.max((b[1][0] - b[0][0]) / MapWidth, (b[1][1] - b[0][1]) / height),
+			s = .25 / Math.max((b[1][0] - b[0][0]) / MapWidth, (b[1][1] - b[0][1]) / height),
 			t = [(MapWidth - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
 
 		 projection
@@ -1149,16 +1149,11 @@ function ready(error, data, topo) {
 			.translate(t);
 
 	
-		// if (d.id.toString().length === 4) {
-	 //  		workinglate = fipsIndex.get("0" + d.id)
-	 //  	}
+		// look for the fips codes with a leading 0 and remove
 		var workinglate = suggestion.fips5; 
-	 	console.log(suggestion.fips5)
 	 	if (suggestion.fips5.charAt(0) === "0") {
-	 		console.log(true)
 	 		workinglate =  suggestion.fips5.slice( 1 );
 	 	}
-	 	console.log(workinglate)
 
 		// move the map, don't just redraw it entirely!
 		// something like this: https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
