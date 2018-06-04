@@ -163,6 +163,12 @@ function ready(error, data, topo) {
 	//define ranks for table
 	ranker(ranks,data) 
 
+	// fix the topo fips code error (make 4 become 5)
+	for (var i = 0; i < topo.objects.counties.geometries.length; i++) {
+		if (topo.objects.counties.geometries[i].id.toString().length === 4) {
+			topo.objects.counties.geometries[i].id = "0" + topo.objects.counties.geometries[i].id
+		}
+	}
 
   // CHANGE DATA SET
   $( "#dropdown-header" ).selectmenu({
@@ -226,7 +232,7 @@ function ready(error, data, topo) {
 	  } );
 
 	// event for clicking on buttons to change data
-	$('.switch.dots.second-in').on('click',function(){		
+	$('.switch.dots.second-in').on('click',function(){				
 		$('.switch.dots.second-in').removeClass("active");
 		// indicator = $(this)["0"].attributes[2].nodeValue;
 		indicator = $(this).attr("name");
@@ -401,7 +407,7 @@ function ready(error, data, topo) {
 	var numXticks = Math.floor((width-margin.left)/(bnMult)/5)
 
 	// create x ticks
-	for (var i = 1; i <= numXticks; i++) {
+	for (var i = 0; i <= numXticks; i++) {
 		g.append("text")
 			.attr("class","xNum")
 			.attr("x",function(d){
@@ -1085,6 +1091,18 @@ function ready(error, data, topo) {
   }
 
   function BuildMap(category,topo,fipsIndex) {
+
+	// if (svg2.selectAll(".subunit.active")._groups["0"].length) {
+	// 	console.log("here")
+	// }
+	var ffff = svg2.select(".subunit.active")
+	var num;
+
+
+	if (!ffff.empty()) {		
+		num = ffff.data()[0].id;
+	}
+
   	svg2.selectAll(".subunit").remove();
 	svg2.selectAll("path").remove();
 
@@ -1100,11 +1118,7 @@ function ready(error, data, topo) {
 	  	return "subunit fips" + d.id})
 	  .attr("d", path)
 	  .attr("fill", function(d){	
-	  	var workinglate = fipsIndex.get(d.id);
-	  	if (d.id.toString().length === 4) {
-	  		workinglate = fipsIndex.get("0" + d.id)
-	  	}
-
+	  	var workinglate = fipsIndex.get(d.id);	
 		if (workinglate != undefined) {
 			if (category === "z_GlobalCapacity" || category === "z_Business") {						
 				return colorList(+workinglate[category],6)
@@ -1115,6 +1129,14 @@ function ready(error, data, topo) {
 			return "#d2d2d2"
 		}	
 	  })
+
+	g2.append("path")
+	    .datum(topojson.mesh(topo, topo.objects.counties, function(a, b) { 
+	    	return a.id.toString().substr(0, 2) !== b.id.toString().substr(0, 2) }))
+	    .attr("d", path)
+	    .attr("class", "subunit-boundary");	  
+
+	g2.select(".fips" + num	).classed("active",true).moveToFront();
 
   }
 
@@ -1151,9 +1173,6 @@ function ready(error, data, topo) {
 	
 		// look for the fips codes with a leading 0 and remove
 		var workinglate = suggestion.fips5; 
-	 	if (suggestion.fips5.charAt(0) === "0") {
-	 		workinglate =  suggestion.fips5.slice( 1 );
-	 	}
 
 		// move the map, don't just redraw it entirely!
 		// something like this: https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
@@ -1162,6 +1181,7 @@ function ready(error, data, topo) {
 		g2.select(".fips" + workinglate	).classed("active",true)
 		g2.select(".pathDaddy").attr("d", path);
 		g2.selectAll(".subunit").attr("d", path);
+		g2.selectAll(".subunit-boundary").attr("d",path)
 	}
 
 	function ranker(ranks,data) {

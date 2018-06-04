@@ -239,7 +239,12 @@ a:hover {
     &:hover {
       cursor: pointer;
       background-color: darken($light-gray, 50%);
+      color: #fff;
     }    
+    
+    strong {
+      font-weight: 900
+    }
   }
 
 }
@@ -270,6 +275,11 @@ a:hover {
       font-family: "Lato";
       border: 1px solid $dark-gray; 
       padding: 15px;  
+    }
+    
+    @media (max-width: $MaxDesktopSize) {
+      padding-left: 20px;
+      padding-right: 20px;
     }
 
     @media (max-width: $MaxPhoneSize) {
@@ -528,11 +538,26 @@ a:hover {
   stroke-width: 4px;
 }
 
+
+.subunit-boundary {
+  fill: none;
+  stroke: #fdbf11;
+  // stroke-dasharray: 2,2;
+  // stroke-linejoin: round;
+  stroke-width: 8px;
+}
+
+
+
+
 .wrapRect {
   fill: #F5f5f5;
 }
 
 .overflowButton {
+  cursor:pointer;
+  z-index: 100000;
+
   .wrapperButton {
     cursor: pointer;
     background-image: url(../../img/wrap.png);
