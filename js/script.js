@@ -179,6 +179,8 @@ function ready(error, data, topo) {
 		
 		$('.switch.dots.second-in').removeClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
+		$('#dropdown-header2').val(indicator);
+		$("#dropdown-header2").selectmenu("refresh");
       }
      });
 
@@ -196,6 +198,8 @@ function ready(error, data, topo) {
 		
 		$('.switch.dots.second-in').removeClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
+		$('#dropdown-header').val(indicator);
+		$("#dropdown-header").selectmenu("refresh");
       }
      });
 
@@ -231,6 +235,10 @@ function ready(error, data, topo) {
 
 		$(this).addClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
+		$('#dropdown-header').val(indicator);
+		$("#dropdown-header").selectmenu("refresh");
+		$('#dropdown-header2').val(indicator);
+		$("#dropdown-header2").selectmenu("refresh");
 	})
 
 	$('#info').click(function(e){  
@@ -1091,12 +1099,17 @@ function ready(error, data, topo) {
 	  .attr("class", function(d) {
 	  	return "subunit fips" + d.id})
 	  .attr("d", path)
-	  .attr("fill", function(d){			  	
-		if (fipsIndex.get(d.id) != undefined) {
+	  .attr("fill", function(d){	
+	  	var workinglate = fipsIndex.get(d.id);
+	  	if (d.id.toString().length === 4) {
+	  		workinglate = fipsIndex.get("0" + d.id)
+	  	}
+
+		if (workinglate != undefined) {
 			if (category === "z_GlobalCapacity" || category === "z_Business") {						
-				return colorList(+fipsIndex.get(d.id)[category],6)
+				return colorList(+workinglate[category],6)
 			} else {
-				return colorList(+fipsIndex.get(d.id)[category],5)
+				return colorList(+workinglate[category],5)
 			}
 		} else {
 			return "#d2d2d2"
@@ -1119,6 +1132,8 @@ function ready(error, data, topo) {
   			var MapWidth = width;
   		}
 
+
+
 		county = topojson.feature(topo, topo.objects.counties).features.filter(function(d) { return +d.id === +suggestion.fips5; })[0];
 
 		projection
@@ -1133,11 +1148,23 @@ function ready(error, data, topo) {
 			.scale(s)
 			.translate(t);
 
+	
+		// if (d.id.toString().length === 4) {
+	 //  		workinglate = fipsIndex.get("0" + d.id)
+	 //  	}
+		var workinglate = suggestion.fips5; 
+	 	console.log(suggestion.fips5)
+	 	if (suggestion.fips5.charAt(0) === "0") {
+	 		console.log(true)
+	 		workinglate =  suggestion.fips5.slice( 1 );
+	 	}
+	 	console.log(workinglate)
+
 		// move the map, don't just redraw it entirely!
 		// something like this: https://bl.ocks.org/iamkevinv/0a24e9126cd2fa6b283c6f2d774b69a2
 		g2.selectAll(".subunit").classed("active",false)
-		g2.select(".fips" + suggestion.fips5).moveToFront();
-		g2.select(".fips" + suggestion.fips5).classed("active",true)
+		g2.select(".fips" + workinglate).moveToFront();
+		g2.select(".fips" + workinglate	).classed("active",true)
 		g2.select(".pathDaddy").attr("d", path);
 		g2.selectAll(".subunit").attr("d", path);
 	}
