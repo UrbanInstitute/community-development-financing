@@ -163,20 +163,19 @@ function ready(error, data, topo) {
 	data.forEach(function(d){
 		d.value = d.CountyName + " County, " + d.State;
 	})
-	console.log("here1")
 
 	var fipsIndex = d3.map(data, function(d) { return d.fips5; });	
 
 	//define ranks for table
 	ranker(ranks,data) 
-console.log("here2")
+
 	// fix the topo fips code error (make 4 become 5)
 	for (var i = 0; i < topo.objects.counties.geometries.length; i++) {
 		if (topo.objects.counties.geometries[i].id.toString().length === 4) {
 			topo.objects.counties.geometries[i].id = "0" + topo.objects.counties.geometries[i].id
 		}
 	}
-console.log("here3")
+
   // CHANGE DATA SET
   $( "#dropdown-header" ).selectmenu({
       open: function( event, ui ) {
@@ -239,12 +238,23 @@ console.log("here3")
 	  } );
 
 	// event for clicking on buttons to change data
-	$('.switch.dots.second-in').on('click',function(){				
+	$('.switch.dots.second-in').on('click',function(){	
+		var oldHeight = $('#span2').position().top;			
 		$('.switch.dots.second-in').removeClass("active");
 		// indicator = $(this)["0"].attributes[2].nodeValue;
 		indicator = $(this).attr("name");
 		update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
+
+		
+		if ($(this).hasClass("lower")) {
+			var newHeight = $('#span2').position().top;
+			var scroll = $(window).scrollTop();
+			console.log(oldHeight)
+			console.log(newHeight)
+			console.log(scroll)
+			$('html, body').animate({scrollTop: newHeight - (oldHeight-scroll) +'px'}, 800);	
+		}
 
 		$(this).addClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
@@ -269,7 +279,7 @@ console.log("here3")
 	    $("#tip-inner").removeClass("active");  
     	isOpened = false;
 	})	
-console.log("here4")	
+
 	var breakpoint = 768,
 		width = parseInt(d3.select("#chart").style("width"));
 
@@ -299,7 +309,6 @@ console.log("here4")
 	var y = {}
 
   	morphData(data,y,false)
-console.log("here5")
 
 	var chartHeight = 200 * (bubbleRadius*2);
 	var svg = d3.select("#chart").append("svg")
@@ -311,7 +320,7 @@ console.log("here5")
 	
 	g.append("rect")
   		.attr("class","wrapRect")
-console.log("here6")
+
   	// map gs and svgs
 	var svg2 = d3.select("#map").append("svg")	  
 	  .attr("height", 200);
@@ -326,7 +335,6 @@ console.log("here6")
 	var path = d3.geoPath()
 	    .projection(projection);
 
-console.log("here7")
 	$(window).resize(function() { 
 		update(data,indicator,y)
 	});
