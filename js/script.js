@@ -103,6 +103,12 @@ var ranks = {
 	}
 }
 
+var suffixes = ["th", "st", "nd", "rd"];
+
+function suffix(number) {
+  var tail = number % 100;
+  return suffixes[(tail < 11 || tail > 13) && (tail % 10)] || suffixes[0];
+}
 
 
 function findSize(binNum) {
@@ -1068,9 +1074,9 @@ console.log("here7")
 	  	size = findSize(+data.popsize_bin)
 	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
 	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
-	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] +' percentile</p>',
+	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] + suffix(data[indicatorKey[indicator].variable + "_ptile_overall"]) + '</p>',
 	  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',
-	  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] +' percentile</p',
+	  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] + suffix(data[indicatorKey[indicator].variable + "_ptile"]) +'</p',
 	  	sizeDesc = size.desc;
 
 	  	$(".tip-title").html(title)
