@@ -224,7 +224,7 @@ console.log("here3")
 	      isOpened = true;
 	      TipPopulate(suggestion,"auto")
 	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
-	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2))
+	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2)).moveToFront()
 
 
 	      // CAll function that highlights selected line
