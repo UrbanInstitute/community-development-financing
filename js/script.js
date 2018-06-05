@@ -1051,13 +1051,13 @@ function ready(error, data, topo) {
 	  			$("#tooltip").css('right', 0 + "px")
 	  			$("#tooltip").css('left', "unset")
 	  		}
-		  	// if (data[indicator] > 2) {  		
-		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy");
-		  	// } else if (data[indicator] > 0) {
+		  	if (data[indicator] > 2) {  		
+		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
+		  	} else if (data[indicator] > 0) {
 		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
-		  	// } else {
-		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
-		  	// }
+		  	} else {
+		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		  	}
 		  	// if (true) {}
 		}
 		else {
