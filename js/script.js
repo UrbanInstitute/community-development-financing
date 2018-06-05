@@ -157,19 +157,20 @@ function ready(error, data, topo) {
 	data.forEach(function(d){
 		d.value = d.CountyName + " County, " + d.State;
 	})
+	console.log("here1")
 
 	var fipsIndex = d3.map(data, function(d) { return d.fips5; });	
 
 	//define ranks for table
 	ranker(ranks,data) 
-
+console.log("here2")
 	// fix the topo fips code error (make 4 become 5)
 	for (var i = 0; i < topo.objects.counties.geometries.length; i++) {
 		if (topo.objects.counties.geometries[i].id.toString().length === 4) {
 			topo.objects.counties.geometries[i].id = "0" + topo.objects.counties.geometries[i].id
 		}
 	}
-
+console.log("here3")
   // CHANGE DATA SET
   $( "#dropdown-header" ).selectmenu({
       open: function( event, ui ) {
@@ -262,7 +263,7 @@ function ready(error, data, topo) {
 	    $("#tip-inner").removeClass("active");  
     	isOpened = false;
 	})	
-	
+console.log("here4")	
 	var breakpoint = 768,
 		width = parseInt(d3.select("#chart").style("width"));
 
@@ -292,6 +293,7 @@ function ready(error, data, topo) {
 	var y = {}
 
   	morphData(data,y,false)
+console.log("here5")
 
 	var chartHeight = 200 * (bubbleRadius*2);
 	var svg = d3.select("#chart").append("svg")
@@ -303,7 +305,7 @@ function ready(error, data, topo) {
 	
 	g.append("rect")
   		.attr("class","wrapRect")
-
+console.log("here6")
   	// map gs and svgs
 	var svg2 = d3.select("#map").append("svg")	  
 	  .attr("height", 200);
@@ -318,7 +320,7 @@ function ready(error, data, topo) {
 	var path = d3.geoPath()
 	    .projection(projection);
 
-
+console.log("here7")
 	$(window).resize(function() { 
 		update(data,indicator,y)
 	});
