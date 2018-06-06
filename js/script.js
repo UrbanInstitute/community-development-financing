@@ -250,9 +250,6 @@ function ready(error, data, topo) {
 		if ($(this).hasClass("lower")) {
 			var newHeight = $('#span2').position().top;
 			var scroll = $(window).scrollTop();
-			console.log(oldHeight)
-			console.log(newHeight)
-			console.log(scroll)
 			$('html, body').animate({scrollTop: newHeight - (oldHeight-scroll) +'px'}, 800);	
 		}
 
@@ -344,6 +341,7 @@ function ready(error, data, topo) {
 
 
   function update(data,indicator,y) {
+
   	width = parseInt(d3.select("#chart").style("width"));
 
 	svg.attr("width", width)
@@ -645,9 +643,10 @@ function ready(error, data, topo) {
 			})
 			.transition(t)
 				.style("fill-opacity", 1);
-
-
 	
+	// very briddle fix to the chrome bug
+	$('html, body').animate({scrollTop: 10 +'px'}, 800);	
+	// $('html, body').animate({scrollTop: 0 +'px'}, 800);	
 
 		// BUILD THE OVERFLOW BUTTONS
 	g.selectAll(".overflowButton").remove();				
@@ -656,7 +655,7 @@ function ready(error, data, topo) {
 		.data(overflows)
 
 // Have to add an "on click, wrap the thang"
-	overflowButton.enter().append("foreignObject")
+	var overflow2 = overflowButton.enter().append("foreignObject")
       	.attr("class", "overflowButton")
       	.attr("width", 30)
     	.attr("height", 30)
@@ -664,7 +663,8 @@ function ready(error, data, topo) {
     	.attr("y",function(d){    		
     		return y[indicator](d) - 15;
     	})
-    		.append("xhtml:div")
+    	
+    	overflow2.append("xhtml:div")
     		.attr("class","wrapperButton")
     		// .html("<img src='img/wrap2.png'>")
     		.on("mouseover",function(d){
@@ -690,8 +690,6 @@ function ready(error, data, topo) {
 			g.selectAll(".overflowButton").sort(function(a,b){			
 				return b-a;
 			})			
-	
-
   }
 
   // starting indicator?
@@ -1051,13 +1049,13 @@ function ready(error, data, topo) {
 	  			$("#tooltip").css('right', 0 + "px")
 	  			$("#tooltip").css('left', "unset")
 	  		}
-		  	if (data[indicator] > 2) {  		
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
-		  	} else if (data[indicator] > 0) {
+		  	// if (data[indicator] > 2) {  		
+		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy");
+		  	// } else if (data[indicator] > 0) {
 		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
-		  	} else {
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
-		  	}
+		  	// } else {
+		  	// 	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		  	// }
 		  	// if (true) {}
 		}
 		else {
@@ -1071,9 +1069,6 @@ function ready(error, data, topo) {
 	  	// SCROLL THE PAGE HERE
 	  	if (type === "auto") {
 	  		var newHeight = $('html').scrollTop() + +tipHead + 100;
-	  		// console.log($('#search').scrollTop())
-	  		// console.log($('html').scrollTop())
-	  		// console.log($('body').scrollTop())
 	  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
 	  	}
 
@@ -1203,7 +1198,6 @@ function ready(error, data, topo) {
 	function ranker(ranks,data) {
 		// get top ten for each group
 		// get bottom ten for each group
-		console.log(data)
 		var small = data.filter(function(d){return d.popsize_bin == "2"})
 		var midsize = data.filter(function(d){return d.popsize_bin == "3"})
 		var large = data.filter(function(d){return d.popsize_bin == "5"})
