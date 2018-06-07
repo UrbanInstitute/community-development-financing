@@ -1,4 +1,5 @@
 var StartIndex = 0;
+var globalD;
 var pymChild = new pym.Child();
 var indicator;
 var isOpened = false;
@@ -7,12 +8,12 @@ var indicators = ["z_Business","z_CommDevOther","z_GlobalCapacity","z_Housing","
 var indicatorKey = {
 	"z_Business":{
 		"variable":"Business",
-		"proper":"Small Business",
-		"details": "Small business includes Community Reinvestment Act–reported bank small business lending. "
+		"proper":"Small business",
+		"details": "Small business includes Community Reinvestment Act\&ndash;reported bank small business lending. "
 	},
 	"z_CommDevOther":{
 		"variable":"CommDevOther",
-		"proper":"Other Community Development",
+		"proper":"Other community development",
 		"details": "Other community development includes HUD Community Development Block Grant, HUD Section 108 lending, and US Department of Education Promise Neighborhoods awards."
 	},
 	"z_GlobalCapacity":{
@@ -27,7 +28,7 @@ var indicatorKey = {
 	},
 	"z_ImpactFinance":{
 		"variable":"ImpactFinance",
-		"proper":"Impact Finance",
+		"proper":"Impact finance",
 		"details": "Impact finance includes CDFI lending and New Markets Tax Credit Program investments."
 	}
 }
@@ -190,6 +191,11 @@ function ready(error, data, topo) {
       	update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
 		
+		// if the tooltip is open, on rebuild, rebuild the tooltip too.
+		// if (globalD) {
+		// 	TipPopulate(globalD,"switch")	
+		// }
+
 		$('.switch.dots.second-in').removeClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
 		$('#dropdown-header2').val(indicator);
@@ -209,6 +215,12 @@ function ready(error, data, topo) {
       	update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
 		
+		// if the tooltip is open, on rebuild, rebuild the tooltip too.
+		// if (globalD) {
+		// 	TipPopulate(globalD,"switch")	
+		// }
+
+
 		$('.switch.dots.second-in').removeClass("active");
 		$("div[name=" + indicator + "]").addClass("active")
 		$('#dropdown-header').val(indicator);
@@ -246,7 +258,11 @@ function ready(error, data, topo) {
 		indicator = $(this).attr("name");
 		update(data,indicator,y)
 		BuildMap(indicator,topo,fipsIndex);
-
+		
+		// if the tooltip is open, on rebuild, rebuild the tooltip too.
+		if (globalD) {
+			TipPopulate(globalD,"switch")	
+		}
 		
 		if ($(this).hasClass("lower")) {
 			var newHeight = $('#span2').position().top;
@@ -641,6 +657,7 @@ function ready(error, data, topo) {
 
     			$("#tip-inner").addClass("active");  
     			isOpened = true;
+    			globalD = d;
     			TipPopulate(d,"click")
 			})
 			.transition(t)
@@ -1037,7 +1054,7 @@ function ready(error, data, topo) {
 
   function TipPopulate(data,type) {
   	// if hidden, show tip  	
-  	if (isOpened === false || type === "click" || type === "auto") {
+  	if (isOpened === false || type === "click" || type === "auto" || type === "switch") {
   		if (!$("#tooltip").hasClass("active")) {
 	  		$("#tooltip").addClass("active")
 	  	}
@@ -1055,14 +1072,19 @@ function ready(error, data, topo) {
 	  			$("#tooltip").css('left', "unset")
 	  		}
 
-		  	if (data[indicator] > 2) {  		
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
+	  		if (type === "switch") {
+				var startTip = y[indicator](data[indicator]);
+			} else {
+				var startTip = g.select(".fips" + data.fips5).attr("cy"); 
+			}
+
+		  	if (data[indicator] > 2 || data[indicator] === "NA") {  		
+		  		var tipHead = startTip
 		  	} else if (data[indicator] > 0) {
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - ($("#tooltip").outerHeight() / 2)
+		  		var tipHead = startTip - ($("#tooltip").outerHeight() / 2)
 		  	} else {
-		  		var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+		  		var tipHead = startTip - $("#tooltip").outerHeight()
 		  	}
-		  	if (true) {}
 		}
 		else {
 			if (type === "click" || type === "auto") {
@@ -1076,6 +1098,8 @@ function ready(error, data, topo) {
 			}
 			
 		}
+
+
 
 	  	$("#tooltip").css('top',tipHead + "px")
 
