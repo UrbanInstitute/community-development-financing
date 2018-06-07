@@ -1054,6 +1054,7 @@ function ready(error, data, topo) {
 	  			$("#tooltip").css('right', 0 + "px")
 	  			$("#tooltip").css('left', "unset")
 	  		}
+
 		  	if (data[indicator] > 2) {  		
 		  		var tipHead = g.select(".fips" + data.fips5).attr("cy");
 		  	} else if (data[indicator] > 0) {
@@ -1082,6 +1083,7 @@ function ready(error, data, topo) {
 
 	  	// SCROLL THE PAGE HERE
 	  	if (type === "auto") {
+	  		if (true) {}
 	  		var newHeight = $('html').scrollTop() + +tipHead + 100;
 	  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
 	  	}
@@ -1090,9 +1092,9 @@ function ready(error, data, topo) {
 	  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
 	  	size = findSize(+data.popsize_bin)
 	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
-	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] +'</p>',
+	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] + suffix(data[indicatorKey[indicator].variable + "_rank_overall"]) + '</p>',
 	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] + suffix(data[indicatorKey[indicator].variable + "_ptile_overall"]) + '</p>',
-	  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] +'</p>',
+	  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] + suffix(data[indicatorKey[indicator].variable + "_rank"]) + '</p>',
 	  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] + suffix(data[indicatorKey[indicator].variable + "_ptile"]) +'</p',
 	  	sizeDesc = size.desc;
 
