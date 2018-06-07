@@ -1,3 +1,4 @@
+var StartIndex = 0;
 var pymChild = new pym.Child();
 var indicator;
 var isOpened = false;
@@ -168,6 +169,12 @@ function ready(error, data, topo) {
 
 	//define ranks for table
 	ranker(ranks,data) 
+
+	// console.log(ranks)
+
+	for (var i = 0; i < ranks.z_Business.large.top.length; i++) {
+		console.log(ranks.z_Business.large.top[i].value)
+	}
 
 	// fix the topo fips code error (make 4 become 5)
 	for (var i = 0; i < topo.objects.counties.geometries.length; i++) {
@@ -645,8 +652,11 @@ function ready(error, data, topo) {
 				.style("fill-opacity", 1);
 	
 	// very briddle fix to the chrome bug
-	$('html, body').animate({scrollTop: 10 +'px'}, 800);	
-	// $('html, body').animate({scrollTop: 0 +'px'}, 800);	
+	if (StartIndex === 0) {
+		$('html, body').animate({scrollTop: 10 +'px'}, 800);		
+		StartIndex +=1;
+	}
+	
 
 		// BUILD THE OVERFLOW BUTTONS
 	g.selectAll(".overflowButton").remove();				
@@ -1198,9 +1208,10 @@ function ready(error, data, topo) {
 	function ranker(ranks,data) {
 		// get top ten for each group
 		// get bottom ten for each group
-		var small = data.filter(function(d){return d.popsize_bin == "2"})
-		var midsize = data.filter(function(d){return d.popsize_bin == "3"})
-		var large = data.filter(function(d){return d.popsize_bin == "5"})
+		var small = data.filter(function(d){return d.popsize_bin === "2"})
+		var midsize = data.filter(function(d){return d.popsize_bin === "3"})
+		var large = data.filter(function(d){return d.popsize_bin === "5"})
+		
 
 		for (var item in ranks) {			
 			small.sort(function(a,b){				
@@ -1209,12 +1220,23 @@ function ready(error, data, topo) {
 			midsize.sort(function(a,b){				
 				return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]
 			})		
-			large.sort(function(a,b){				
-				return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]
+			large.sort(function(a,b){
+				if (item === "z_Business") {
+					if (a.value === "Puerto Rico County, Puerto Rico") {
+						return 1000 - +b[indicatorKey[item].variable + "_rank"]	
+					} else if (b.value === "Puerto Rico County, Puerto Rico") {
+						console.log(b)
+						return +a[indicatorKey[item].variable + "_rank"] - 1000
+					} else {
+						return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]	
+					}					
+				} else if (item != "z_Business") {
+					return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]	
+				}
 			})				
 			for (var i = 0; i < 10; i++) {
 				ranks[item].small.top.push(small[i])
-				ranks[item].midsize.top.push(large[i])
+				ranks[item].midsize.top.push(midsize[i])
 				ranks[item].large.top.push(large[i])
 			}
 			for (var i = small.length - 1; i >= small.length - 10; i--) {
@@ -1232,6 +1254,7 @@ function ready(error, data, topo) {
 
 	function buildRankTables(ranks, indicator) {
 		for (var sizes in ranks[indicator]) {
+
 			for (var i = 0; i < ranks[indicator][sizes].top.length; i++) {
 				var rrrank = ranks[indicator][sizes].top[i][indicatorKey[indicator].variable + "_rank"];
 				var nnname = ranks[indicator][sizes].top[i]["value"];
