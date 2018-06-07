@@ -170,12 +170,6 @@ function ready(error, data, topo) {
 	//define ranks for table
 	ranker(ranks,data) 
 
-	// console.log(ranks)
-
-	for (var i = 0; i < ranks.z_Business.large.top.length; i++) {
-		console.log(ranks.z_Business.large.top[i].value)
-	}
-
 	// fix the topo fips code error (make 4 become 5)
 	for (var i = 0; i < topo.objects.counties.geometries.length; i++) {
 		if (topo.objects.counties.geometries[i].id.toString().length === 4) {
@@ -280,6 +274,7 @@ function ready(error, data, topo) {
 
 	$('#tool-ex').click(function(e){  
     	e.stopPropagation();
+	    $("#tooltip").removeClass("active");  
 	    $("#tip-inner").removeClass("active");  
     	isOpened = false;
 	})	
@@ -1069,7 +1064,16 @@ function ready(error, data, topo) {
 		  	if (true) {}
 		}
 		else {
-		  	var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()
+			if (type === "click" || type === "auto") {
+				var tipHead = 52;
+			} else {
+				if (data[indicator] > 2 || data[indicator] === "NA") {
+					var tipHead = +g.select(".fips" + data.fips5).attr("cy") + 100;
+				} else {
+					var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()	
+				}		  		
+			}
+			
 		}
 
 	  	$("#tooltip").css('top',tipHead + "px")
@@ -1225,7 +1229,6 @@ function ready(error, data, topo) {
 					if (a.value === "Puerto Rico County, Puerto Rico") {
 						return 1000 - +b[indicatorKey[item].variable + "_rank"]	
 					} else if (b.value === "Puerto Rico County, Puerto Rico") {
-						console.log(b)
 						return +a[indicatorKey[item].variable + "_rank"] - 1000
 					} else {
 						return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]	
