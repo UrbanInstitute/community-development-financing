@@ -1051,11 +1051,11 @@ a:hover {
 /* line 712, ../../src/sass/main.scss */
 #popSize-container #popSize-container-inner #popList {
   margin: 0 auto;
-  width: max-content;
+  text-align: center;
 }
-/* line 715, ../../src/sass/main.scss */
+/* line 716, ../../src/sass/main.scss */
 #popSize-container #popSize-container-inner #popList .popListItem {
-  float: left;
+  display: inline-block;
   font-size: 20px;
   text-align: center;
   border-right: 1px solid #707070;
@@ -1064,11 +1064,11 @@ a:hover {
   padding-left: 20px;
   padding-right: 20px;
 }
-/* line 725, ../../src/sass/main.scss */
+/* line 726, ../../src/sass/main.scss */
 #popSize-container #popSize-container-inner #popList .popListItem.last {
   border-right: none !important;
 }
-/* line 729, ../../src/sass/main.scss */
+/* line 730, ../../src/sass/main.scss */
 #popSize-container #popSize-container-inner #popList .popListItem .popListItemTitle {
   font-weight: 700;
 }
@@ -1079,20 +1079,21 @@ a:hover {
     margin-right: 30px;
     margin-left: 30px;
   }
-  /* line 744, ../../src/sass/main.scss */
+  /* line 745, ../../src/sass/main.scss */
   #popSize-container #popSize-container-inner {
     padding-bottom: 1px;
     width: calc(100% + 30px + 30px );
     left: -30px;
     position: relative;
   }
-  /* line 750, ../../src/sass/main.scss */
+  /* line 751, ../../src/sass/main.scss */
   #popSize-container #popSize-container-inner #popSizetop {
     width: unset;
     margin-left: 30px;
     margin-right: 30px;
+    max-width: none;
   }
-  /* line 756, ../../src/sass/main.scss */
+  /* line 759, ../../src/sass/main.scss */
   #popSize-container #popSize-container-inner #popList .popListItem {
     width: 100%;
     border-right: none;
@@ -1103,7 +1104,7 @@ a:hover {
 }
 
 /*Footer*/
-/* line 771, ../../src/sass/main.scss */
+/* line 774, ../../src/sass/main.scss */
 .footerButton {
   height: 20;
   float: left;
@@ -1121,43 +1122,43 @@ a:hover {
   margin-right: 15px;
 }
 
-/* line 788, ../../src/sass/main.scss */
+/* line 791, ../../src/sass/main.scss */
 .appendixButton {
   margin-right: 0px;
 }
 
-/* line 792, ../../src/sass/main.scss */
+/* line 795, ../../src/sass/main.scss */
 .footerButton:hover {
   background-color: #000;
   color: #fff !important;
 }
 
-/* line 797, ../../src/sass/main.scss */
+/* line 800, ../../src/sass/main.scss */
 .credit-list {
   font-size: 14px;
 }
 
-/* line 800, ../../src/sass/main.scss */
+/* line 803, ../../src/sass/main.scss */
 .credit-header {
   font-size: 16px;
   font-weight: bold !important;
 }
 
-/* line 804, ../../src/sass/main.scss */
+/* line 807, ../../src/sass/main.scss */
 .credit-names {
   margin-bottom: 20px;
   margin-top: 5px;
   font-size: 16px;
 }
 
-/* line 809, ../../src/sass/main.scss */
+/* line 812, ../../src/sass/main.scss */
 .credits-text.bottom-text {
   font-size: 14px;
   margin-bottom: 45px;
   line-height: 22px !important;
 }
 
-/* line 815, ../../src/sass/main.scss */
+/* line 818, ../../src/sass/main.scss */
 .bottom-text {
   clear: both;
   font-size: 16px;
@@ -1165,7 +1166,7 @@ a:hover {
   line-height: 26px;
 }
 
-/* line 821, ../../src/sass/main.scss */
+/* line 824, ../../src/sass/main.scss */
 h1.bottom-header {
   font-size: 34px;
   color: #000;
@@ -1173,105 +1174,105 @@ h1.bottom-header {
   margin-bottom: 8px;
 }
 
-/* line 827, ../../src/sass/main.scss */
+/* line 830, ../../src/sass/main.scss */
 #copyright {
   margin-bottom: 100px;
   display: inline-block;
   font-style: italic;
 }
 
-/* line 837, ../../src/sass/main.scss */
+/* line 840, ../../src/sass/main.scss */
 .bottom-container {
   background-color: #fff;
 }
-/* line 841, ../../src/sass/main.scss */
+/* line 844, ../../src/sass/main.scss */
 .bottom-container.darker {
   border-top: 1px solid #9a9a9a;
   background-color: #eeeeee;
   padding-top: 20px;
   margin-top: 70px;
 }
-/* line 848, ../../src/sass/main.scss */
+/* line 851, ../../src/sass/main.scss */
 .bottom-container .bottom-content {
   max-width: 700px;
   margin: 0 auto;
 }
-/* line 852, ../../src/sass/main.scss */
+/* line 855, ../../src/sass/main.scss */
 .bottom-container .bottom-content.darker {
   margin-top: 40px;
 }
-/* line 855, ../../src/sass/main.scss */
+/* line 858, ../../src/sass/main.scss */
 .bottom-container .bottom-content.darker .credit-header, .bottom-container .bottom-content.darker .credit-names, .bottom-container .bottom-content.darker p, .bottom-container .bottom-content.darker a {
   color: dimgray;
 }
-/* line 859, ../../src/sass/main.scss */
+/* line 862, ../../src/sass/main.scss */
 .bottom-container .bottom-content.darker a {
   text-decoration: underline;
   font-weight: 700;
 }
-/* line 864, ../../src/sass/main.scss */
+/* line 867, ../../src/sass/main.scss */
 .bottom-container .bottom-content.darker a:hover, .bottom-container .bottom-content.darker a:visited {
   color: #9c9c9c;
 }
 
 @media (max-width: 768px) {
-  /* line 873, ../../src/sass/main.scss */
+  /* line 876, ../../src/sass/main.scss */
   .bottom-container {
     padding: 30px;
   }
 
-  /* line 877, ../../src/sass/main.scss */
+  /* line 880, ../../src/sass/main.scss */
   .bottom-container.darker {
     margin-top: 0px;
   }
 
-  /* line 881, ../../src/sass/main.scss */
+  /* line 884, ../../src/sass/main.scss */
   .bottom-container .bottom-content.darker {
     margin-top: 0px;
   }
 
-  /* line 885, ../../src/sass/main.scss */
+  /* line 888, ../../src/sass/main.scss */
   h1.bottom-header {
     font-size: 18px;
     margin-top: 5px;
   }
 
-  /* line 890, ../../src/sass/main.scss */
+  /* line 893, ../../src/sass/main.scss */
   .bottom-text {
     font-size: 12px !important;
     line-height: 14px !important;
   }
 
-  /* line 895, ../../src/sass/main.scss */
+  /* line 898, ../../src/sass/main.scss */
   .credits-text.bottom-text {
     line-height: 14px !important;
     margin-bottom: 0px;
   }
 
-  /* line 900, ../../src/sass/main.scss */
+  /* line 903, ../../src/sass/main.scss */
   .credit-list {
     font-size: 12px;
   }
 
-  /* line 903, ../../src/sass/main.scss */
+  /* line 906, ../../src/sass/main.scss */
   .credit-header {
     font-size: 14px;
     font-weight: bold !important;
   }
 
-  /* line 907, ../../src/sass/main.scss */
+  /* line 910, ../../src/sass/main.scss */
   .credit-names {
     margin-bottom: 10px;
     margin-top: 0px;
     font-size: 12px;
   }
 
-  /* line 912, ../../src/sass/main.scss */
+  /* line 915, ../../src/sass/main.scss */
   #copyright {
     margin-bottom: 10px;
   }
 }
-/* line 918, ../../src/sass/main.scss */
+/* line 921, ../../src/sass/main.scss */
 .description {
   opacity: 0.5;
   font-family: Lato;

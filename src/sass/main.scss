@@ -711,9 +711,10 @@ a:hover {
     }
     #popList {
       margin: 0 auto;
-      width: max-content;
+      text-align: center;
+
       .popListItem {
-        float:left;
+        display: inline-block;
         font-size: 20px;
         text-align: center;
         border-right: 1px solid $text-gray;
@@ -751,6 +752,8 @@ a:hover {
         width: unset;
         margin-left: $bottom-mobile-margin;
         margin-right: $bottom-mobile-margin;
+        max-width: none;
+
       }
       #popList {
         .popListItem {
