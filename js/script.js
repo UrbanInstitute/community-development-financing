@@ -1196,7 +1196,8 @@ function ready(error, data, topo) {
   		
 	  	width = parseInt(d3.select("#chart").style("width"));
  		
-
+	  	console.log(width)
+	  	console.log(breakpoint)
   		if (width > breakpoint) {
   			svg2.attr("width",400)
   			var MapWidth = 400;	
