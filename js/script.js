@@ -715,7 +715,7 @@ function ready(error, data, topo) {
   }
 
   // starting indicator?
-  indicator = "z_Housing"
+  indicator = "z_GlobalCapacity"
   update(data,indicator,y);
   BuildMap(indicator,topo,fipsIndex);
 
