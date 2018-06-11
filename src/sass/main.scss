@@ -537,10 +537,22 @@ a:hover {
         display: none;
       }
     }
+
+    .mobile {
+      display: none;
+    }
   }
 
 @media (max-width: $MaxPhoneSize) {
   width: 100%;
+
+  .full {
+    display: none;
+  }
+
+  .mobile {
+    display: block !important; 
+  }
 
   #tip-inner.active {
     top: 52px !important;
