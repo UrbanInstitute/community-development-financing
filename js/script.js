@@ -361,8 +361,6 @@ function ready(error, data, topo) {
   function update(data,indicator,y) {
 
   	width = parseInt(d3.select("#chart").style("width"));
-  	
-  	console.log(width);
 	
 	svg.attr("width", width)
 
@@ -534,8 +532,6 @@ function ready(error, data, topo) {
 		  .style("fill-opacity", 1e-6)
 		  .remove();
 
-	console.log(width-margin.left)
-
 	  // update
   	counties.style("fill-opacity", 1)
     	.transition(t)
@@ -675,28 +671,23 @@ function ready(error, data, topo) {
 	
 
 		// BUILD THE OVERFLOW BUTTONS
-	g.selectAll(".overflowButton").remove();				
+	d3.select("#chart").selectAll(".overflowButton").remove();				
 
-	console.log(overflows)
-
-	var overflowButton = g.selectAll(".overflowButton")		
+	var overflowButton = d3.select("#chart").selectAll(".overflowButton")		
 		.data(overflows)
 
-// Have to add an "on click, wrap the thang"
-	var overflow2 = overflowButton.enter().append("foreignObject")
+	var overflow3 = overflowButton.enter().append("div")
       	.attr("class", "overflowButton")
-      	.attr("width", 30)
-    	.attr("height", 30)
-    	.attr("x",-40)    	
-    	.attr("y",function(d){    		
-    		return y[indicator](d) - 15;
+  		.style("width", "30")
+		.style("height", "30")
+		.style("left", "60px")
+    	.style("top",function(d,i) {
+    		return (y[indicator](d) - 15 + margin.top) + "px";
     	})
-    	
-    	overflow2.append("xhtml:div")
-    		.attr("class","wrapperButton")
-    			// .append("div")
-    			// .attr("class","wrapperButton-inner")
-	    		.html("<div class='overflow-hover'>Click here to wrap overflow counties</div>")
+
+    overflow3.append("div")
+    	.attr("class","wrapperButton")
+			.html("<div class='overflow-hover'>Click here to wrap overflow counties</div>")
 	    		.on("mouseover",function(d){
 	    			d3.select(this.parentNode).moveToFront();
 	    			d3.select(this).selectAll("div").classed("active",true)
@@ -705,14 +696,16 @@ function ready(error, data, topo) {
 	    			d3.select(this).selectAll("div").classed("active",false)
 				})
 				.on("click",function(d){
+
 					if (d3.select(this.parentNode).classed("wrapped") != true) {
 						// first if there are any unwraps open, run the wrap function					
-						if (d3.selectAll("foreignObject.wrapped")._groups["0"].length) {
+
+						if (d3.selectAll("div.wrapped")._groups["0"].length) {
 							wrapIt(d,"open",true)
 						}	else {
 							wrapIt(d,"open",false)
 						}					
-						d3.selectAll("foreignObject.wrapped").classed("wrapped",false)
+						d3.selectAll("div.wrapped").classed("wrapped",false)
 						d3.select(this.parentNode).classed("wrapped",true)
 					} else {
 						wrapIt(d,"close",false)
@@ -721,7 +714,7 @@ function ready(error, data, topo) {
 				})
 
 			//sort the display of the overflow buttons
-			g.selectAll(".overflowButton").sort(function(a,b){			
+			d3.select("#chart").selectAll(".overflowButton").sort(function(a,b){			
 				return b-a;
 			})			
   }
@@ -929,18 +922,18 @@ function ready(error, data, topo) {
 		.attr("y1",yLineBottom + addAmount)
 		.attr("y2",yLineBottom - 5 + addAmount)
 
-	g.selectAll(".overflowButton").transition().duration(1000)
-		.attr("y",function(d){
-			var numY = +y[indicator](d)-15
+	d3.select("#chart").selectAll(".overflowButton").transition().duration(1000)
+		.style("top",function(d){
+			var numY = +y[indicator](d)-15;		
 			if ( numY > (y[indicator](lowNum)-15)) {
 				// move the lower wrap markers down fully
-				return numY + addAmount;
+				return numY + addAmount + margin.top + "px";
 			} else if (numY === (y[indicator](lowNum)-15)){
 				// move the current/clicked wrap marker down half way
-				return numY + (addAmount/2);
+				return numY + (addAmount/2) + margin.top + "px";
 			} else {
 				// otherwise do nothing
-				return numY;			
+				return numY +  margin.top +"px";			
 			}
 		})
 
@@ -1032,31 +1025,32 @@ function ready(error, data, topo) {
 		})
 
 	// wrap markers
-	if (open === "open") {
-		g.selectAll(".overflowButton").transition().duration(1000)
-			.attr("y",function(d){
-				var numY = +d3.select(this).attr("y")					
-				if ( numY > (y[indicator](lowNum)-15)) {
+	if (open === "open") {		
+		d3.select("#chart").selectAll(".overflowButton").transition().duration(1000)
+			.style("top",function(d){
+				var numY = parseFloat(d3.select(this).style("top"))
+
+				if ( numY > (y[indicator](lowNum)-15) + margin.top) {
 					// move the lower wrap markers down fully
-					return numY + addAmount;
-				} else if (numY === (y[indicator](lowNum)-15)){
+					return numY + addAmount + "px";
+				} else if (numY === (y[indicator](lowNum)-15) + margin.top){
 					// move the current/clicked wrap marker down half way
-					return numY + (addAmount/2);
+					return numY + (addAmount/2) + "px";
 				} else {
 					// otherwise do nothing
-					return numY;			
+					return numY + "px";
 				}
 			})
     	} else {
-    		g.selectAll(".overflowButton").transition().duration(1000)
-				.attr("y",function(d){
-					var numY = +d3.select(this).attr("y")	
-					if (numY < y[indicator](lowNum)+ -15 + -(addAmount/2)) {
-						return numY
-					} else if (numY === y[indicator](lowNum)+ -15 + -(addAmount/2)) {
-						return numY+(addAmount/2)	
+    		d3.select("#chart").selectAll(".overflowButton").transition().duration(1000)
+				.style("top",function(d){
+					var numY = parseFloat(d3.select(this).style("top"))
+					if (numY < y[indicator](lowNum)+ -15 + -(addAmount/2) + margin.top) {
+						return numY + "px"
+					} else if (numY === y[indicator](lowNum)+ -15 + -(addAmount/2) + margin.top) {
+						return numY+(addAmount/2) + "px"
 					} else {
-						return numY+addAmount
+						return numY+addAmount + "px"
 					}
 					
 				})
