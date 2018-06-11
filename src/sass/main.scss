@@ -595,6 +595,7 @@ a:hover {
 .overflowButton {
   cursor:pointer;
   z-index: 100000;
+  overflow: visible;
 
   .wrapperButton {
     cursor: pointer;

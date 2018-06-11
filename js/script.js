@@ -692,8 +692,8 @@ function ready(error, data, topo) {
     			// .attr("class","wrapperButton-inner")
 	    		.html("<div class='overflow-hover'>Click here to wrap overflow counties</div>")
 	    		.on("mouseover",function(d){
-	    			d3.select(".overflow-hover").classed("active",true)
 	    			d3.select(this.parentNode).moveToFront();
+	    			d3.select(this).selectAll("div").classed("active",true)
 				})
 				.on("mouseout",function(d){    			
 	    			d3.select(this).selectAll("div").classed("active",false)
