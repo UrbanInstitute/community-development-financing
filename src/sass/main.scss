@@ -603,6 +603,56 @@ a:hover {
     background-repeat: no-repeat;
     width:30px;
     height:30px;
+
+    .wrapperButton-inner {
+      height: 10px;
+      width: 100%;
+      top: 10px;
+      position: absolute;
+      background-color: aqua;
+    }
+
+    .overflow-hover {
+      width: 133px;
+      text-align: center;
+      top: 40px;
+      position: absolute;
+      left: -54px;
+      background-color: #fff;
+      border: 1px solid black;
+      display:none;
+
+      // Arrows!
+      &:after, &:before {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      &:after {
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #fff;
+        border-width: 8px;
+        margin-left: -8px;
+      }
+      &:before {
+        border-color: rgba(0, 0, 0, 0);
+        border-bottom-color: #000;
+        border-width: 9px;
+        margin-left: -9px;
+      }
+
+      &.active {
+        display: block;
+      }
+
+    }
+
   }  
 
   &.wrapped {

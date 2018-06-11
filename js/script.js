@@ -688,25 +688,31 @@ function ready(error, data, topo) {
     	
     	overflow2.append("xhtml:div")
     		.attr("class","wrapperButton")
-    		// .html("<img src='img/wrap2.png'>")
-    		.on("mouseover",function(d){
-    			d3.select(this.parentNode).moveToFront();
-			})
-			.on("click",function(d){
-				if (d3.select(this.parentNode).classed("wrapped") != true) {
-					// first if there are any unwraps open, run the wrap function					
-					if (d3.selectAll("foreignObject.wrapped")._groups["0"].length) {
-						wrapIt(d,"open",true)
-					}	else {
-						wrapIt(d,"open",false)
-					}					
-					d3.selectAll("foreignObject.wrapped").classed("wrapped",false)
-					d3.select(this.parentNode).classed("wrapped",true)
-				} else {
-					wrapIt(d,"close",false)
-					d3.select(this.parentNode).classed("wrapped",false)
-				}
-			})
+    			// .append("div")
+    			// .attr("class","wrapperButton-inner")
+	    		.html("<div class='overflow-hover'>Click here to wrap overflow counties</div>")
+	    		.on("mouseover",function(d){
+	    			d3.select(this.parentNode).moveToFront();
+	    			d3.select(this).selectAll("div").classed("active",true)
+				})
+				.on("mouseout",function(d){    			
+	    			d3.select(this).selectAll("div").classed("active",false)
+				})
+				.on("click",function(d){
+					if (d3.select(this.parentNode).classed("wrapped") != true) {
+						// first if there are any unwraps open, run the wrap function					
+						if (d3.selectAll("foreignObject.wrapped")._groups["0"].length) {
+							wrapIt(d,"open",true)
+						}	else {
+							wrapIt(d,"open",false)
+						}					
+						d3.selectAll("foreignObject.wrapped").classed("wrapped",false)
+						d3.select(this.parentNode).classed("wrapped",true)
+					} else {
+						wrapIt(d,"close",false)
+						d3.select(this.parentNode).classed("wrapped",false)
+					}
+				})
 
 			//sort the display of the overflow buttons
 			g.selectAll(".overflowButton").sort(function(a,b){			
