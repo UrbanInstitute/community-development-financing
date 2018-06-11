@@ -361,7 +361,9 @@ function ready(error, data, topo) {
   function update(data,indicator,y) {
 
   	width = parseInt(d3.select("#chart").style("width"));
+  	
   	console.log(width);
+	
 	svg.attr("width", width)
 
 	g.select(".wrapRect").transition().duration(1000)
@@ -531,6 +533,8 @@ function ready(error, data, topo) {
 		.transition(t)
 		  .style("fill-opacity", 1e-6)
 		  .remove();
+
+	console.log(width-margin.left)
 
 	  // update
   	counties.style("fill-opacity", 1)

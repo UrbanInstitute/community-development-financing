@@ -967,7 +967,7 @@ a:hover {
   width: 133px;
   text-align: center;
   top: 40px;
-  position: absolute;
+  position: relative;
   left: -54px;
   background-color: #fff;
   border: 1px solid black;
