@@ -677,6 +677,8 @@ function ready(error, data, topo) {
 		// BUILD THE OVERFLOW BUTTONS
 	g.selectAll(".overflowButton").remove();				
 
+	console.log(overflows)
+
 	var overflowButton = g.selectAll(".overflowButton")		
 		.data(overflows)
 
