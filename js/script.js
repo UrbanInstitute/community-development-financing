@@ -687,7 +687,7 @@ function ready(error, data, topo) {
 
     overflow3.append("div")
     	.attr("class","wrapperButton")
-			.html("<div class='overflow-hover'><span class='desktop'>Click here to wrap overflow counties</span><span class='mobile'>Double tap to wrap overflow counties</span></div>")
+			.html("<div class='overflow-hover'><span class='desktop'>Click here to wrap overflow counties</span><span class='mobile'>Tap to wrap overflow counties</span></div>")
 	    		.on("mouseover",function(d){
 	    			d3.select(this.parentNode).moveToFront();
 	    			d3.selectAll(".overflow-hover").classed("active",false)
@@ -697,7 +697,7 @@ function ready(error, data, topo) {
 	    			d3.select(this).selectAll("div").classed("active",false)
 				})
 				.on("click",function(d){
-
+					d3.selectAll(".overflow-hover").classed("active",false)
 					if (d3.select(this.parentNode).classed("wrapped") != true) {
 						// first if there are any unwraps open, run the wrap function					
 
