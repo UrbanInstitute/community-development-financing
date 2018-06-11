@@ -361,7 +361,7 @@ function ready(error, data, topo) {
   function update(data,indicator,y) {
 
   	width = parseInt(d3.select("#chart").style("width"));
-
+  	console.log(width);
 	svg.attr("width", width)
 
 	g.select(".wrapRect").transition().duration(1000)
@@ -1201,9 +1201,7 @@ function ready(error, data, topo) {
   		var height = 200;
   		
 	  	width = parseInt(d3.select("#chart").style("width"));
- 		
-	  	console.log(width)
-	  	console.log(breakpoint)
+ 			  	
   		if (width > breakpoint) {
   			svg2.attr("width",400)
   			var MapWidth = 400;	
@@ -1340,16 +1338,8 @@ function ready(error, data, topo) {
 			var maxDots = Math.floor((width-margin.left)/bnMult);
 
 			for (var i = 0; i < bins.length; i++) {
-				// // bins[i].sort(function(a,b){return b[indicators[k]] - a[indicators[k]]  })
-				// // console.log((bins[i].length)*bubbleRadius*2)
-				// // console.log(bins[i].length*bnMult)
-				// // if too long, create array at width x dots
-				// if (bins[i].length > maxDots) {
-				// 	// console.log(bins[i])
-				// 	console.log("hello")
-				// }
 
-				console.log(bins[i])
+				// sort the bins so they're smallest to largest rank
 				bins[i].sort(function(a,b){				
 					// console.log(a[indicators[k]])
 					return +b[indicators[k]] - +a[indicators[k]];
