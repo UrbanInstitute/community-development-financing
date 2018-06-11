@@ -1342,7 +1342,13 @@ function ready(error, data, topo) {
 				// 	// console.log(bins[i])
 				// 	console.log("hello")
 				// }
-				
+
+				console.log(bins[i])
+				bins[i].sort(function(a,b){				
+					// console.log(a[indicators[k]])
+					return +b[indicators[k]] - +a[indicators[k]];
+				})		
+
 				for (var j = 0; j < bins[i].length; j++) {
 					var now = map.get(bins[i][j].id);
 					now[indicators[k] + "Index"] = j;
