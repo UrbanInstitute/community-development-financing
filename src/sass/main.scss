@@ -543,24 +543,24 @@ a:hover {
     }
   }
 
-@media (max-width: $MaxPhoneSize) {
-  width: 100%;
+  @media (max-width: $MaxPhoneSize) {
+    width: 100%;
 
-  .full {
-    display: none;
+    .full {
+      display: none;
+    }
+
+    .mobile {
+      display: block !important; 
+    }
+
+    #tip-inner.active {
+      top: 52px !important;
+      position: fixed;
+      height: 100%;
+    }
+
   }
-
-  .mobile {
-    display: block !important; 
-  }
-
-  #tip-inner.active {
-    top: 52px !important;
-    position: fixed;
-    height: 100%;
-  }
-
-}
 
 
 }
@@ -604,6 +604,20 @@ a:hover {
     background-repeat: no-repeat;
     width:30px;
     height:30px;
+
+    .mobile {
+      display: none;
+    }
+
+    @media (max-width: $MaxPhoneSize) {  
+      .desktop {
+        display: none;
+      }
+
+      .mobile {
+        display: block !important; 
+      }
+    }
 
     .overflow-hover {
       width: 133px;
