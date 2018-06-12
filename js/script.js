@@ -1,4 +1,3 @@
-var StartIndex = 0;
 var globalD;
 var pymChild = new pym.Child();
 var indicator;
@@ -162,8 +161,19 @@ d3.queue()
 
 function ready(error, data, topo) {    
 	// make data searchable in autocomplete by adding the value category. 
+
+
 	data.forEach(function(d){
-		d.value = d.CountyName + " County, " + d.State;
+		if (d.CountyName === "Puerto Rico") {
+			d.value = d.CountyName;
+		} else if (d.State === "Louisiana") {
+			d.value = d.CountyName + " Parish, " + d.State;	
+		} else if (d.CountyName.substr(d.CountyName.length - 4) === "City") {
+			console.log('hello')
+			d.value = d.CountyName + ", " + d.State;
+		} else {
+			d.value = d.CountyName + " County, " + d.State;	
+		}
 	})
 
 	var fipsIndex = d3.map(data, function(d) { return d.fips5; });	
@@ -662,13 +672,7 @@ function ready(error, data, topo) {
 			})
 			.transition(t)
 				.style("fill-opacity", 1);
-	
-	// very briddle fix to the chrome bug
-	if (StartIndex === 0) {
-		$('html, body').animate({scrollTop: 10 +'px'}, 800);		
-		StartIndex +=1;
-	}
-	
+
 
 		// BUILD THE OVERFLOW BUTTONS
 	d3.select("#chart").selectAll(".overflowButton").remove();				
@@ -1110,8 +1114,6 @@ function ready(error, data, topo) {
 
 	  	$("#tooltip").css('top',tipHead + "px")
 
-	  	// $("#chart").
-
 	  	// SCROLL THE PAGE HERE
 	  	if (type === "auto") {
 	  		if (true) {}
@@ -1119,9 +1121,18 @@ function ready(error, data, topo) {
 	  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
 	  	}
 
-	  	// update Dom
-	  	var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State,
-	  	size = findSize(+data.popsize_bin)
+	  	// update Dom	  	
+		if (data.CountyName === "Puerto Rico") {
+			var title = '<span class="bold">' + data.CountyName + ' County</span>';
+		} else if (data.State === "Louisiana") {
+			var title = '<span class="bold">' + data.CountyName + ' Parish,</span> ' + data.State;
+		} else if (data.CountyName.substr(data.CountyName.length - 4) === "City") {
+			var title = '<span class="bold">' + data.CountyName + ',</span> ' + data.State;
+		} else {
+			var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
+		}
+
+	  	var size = findSize(+data.popsize_bin)
 	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
 	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] + suffix(data[indicatorKey[indicator].variable + "_rank_overall"]) + '</p>',
 	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] + suffix(data[indicatorKey[indicator].variable + "_ptile_overall"]) + '</p>',
@@ -1258,9 +1269,9 @@ function ready(error, data, topo) {
 			})		
 			large.sort(function(a,b){
 				if (item === "z_Business") {
-					if (a.value === "Puerto Rico County, Puerto Rico") {
+					if (a.value === "Puerto Rico") {
 						return 1000 - +b[indicatorKey[item].variable + "_rank"]	
-					} else if (b.value === "Puerto Rico County, Puerto Rico") {
+					} else if (b.value === "Puerto Rico") {
 						return +a[indicatorKey[item].variable + "_rank"] - 1000
 					} else {
 						return +a[indicatorKey[item].variable + "_rank"] - +b[indicatorKey[item].variable + "_rank"]	
