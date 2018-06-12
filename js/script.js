@@ -1150,7 +1150,7 @@ function ready(error, data, topo) {
 
 	  	// update Dom	  	
 		if (data.CountyName === "Puerto Rico") {
-			var title = '<span class="bold">' + data.CountyName + ' County</span>';
+			var title = '<span class="bold">' + data.CountyName + '</span>';
 		} else if (data.State === "Louisiana") {
 			var title = '<span class="bold">' + data.CountyName + ' Parish,</span> ' + data.State;
 		} else if (data.CountyName.substr(data.CountyName.length - 4) === "City" && data.CountyName !== "Charles City" && data.CountyName !== "James City") {
