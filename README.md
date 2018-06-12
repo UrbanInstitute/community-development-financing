@@ -10,7 +10,6 @@ Edit the scss in the `/src/scss/` directory. Variables are stored in the `_varia
 
 - Add in data for download (get from Brett/Forney)    
 - update github link
-- Add in social meta data stuff from Nicole
 - Update publish date from June XX, 2018 to the date. 
 - Move to urbaninstitute github account
 - pull to production server
