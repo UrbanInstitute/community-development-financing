@@ -514,6 +514,9 @@ a:hover {
       .bold {
         font-weight: 700;
       }
+      .italic {
+        font-style: italic;
+      }
 
       .tip-title {
         font-size: 32px;  
@@ -529,7 +532,11 @@ a:hover {
 
       p {
         font-size: 14px;        
-        margin: 10px 0px;
+        margin: 0;
+
+        &.italic {
+          margin-top: 10px;
+        }
 
         &.tip-note {
           font-style: italic;
@@ -971,17 +978,7 @@ h1.bottom-header{
 
       .credit-header, .credit-names, p {
         color: $dark-gray;
-      }
-
-      a {
-        // text-decoration: underline;
-        // font-weight: 700;
-        // border-bottom: 1px solid $dark-gray;
-
-        &:hover, &:visited {
-          // color: lighten($dark-gray, 20%);
-        }
-      }
+      }     
     }
   }
 }

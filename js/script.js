@@ -1132,18 +1132,22 @@ function ready(error, data, topo) {
 			var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
 		}
 
-	  	var size = findSize(+data.popsize_bin)
-	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop) + '</p>',
-	  	rankOverall =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] + suffix(data[indicatorKey[indicator].variable + "_rank_overall"]) + '</p>',
-	  	percOverall =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' overall:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] + suffix(data[indicatorKey[indicator].variable + "_ptile_overall"]) + '</p>',
-	  	rankSpecific =  '<span class="bold">Rank – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_rank"] + suffix(data[indicatorKey[indicator].variable + "_rank"]) + '</p>',
-	  	percSpecifc =  '<span class="bold">Percentile – '+ indicatorKey[indicator].proper +' among ' + size.name + '* counties:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] + suffix(data[indicatorKey[indicator].variable + "_ptile"]) +'</p',
+	  	var size = findSize(+data.popsize_bin),
+	  	population = '<span class="bold">Population:</span> ' + formatComma(data.totalpop),
+	  	type1 = indicatorKey[indicator].proper +' overall',
+	  	rankOverall =  '<span class="bold">Rank:</span> ' + data[indicatorKey[indicator].variable + "_rank_overall"] + suffix(data[indicatorKey[indicator].variable + "_rank_overall"]),
+	  	percOverall =  '<span class="bold">Percentile:</span> ' + data[indicatorKey[indicator].variable + "_ptile_overall"] + suffix(data[indicatorKey[indicator].variable + "_ptile_overall"]),
+	  	type2 = indicatorKey[indicator].proper + ' among ' + size.name + '* counties', 
+	  	rankSpecific =  '<span class="bold">Rank:</span> ' + data[indicatorKey[indicator].variable + "_rank"] + suffix(data[indicatorKey[indicator].variable + "_rank"]),
+	  	percSpecifc =  '<span class="bold">Percentile:</span> ' + data[indicatorKey[indicator].variable + "_ptile"] + suffix(data[indicatorKey[indicator].variable + "_ptile"]),
 	  	sizeDesc = size.desc;
 
 	  	$(".tip-title").html(title)
 	  	$("#population").html(population)
+	  	$("#type1").html(type1)
 	  	$("#rankOverall").html(rankOverall)
 	  	$("#percOverall").html(percOverall)
+	  	$("#type2").html(type2)
 	  	$("#rankSpecific").html(rankSpecific)
 	  	$("#percSpecifc").html(percSpecifc)
 		$(".tip-note").html(sizeDesc)
