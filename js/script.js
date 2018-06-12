@@ -401,6 +401,7 @@ function ready(error, data, topo) {
 	g.selectAll(".yGrid").remove();
 	g.selectAll(".yNum").remove();
 	g.selectAll(".xNum").remove();
+	g.selectAll(".xText").remove();	
 	g.selectAll(".yLine1").remove();
 	g.selectAll(".yLine2").remove();
 	g.selectAll(".yLineText").remove();
@@ -460,28 +461,28 @@ function ready(error, data, topo) {
 	
 	// Lines and arrows and text
 	g.append("line")
-		.attr("class","yLine1")
+		.attr("class","yLine1 long")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX)
 		.attr("y1",yLineTop)
 		.attr("y2",y[indicator](0) - 25)
 
 	g.append("line")
-		.attr("class","yLine1")
+		.attr("class","yLine1 wing")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX + 6)
 		.attr("y1",yLineTop)
 		.attr("y2",yLineTop + 5)		
 
 	g.append("line")
-		.attr("class","yLine1")
+		.attr("class","yLine1 wing")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX - 6)
 		.attr("y1",yLineTop)
 		.attr("y2",yLineTop + 5)				
 
 	g.append("line")
-		.attr("class","yLine2")
+		.attr("class","yLine2 long")
 		.attr("x1",yLineX)
 		.attr("x2",yLineX)
 		.attr("y1",y[indicator](0) + 10)
@@ -921,6 +922,16 @@ function ready(error, data, topo) {
 
 	g.selectAll(".yLine2")
 		.attr("y2", yLineBottom + addAmount)
+	
+	// Fix this!!!!!
+	// g.selectAll(".yLine2.long")
+	// 	.attr("y1", function(d){
+	// 		if (lowNum > 0) {
+	// 			return y[indicator](0)+addAmount + 10;
+	// 		} else{
+	// 			return y[indicator](0) + 10;
+	// 		}
+	// 	})
 
 	g.selectAll(".yLine2.wing")
 		.attr("y1",yLineBottom + addAmount)
@@ -988,11 +999,29 @@ function ready(error, data, topo) {
 	var textX = g.select(".yLineText.end").attr("x")	
 	g.select(".yLineText.end").attr("x",textX - addAmount)
 	// Y line	
+
+	g.selectAll(".yLine1.long").attr("y2", function(d){
+			if (lowNum > 0) {		
+				return +d3.select(this).attr("y2")+addAmount;
+			} else{
+				return +d3.select(this).attr("y2");
+			}
+		})
+
 	g.selectAll(".yLine2")
 		.attr("y2",function(d){
 			var lineY = d3.select(this).attr("y2")
 			return +lineY + addAmount;
 		})
+	
+	g.selectAll(".yLine2.long").attr("y1", function(d){
+			if (lowNum > 0) {		
+				return +d3.select(this).attr("y1")+addAmount;
+			} else{
+				return +d3.select(this).attr("y1");
+			}
+		})
+
 	g.selectAll(".yLine2.wing")
 		.attr("y1",function(d){
 			var lineY = d3.select(this).attr("y1")
