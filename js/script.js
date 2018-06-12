@@ -168,8 +168,7 @@ function ready(error, data, topo) {
 			d.value = d.CountyName;
 		} else if (d.State === "Louisiana") {
 			d.value = d.CountyName + " Parish, " + d.State;	
-		} else if (d.CountyName.substr(d.CountyName.length - 4) === "City") {
-			console.log('hello')
+		} else if (d.CountyName.substr(d.CountyName.length - 4) === "City" && d.CountyName !== "Charles City" && d.CountyName !== "James City") {
 			d.value = d.CountyName + ", " + d.State;
 		} else {
 			d.value = d.CountyName + " County, " + d.State;	
@@ -1090,7 +1089,7 @@ function ready(error, data, topo) {
 			}
 
 		  	if (data[indicator] > 2 || data[indicator] === "NA") {  		
-		  		var tipHead = startTip
+		  		var tipHead = +startTip + 10
 		  	} else if (data[indicator] > 0) {
 		  		var tipHead = startTip - ($("#tooltip").outerHeight() / 2)
 		  	} else {
@@ -1102,7 +1101,7 @@ function ready(error, data, topo) {
 				var tipHead = 52;
 			} else {
 				if (data[indicator] > 2 || data[indicator] === "NA") {
-					var tipHead = +g.select(".fips" + data.fips5).attr("cy") + 100;
+					var tipHead = +g.select(".fips" + data.fips5).attr("cy") + 110;
 				} else {
 					var tipHead = g.select(".fips" + data.fips5).attr("cy") - $("#tooltip").outerHeight()	
 				}		  		
@@ -1116,7 +1115,6 @@ function ready(error, data, topo) {
 
 	  	// SCROLL THE PAGE HERE
 	  	if (type === "auto") {
-	  		if (true) {}
 	  		var newHeight = $('html').scrollTop() + +tipHead + 100;
 	  		$('html, body').animate({scrollTop: newHeight +'px'}, 800);	
 	  	}
@@ -1126,7 +1124,7 @@ function ready(error, data, topo) {
 			var title = '<span class="bold">' + data.CountyName + ' County</span>';
 		} else if (data.State === "Louisiana") {
 			var title = '<span class="bold">' + data.CountyName + ' Parish,</span> ' + data.State;
-		} else if (data.CountyName.substr(data.CountyName.length - 4) === "City") {
+		} else if (data.CountyName.substr(data.CountyName.length - 4) === "City" && data.CountyName !== "Charles City" && data.CountyName !== "James City") {
 			var title = '<span class="bold">' + data.CountyName + ',</span> ' + data.State;
 		} else {
 			var title = '<span class="bold">' + data.CountyName + ' County,</span> ' + data.State;
