@@ -170,7 +170,17 @@ body {
     max-width: 700px;
     margin: 0 auto;
     text-align: left;
-    // font-style: italic;
+    
+    .subtitle {
+      font-weight: 300;
+    }
+
+    h3 {
+      font-style: italic;
+      font-size: 18px;
+      font-weight: 400;
+      color: #353535;
+    }
 
   @media (max-width: $MaxPhoneSize) {
       h1 {
@@ -179,6 +189,10 @@ body {
       }
       h2 {
         font-size: 14px;
+      }
+
+      h3 {
+        font-size: 12px;
       }
   }    
 }
@@ -205,11 +219,12 @@ h1 {
   // color: #000;
   letter-spacing: .5px;
   font-style: normal !important;
+  margin-bottom: -5px;
 }
 h2 {
   font-size: 18px;
   color: #353535;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 #date {
@@ -914,6 +929,11 @@ a:hover {
   font-size: 16px;
   color: #231f20;
   line-height: 26px;
+
+  ul {
+    text-align: left;
+    list-style-type: disc;
+  }
 }
 h1.bottom-header{
   font-size: 34px;
@@ -949,17 +969,17 @@ h1.bottom-header{
     &.darker {
       margin-top:40px;
 
-      .credit-header, .credit-names, p, a {
+      .credit-header, .credit-names, p {
         color: $dark-gray;
       }
 
       a {
-        text-decoration: underline;
-        font-weight: 700;
+        // text-decoration: underline;
+        // font-weight: 700;
         // border-bottom: 1px solid $dark-gray;
 
         &:hover, &:visited {
-          color: lighten($dark-gray, 20%);
+          // color: lighten($dark-gray, 20%);
         }
       }
     }
