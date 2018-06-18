@@ -253,7 +253,7 @@ function ready(error, data, topo) {
 	      g.selectAll(".county").classed("active",false).attr("r",bubbleRadius)
 	      g.select(".fips" + suggestion.fips5).classed("active",true).attr("r",(bubbleRadius*2)).moveToFront()
 
-
+		  globalD = suggestion;
 	      // CAll function that highlights selected line
 	      // Highlight( suggestion.value )
 	    }
